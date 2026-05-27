@@ -257,57 +257,36 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 }
 
 async function trySubmitForm(page: Page): Promise<boolean> {
+  // Textos que NO son botones de navegación (son toggles de unidades)
+  const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm", "st"]
+
   // First: buttons with explicit next/continue/submit text
-  const textSelectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']"]
+  const textSelectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']", "button:not([disabled])"]
   for (const selector of textSelectors) {
     try {
       const elements = await page.$$(selector)
       for (const el of elements) {
-        const isGood = await el.evaluate((node: any) => {
+        const isGood = await el.evaluate((node: any, ignoreTexts: string[]) => {
           const rect = node.getBoundingClientRect()
           if (rect.width <= 0 || rect.height <= 0) return false
           const style = window.getComputedStyle(node)
           if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-          const text = (node.textContent || "").toLowerCase()
+          const text = (node.textContent || "").trim().toLowerCase()
           if (text.includes("googletagmanager") || text.includes("gtag")) return false
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
-          return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("→") || text.includes("➡") || node.type === "submit"
-        })
+          // Skip unit toggles
+          if (ignoreTexts.includes(text)) return false
+          return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("adelante") || text.includes("→") || text.includes("➡") || node.type === "submit"
+        }, IGNORE_TEXTS)
         if (isGood) { const t = await el.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "?"); log("🎯", `   Submit: "${t}"`); await el.click(); return true }
       }
     } catch { continue }
   }
 
-  // Second: any visible button that is NOT an option/answer (nav button, arrow, bottom CTA)
-  try {
-    const allButtons = await page.$$("button:not([disabled])")
-    for (const btn of allButtons) {
-      const isNavButton = await btn.evaluate((node: any) => {
-        const rect = node.getBoundingClientRect()
-        if (rect.width <= 0 || rect.height <= 0) return false
-        const style = window.getComputedStyle(node)
-        if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-        if (rect.top > window.innerHeight || rect.bottom < 0) return false
-        const text = (node.textContent || "").toLowerCase().trim()
-        if (text.includes("googletagmanager") || text.includes("gtag")) return false
-        const cl = node.className || ""
-        if (cl.includes("option") || cl.includes("answer") || cl.includes("choice")) return false
-        const isArrow = text === "→" || text === "➡" || text === ">" || text === "" || text.length <= 3
-        const hasNavClass = cl.includes("nav") || cl.includes("forward") || cl.includes("arrow") || cl.includes("next") || cl.includes("btn") || cl.includes("primary")
-        const isBottom = rect.top > window.innerHeight * 0.6
-        return isArrow || hasNavClass || isBottom
-      })
-      if (isNavButton) {
-        const t = await btn.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "(arrow/icon)")
-        log("🎯", `   Nav button: "${t}"`)
-        await btn.click()
-        return true
-      }
-    }
-  } catch {}
-
   return false
 }
+
+// trySubmitForm was simplified - removed the overly-aggressive "nav button" heuristic
 
 async function tryClickMoreOptions(page: Page, count: number): Promise<number> {
   const optionSelectors = [
@@ -351,6 +330,9 @@ async function tryClickMoreOptions(page: Page, count: number): Promise<number> {
 }
 
 async function tryClickNext(page: Page): Promise<boolean> {
+  // Textos que NO son opciones de quiz (son toggles de unidades)
+  const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm", "st"]
+
   const allSelectors = [
     "[data-option]", "[class*='option']:not([class*='selected'])", "[class*='answer']:not([class*='selected'])", "[class*='choice']:not([class*='selected'])",
     "[class*='quiz'] button", "[class*='question'] button", "button:not([type='submit']):not([disabled])",
@@ -362,16 +344,18 @@ async function tryClickNext(page: Page): Promise<boolean> {
       if (elements.length === 0) continue
       const visible = []
       for (const el of elements) {
-        const isGood = await el.evaluate((node: any) => {
+        const isGood = await el.evaluate((node: any, ignoreTexts: string[]) => {
           const rect = node.getBoundingClientRect()
           if (rect.width <= 0 || rect.height <= 0) return false
           const style = window.getComputedStyle(node)
           if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-          const text = node.textContent || ""
+          const text = (node.textContent || "").trim()
           if (text.includes("googletagmanager") || text.includes("gtag")) return false
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
+          // Skip unit toggles
+          if (ignoreTexts.includes(text.toLowerCase())) return false
           return true
-        })
+        }, IGNORE_TEXTS)
         if (isGood) visible.push(el)
       }
       if (visible.length > 0) {
