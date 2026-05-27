@@ -9,47 +9,80 @@ export interface AnalyzedSlide {
   style_notes: string | null
 }
 
+export interface CostInfo {
+  model: string
+  input_tokens: number
+  output_tokens: number
+  total_tokens: number
+  input_cost_usd: number
+  output_cost_usd: number
+  total_cost_usd: number
+  elapsed_seconds: number
+}
+
 export interface AnalysisResult {
   slides: AnalyzedSlide[]
   funnel_style_notes: string
   total_questions: number
   ad_copy_insights: string
+  cost: CostInfo
 }
 
-const ANALYSIS_PROMPT = `Sos un experto en marketing digital y quiz funnels. Analiza las siguientes capturas de pantalla de un quiz funnel (paso a paso) y devuelve un analisis estructurado en JSON.
+const PRICING = {
+  "gpt-4.1-mini": { input: 0.40, output: 1.60 },
+  "gpt-4.1": { input: 2.00, output: 8.00 },
+  "gpt-4o-mini": { input: 0.15, output: 0.60 },
+  "gpt-4o": { input: 2.50, output: 10.00 },
+} as const
 
-Para cada slide/pantalla, identifica:
-1. slide_type: "intro" (primera pantalla/headline), "question" (pregunta con opciones), "prueba_social" (testimonios, reviews, logos de medios), "result" (resultado del quiz), "offer" (oferta/venta), "other" (cualquier otra cosa)
-2. question_text: El texto principal de la pregunta o titulo del slide
-3. options: Array de opciones de respuesta. Cada una con "text" (texto), "emoji" (si tiene emoji al lado), "notes" (observaciones)
-4. decoration_type: "emojis" si las opciones tienen emojis, "images" si tienen imagenes al costado, "none" si son solo texto
-5. notes: Observaciones sobre copywriting, psicologia, gatillos mentales usados
-6. style_notes: Observaciones sobre diseno (colores, tipografia, layout, spacing)
+const MODEL = "gpt-4.1-mini"
 
-Ademas incluir:
-- funnel_style_notes: Descripcion general del estilo visual del funnel completo
-- total_questions: Cantidad de slides que son preguntas
-- ad_copy_insights: Insights sobre el copywriting general del funnel (ganchos, emociones, patrones)
-
-IMPORTANTE: Responde SOLO con JSON valido, sin markdown, sin backticks. El formato exacto es:
-{
-  "slides": [{ "slide_type": "...", "question_text": "...", "options": [...], "decoration_type": "...", "notes": "...", "style_notes": "..." }],
-  "funnel_style_notes": "...",
-  "total_questions": N,
-  "ad_copy_insights": "..."
-}`
-
-function timestamp(): string {
-  return new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+function calculateCost(model: string, inputTokens: number, outputTokens: number) {
+  const pricing = PRICING[model as keyof typeof PRICING] || PRICING["gpt-4.1-mini"]
+  const inputCost = (inputTokens / 1_000_000) * pricing.input
+  const outputCost = (outputTokens / 1_000_000) * pricing.output
+  return { input_cost_usd: inputCost, output_cost_usd: outputCost, total_cost_usd: inputCost + outputCost }
 }
 
-function log(emoji: string, msg: string) {
-  console.log(`[${timestamp()}] [ai] ${emoji} ${msg}`)
-}
+const ANALYSIS_PROMPT = `Sos un experto en marketing digital, quiz funnels y diseño UI/UX. Analiza las capturas de pantalla de un quiz funnel y devuelve JSON estructurado.
 
-async function sleep(ms: number) {
-  return new Promise(r => setTimeout(r, ms))
-}
+Para cada slide, identifica:
+1. slide_type: "intro"|"question"|"prueba_social"|"result"|"offer"|"other"
+2. question_text: texto principal
+3. options: [{text, emoji, notes}]
+4. decoration_type: "emojis"|"images"|"none"
+5. notes: copywriting, psicologia, gatillos mentales
+6. style_notes: DETALLADO - incluir:
+   - Colores en HEX (fondo, texto, botones, acentos)
+   - Tipografia: familia (sans-serif/serif/rounded), peso, tamaño
+   - Layout: centrado/izquierda, padding/spacing
+   - Botones: forma (pill/rounded/square), tamaño, colores, borde, sombra
+   - Imagenes/iconos: tipo, tamaño, posicion
+   - Barra de progreso: estilo y posicion
+   - Espaciado entre elementos
+   - Efecto visual: minimalista/colorido/profesional/juvenil
+
+Ademas:
+- funnel_style_notes: SUPER DETALLADO:
+  * Palette completa (HEX): primario, secundario, fondo, texto, acentos
+  * Tipografia (familia, pesos, jerarquia tamaños)
+  * Botones/opciones (border-radius px, padding, colores, shadows)
+  * Cards/contenedores si hay
+  * Spacing general (tight/normal/spacious)
+  * Animaciones/transiciones detectadas
+  * Progress bar (color, posicion, estilo)
+  * Mobile-first? responsive?
+  * Decorativos (gradients, shadows, borders, iconos)
+  * Feeling/vibe: confianza, urgencia, salud, lujo, casual, etc.
+- total_questions: cantidad de preguntas
+- ad_copy_insights: ganchos, emociones, patrones, CTA style, tone of voice
+
+RESPONDE SOLO JSON valido, sin markdown ni backticks:
+{"slides":[{"slide_type":"...","question_text":"...","options":[...],"decoration_type":"...","notes":"...","style_notes":"..."}],"funnel_style_notes":"...","total_questions":N,"ad_copy_insights":"..."}`
+
+function timestamp(): string { return new Date().toLocaleTimeString("es-AR", { hour: "2-digit", minute: "2-digit", second: "2-digit" }) }
+function log(emoji: string, msg: string) { console.log(`[${timestamp()}] [ai] ${emoji} ${msg}`) }
+async function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)) }
 
 export async function analyzeWithGemini(
   screenshots: { base64: string; text: string; html: string }[],
@@ -59,102 +92,82 @@ export async function analyzeWithGemini(
   if (!apiKey) throw new Error("Missing OPENAI_API_KEY")
 
   const maxRetries = options?.maxRetries ?? 3
-  const timeoutMs = options?.timeoutMs ?? 120_000 // 2 minutos default
+  const timeoutMs = options?.timeoutMs ?? 180_000
 
-  log("🤖", `Conectando con OpenAI (gpt-4.1-mini) - ${screenshots.length} slides`)
-  log("⚙️", `Config: maxRetries=${maxRetries}, timeout=${timeoutMs / 1000}s`)
+  log("🤖", `OpenAI (${MODEL}) - ${screenshots.length} slides`)
+  log("⚙️", `maxRetries=${maxRetries}, timeout=${timeoutMs / 1000}s`)
 
   const openai = new OpenAI({ apiKey, timeout: timeoutMs })
-
-  const content: any[] = [{ type: "text", text: ANALYSIS_PROMPT + "\n\nAqui estan los " + screenshots.length + " slides del funnel:" }]
+  const content: any[] = [{ type: "text", text: ANALYSIS_PROMPT + "\n\n" + screenshots.length + " slides:" }]
 
   for (let i = 0; i < screenshots.length; i++) {
     const s = screenshots[i]
-    content.push({ type: "text", text: "\n--- SLIDE " + (i + 1) + " ---\nTexto visible: " + s.text.slice(0, 800) + "\nElementos interactivos: " + s.html.slice(0, 400) })
+    content.push({ type: "text", text: `\n--- SLIDE ${i + 1} ---\nTexto: ${s.text.slice(0, 800)}\nInteractivos: ${s.html.slice(0, 400)}` })
     content.push({ type: "image_url", image_url: { url: "data:image/png;base64," + s.base64, detail: "low" } })
   }
 
-  log("📤", `Payload armado: ${screenshots.length} slides con screenshots`)
-  log("📏", `Tamaño estimado del request: ~${Math.round(content.reduce((acc, c) => acc + JSON.stringify(c).length, 0) / 1024)}KB`)
+  const textChars = content.reduce((acc: number, c: any) => acc + (c.type === "text" ? c.text.length : 0), 0)
+  const estimatedTextTokens = Math.ceil(textChars / 4)
+  const imageTokens = screenshots.length * 85
+  const estimatedInputTokens = estimatedTextTokens + imageTokens
+  const estimatedCost = calculateCost(MODEL, estimatedInputTokens, 3000)
+
+  log("📊", `Tokens estimados: ~${estimatedInputTokens.toLocaleString()} input (${estimatedTextTokens.toLocaleString()} texto + ${imageTokens} imgs)`)
+  log("💰", `Costo estimado: ~$${estimatedCost.total_cost_usd.toFixed(4)} USD`)
 
   let lastError: Error | null = null
 
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      log("🔄", `Intento ${attempt}/${maxRetries} - Enviando a OpenAI...`)
+      log("🔄", `Intento ${attempt}/${maxRetries}...`)
       const startTime = Date.now()
 
       const response = await openai.chat.completions.create({
-        model: "gpt-4.1-mini",
-        messages: [{ role: "user", content }],
-        max_tokens: 4096,
-        temperature: 0.3,
+        model: MODEL, messages: [{ role: "user", content }], max_tokens: 8192, temperature: 0.3,
       })
 
-      const elapsed = ((Date.now() - startTime) / 1000).toFixed(1)
-      log("✅", `Respuesta recibida de OpenAI en ${elapsed}s (intento ${attempt})`)
+      const elapsed = (Date.now() - startTime) / 1000
+      log("✅", `Respuesta en ${elapsed.toFixed(1)}s`)
 
-      // Log usage info if available
-      if (response.usage) {
-        log("📊", `Tokens: ${response.usage.prompt_tokens} prompt + ${response.usage.completion_tokens} completion = ${response.usage.total_tokens} total`)
+      const usage = response.usage
+      let costInfo: CostInfo
+      if (usage) {
+        const costs = calculateCost(MODEL, usage.prompt_tokens, usage.completion_tokens)
+        costInfo = { model: MODEL, input_tokens: usage.prompt_tokens, output_tokens: usage.completion_tokens, total_tokens: usage.total_tokens, ...costs, elapsed_seconds: elapsed }
+        log("📊", `Tokens REALES: ${usage.prompt_tokens.toLocaleString()} in + ${usage.completion_tokens.toLocaleString()} out = ${usage.total_tokens.toLocaleString()}`)
+        log("💰", `Costo REAL: $${costs.input_cost_usd.toFixed(4)} + $${costs.output_cost_usd.toFixed(4)} = $${costs.total_cost_usd.toFixed(4)} USD`)
+        log("⏱️", `${Math.round(usage.completion_tokens / elapsed)} tokens/s`)
+      } else {
+        costInfo = { model: MODEL, input_tokens: estimatedInputTokens, output_tokens: 3000, total_tokens: estimatedInputTokens + 3000, ...estimatedCost, elapsed_seconds: elapsed }
       }
 
       const text = response.choices[0]?.message?.content || ""
-
-      if (!text.trim()) {
-        throw new Error("OpenAI returned empty response")
-      }
+      if (!text.trim()) throw new Error("Empty response")
 
       let jsonStr = text.trim()
-      if (jsonStr.startsWith("```")) {
-        jsonStr = jsonStr.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "")
-      }
+      if (jsonStr.startsWith("```")) jsonStr = jsonStr.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "")
 
       try {
-        const parsed = JSON.parse(jsonStr) as AnalysisResult
-        log("✅", `JSON parseado exitosamente: ${parsed.slides.length} slides analizados`)
-        log("📊", `Resumen: ${parsed.total_questions} preguntas, estilo: ${(parsed.funnel_style_notes || "").slice(0, 60)}...`)
-        return parsed
+        const parsed = JSON.parse(jsonStr) as Omit<AnalysisResult, "cost">
+        log("✅", `${parsed.slides.length} slides analizados, ${parsed.total_questions} preguntas`)
+        return { ...parsed, cost: costInfo }
       } catch (parseError: any) {
-        log("⚠️", `JSON invalido en intento ${attempt}: ${parseError.message}`)
-        log("📝", `Respuesta (primeros 200 chars): ${jsonStr.slice(0, 200)}`)
-        
-        if (attempt === maxRetries) {
-          throw new Error("OpenAI returned invalid JSON after all retries")
-        }
-        // Reintentar - a veces el modelo devuelve JSON malformado
+        log("⚠️", `JSON invalido: ${parseError.message}`)
+        if (attempt === maxRetries) throw new Error("Invalid JSON after all retries")
         lastError = parseError
       }
     } catch (error: any) {
       lastError = error
-
-      const isTimeout = error.code === "ETIMEDOUT" || error.message?.includes("timeout") || error.message?.includes("Timeout")
+      const isTimeout = error.message?.includes("timeout") || error.code === "ETIMEDOUT"
       const isRateLimit = error.status === 429
-      const isServerError = error.status >= 500
-
-      if (isTimeout) {
-        log("⏰", `Timeout en intento ${attempt}/${maxRetries} (>${timeoutMs / 1000}s)`)
-      } else if (isRateLimit) {
-        log("🚫", `Rate limit en intento ${attempt}/${maxRetries}`)
-      } else if (isServerError) {
-        log("💥", `Error del servidor (${error.status}) en intento ${attempt}/${maxRetries}`)
-      } else {
-        log("❌", `Error en intento ${attempt}/${maxRetries}: ${error.message}`)
-      }
-
-      if (attempt === maxRetries) {
-        log("💀", `Fallaron todos los ${maxRetries} intentos`)
-        throw lastError
-      }
-
-      // Backoff exponencial
-      const baseWait = isRateLimit ? 15000 : 5000
-      const waitTime = Math.min(baseWait * Math.pow(2, attempt - 1), 60000)
-      log("⏳", `Esperando ${(waitTime / 1000).toFixed(0)}s antes de reintentar...`)
+      if (isTimeout) log("⏰", `Timeout intento ${attempt}`)
+      else if (isRateLimit) log("🚫", `Rate limit intento ${attempt}`)
+      else log("❌", `Error intento ${attempt}: ${error.message}`)
+      if (attempt === maxRetries) throw lastError
+      const waitTime = Math.min((isRateLimit ? 15000 : 5000) * Math.pow(2, attempt - 1), 60000)
+      log("⏳", `Esperando ${(waitTime / 1000).toFixed(0)}s...`)
       await sleep(waitTime)
     }
   }
-
-  // Nunca deberia llegar aca, pero por si acaso
-  throw lastError || new Error("Unknown error in analyzeWithGemini")
+  throw lastError || new Error("Unknown error")
 }
