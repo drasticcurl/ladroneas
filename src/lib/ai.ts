@@ -1,5 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai"
-import { ExtractedSlide } from "./extractor"
+import OpenAI from "openai"
 
 export interface AnalyzedSlide {
   slide_type: "question" | "intro" | "result" | "offer" | "prueba_social" | "other"
@@ -30,34 +29,39 @@ Para cada slide/pantalla, identifica:
 Ademas, al final inclui:
 - funnel_style_notes: Descripcion general del estilo visual del funnel completo
 - total_questions: Cantidad de slides que son preguntas
-- ad_copy_insights: Insights sobre el copywriting general del funnel
+- ad_copy_insights: Insights sobre el copywriting general del funnel (ganchos, emociones, patrones)
 
-IMPORTANTE: Responde SOLO con JSON valido, sin markdown, sin backticks, sin explicaciones. El formato exacto es:
+IMPORTANTE: Responde SOLO con JSON valido, sin markdown, sin backticks. El formato exacto es:
 {
-  "slides": [...],
+  "slides": [{ "slide_type": "...", "question_text": "...", "options": [...], "decoration_type": "...", "notes": "...", "style_notes": "..." }],
   "funnel_style_notes": "...",
   "total_questions": N,
   "ad_copy_insights": "..."
 }`
 
-export async function analyzeWithGemini(slides: ExtractedSlide[]): Promise<AnalysisResult> {
-  const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY")
+export async function analyzeWithOpenAI(screenshots: { base64: string; text: string; html: string }[]): Promise<AnalysisResult> {
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) throw new Error("Missing OPENAI_API_KEY")
 
-  const genAI = new GoogleGenerativeAI(apiKey)
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+  const openai = new OpenAI({ apiKey })
 
-  const parts: any[] = [{ text: ANALYSIS_PROMPT + "\n\nAqui estan los slides del funnel:\n" }]
+  // Build messages with images
+  const content: any[] = [{ type: "text", text: ANALYSIS_PROMPT + "\n\nAqui estan los " + screenshots.length + " slides del funnel:" }]
 
-  for (let i = 0; i < slides.length; i++) {
-    const slide = slides[i]
-    parts.push({ text: "\n--- SLIDE " + (i + 1) + " ---\nTexto visible:\n" + slide.page_text.slice(0, 1000) + "\n\nElementos interactivos:\n" + slide.page_html.slice(0, 500) + "\n\nScreenshot:" })
-    parts.push({ inlineData: { mimeType: "image/png", data: slide.screenshot_base64 } })
+  for (let i = 0; i < screenshots.length; i++) {
+    const s = screenshots[i]
+    content.push({ type: "text", text: "\n--- SLIDE " + (i + 1) + " ---\nTexto visible: " + s.text.slice(0, 800) + "\nElementos interactivos: " + s.html.slice(0, 400) })
+    content.push({ type: "image_url", image_url: { url: "data:image/png;base64," + s.base64, detail: "low" } })
   }
 
-  const result = await model.generateContent(parts)
-  const response = result.response
-  const text = response.text()
+  const response = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [{ role: "user", content }],
+    max_tokens: 4096,
+    temperature: 0.3,
+  })
+
+  const text = response.choices[0]?.message?.content || ""
 
   let jsonStr = text.trim()
   if (jsonStr.startsWith("\`\`\`")) {
@@ -67,7 +71,7 @@ export async function analyzeWithGemini(slides: ExtractedSlide[]): Promise<Analy
   try {
     return JSON.parse(jsonStr) as AnalysisResult
   } catch (e) {
-    console.error("Failed to parse Gemini response:", jsonStr.slice(0, 500))
-    throw new Error("Gemini returned invalid JSON")
+    console.error("Failed to parse OpenAI response:", jsonStr.slice(0, 500))
+    throw new Error("OpenAI returned invalid JSON")
   }
 }
