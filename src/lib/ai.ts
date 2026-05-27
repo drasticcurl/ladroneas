@@ -120,6 +120,63 @@ function timestamp(): string { return new Date().toLocaleTimeString("es-AR", { h
 function log(emoji: string, msg: string) { console.log(`[${timestamp()}] [ai] ${emoji} ${msg}`) }
 async function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)) }
 
+/**
+ * Attempts to repair truncated JSON by closing open brackets/braces/strings.
+ * Returns null if repair is not possible.
+ */
+function tryRepairTruncatedJson(jsonStr: string): any | null {
+  try {
+    return JSON.parse(jsonStr)
+  } catch {
+    let repaired = jsonStr.trim()
+    
+    // If it ends mid-string, close the string
+    const openQuotes = (repaired.match(/(?<!\\)"/g) || []).length
+    if (openQuotes % 2 !== 0) {
+      repaired += '"'
+    }
+
+    // Track open brackets/braces
+    const stack: string[] = []
+    let inString = false
+    let escaped = false
+    for (let i = 0; i < repaired.length; i++) {
+      const ch = repaired[i]
+      if (escaped) { escaped = false; continue }
+      if (ch === '\\' && inString) { escaped = true; continue }
+      if (ch === '"') { inString = !inString; continue }
+      if (inString) continue
+      if (ch === '{') stack.push('}')
+      else if (ch === '[') stack.push(']')
+      else if (ch === '}' || ch === ']') stack.pop()
+    }
+
+    // Close all open structures
+    while (stack.length > 0) {
+      repaired += stack.pop()
+    }
+
+    try {
+      return JSON.parse(repaired)
+    } catch {
+      // More aggressive: find the last complete slide and close from there
+      const lastSlideEnd = repaired.lastIndexOf('{"slide_type"')
+      if (lastSlideEnd > 0) {
+        const slidesStart = repaired.indexOf('"slides"')
+        if (slidesStart > 0) {
+          const beforeTruncation = repaired.substring(0, lastSlideEnd)
+          const cleaned = beforeTruncation.replace(/,\s*$/, '')
+          const fixed = cleaned + '],"funnel_style_notes":"(análisis truncado)","total_questions":0,"ad_copy_insights":"(análisis truncado)"}'
+          try {
+            return JSON.parse(fixed)
+          } catch { /* give up */ }
+        }
+      }
+      return null
+    }
+  }
+}
+
 export async function analyzeWithGemini(
   screenshots: { base64: string; text: string; html: string }[],
   options?: { maxRetries?: number; timeoutMs?: number; model?: string }
@@ -160,10 +217,12 @@ export async function analyzeWithGemini(
       const startTime = Date.now()
 
       // Models like gpt-5.4-mini require 'max_completion_tokens' instead of 'max_tokens'
+      // Use generous limits to avoid truncation - gpt-5 supports up to 100k output
       const useMaxCompletionTokens = model.startsWith("gpt-5") || model.startsWith("o1") || model.startsWith("o3")
+      const maxOutputTokens = useMaxCompletionTokens ? 32768 : 16384
       const tokenParam = useMaxCompletionTokens
-        ? { max_completion_tokens: 8192 }
-        : { max_tokens: 8192 }
+        ? { max_completion_tokens: maxOutputTokens }
+        : { max_tokens: maxOutputTokens }
 
       const response = await openai.chat.completions.create({
         model, messages: [{ role: "user", content }], ...tokenParam, temperature: 0.3,
@@ -196,6 +255,19 @@ export async function analyzeWithGemini(
         return { ...parsed, cost: costInfo }
       } catch (parseError: any) {
         log("⚠️", `JSON invalido: ${parseError.message}`)
+        
+        // Check if response was truncated (hit token limit)
+        const finishReason = response.choices[0]?.finish_reason
+        if (finishReason === "length") {
+          log("⚠️", `Respuesta truncada (finish_reason=length). Intentando reparar...`)
+          const repaired = tryRepairTruncatedJson(jsonStr)
+          if (repaired && repaired.slides && repaired.slides.length > 0) {
+            log("🔧", `JSON reparado: ${repaired.slides.length} slides recuperados`)
+            return { ...repaired, cost: costInfo }
+          }
+          log("❌", `No se pudo reparar el JSON truncado`)
+        }
+        
         if (attempt === maxRetries) throw new Error("Invalid JSON after all retries")
         lastError = parseError
       }
