@@ -44,14 +44,21 @@ function calculateCost(model: string, inputTokens: number, outputTokens: number)
   return { input_cost_usd: inputCost, output_cost_usd: outputCost, total_cost_usd: inputCost + outputCost }
 }
 
-const ANALYSIS_PROMPT = `Sos un experto en marketing digital, quiz funnels y diseño UI/UX. Analiza las capturas de pantalla de un quiz funnel y devuelve JSON estructurado.
+const ANALYSIS_PROMPT = `Sos un experto en marketing digital, quiz funnels, copywriting persuasivo y psicología del consumidor. Analiza las capturas de pantalla de un quiz funnel y devuelve JSON estructurado.
 
 Para cada slide, identifica:
 1. slide_type: "intro"|"question"|"prueba_social"|"result"|"offer"|"other"
-2. question_text: texto principal
+2. question_text: texto principal de la pregunta o headline
 3. options: [{text, emoji, notes}]
 4. decoration_type: "emojis"|"images"|"none"
-5. notes: copywriting, psicologia, gatillos mentales
+5. notes: Análisis DETALLADO de copywriting y psicología. Para CADA slide incluir:
+   - Gatillo mental principal usado (escasez, autoridad, prueba social, reciprocidad, compromiso, simpatia, urgencia, curiosidad, miedo a perder, identidad, pertenencia)
+   - Técnica de persuasión (micro-compromiso, foot-in-the-door, sunk cost, framing, anclaje, contraste, storytelling, personalización)
+   - Emoción que busca generar (esperanza, frustración con status quo, validación, empoderamiento, culpa, alivio, FOMO, entusiasmo)
+   - Sesgo cognitivo explotado (confirmation bias, anchoring, bandwagon, authority bias, loss aversion, endowment effect, ikea effect)
+   - Por qué esta pregunta está en esta posición del funnel (qué prepara psicologicamente para lo que viene)
+   - Cómo conecta con el dolor/deseo del usuario
+   - Nivel de compromiso que genera (bajo/medio/alto) y por qué
 6. style_notes: DETALLADO - incluir:
    - Colores en HEX (fondo, texto, botones, acentos)
    - Tipografia: familia (sans-serif/serif/rounded), peso, tamaño
@@ -75,7 +82,17 @@ Ademas:
   * Decorativos (gradients, shadows, borders, iconos)
   * Feeling/vibe: confianza, urgencia, salud, lujo, casual, etc.
 - total_questions: cantidad de preguntas
-- ad_copy_insights: ganchos, emociones, patrones, CTA style, tone of voice
+- ad_copy_insights: Análisis PROFUNDO del copywriting general:
+  * Estructura narrativa del funnel (problema → agitación → solución? hero's journey? before/after?)
+  * Tone of voice (cercano/formal, tuteo/usted, empático/autoritario)
+  * Power words más usados y en qué contexto
+  * Cómo escala el compromiso slide a slide (escalera de compromiso)
+  * Momentos de validación emocional ("no es tu culpa", "es normal", etc)
+  * Cómo maneja objeciones implícitamente
+  * Técnica de pricing si hay (anclaje, descuento, trial, garantía)
+  * CTA style: texto exacto, urgencia, beneficio vs acción
+  * Target audience implícito (género, edad, pain points, nivel socioeconómico)
+  * Patrón de engagement: cómo mantiene al usuario avanzando
 
 RESPONDE SOLO JSON valido, sin markdown ni backticks:
 {"slides":[{"slide_type":"...","question_text":"...","options":[...],"decoration_type":"...","notes":"...","style_notes":"..."}],"funnel_style_notes":"...","total_questions":N,"ad_copy_insights":"..."}`
