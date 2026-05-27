@@ -203,10 +203,35 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 
       const urlBefore = page.url()
       let clicked = false
-      if (hasInputs) { clicked = await trySubmitForm(page); if (clicked) log("📨", `   Form enviado`) }
-      if (!clicked) clicked = await tryClickNext(page)
+
+      if (hasInputs) {
+        // Si hay inputs, primero rellenar (ya hecho arriba), luego buscar "Continuar/Next"
+        clicked = await trySubmitForm(page)
+        if (clicked) log("📨", `   Form enviado después de rellenar inputs`)
+      }
+
+      if (!clicked) {
+        // Click en opción normal
+        clicked = await tryClickNext(page)
+      }
+
       if (!clicked) { log("⏹️", "No hay elementos clickeables. Terminando."); break }
       log("👆", `Click realizado (${slides.length} slides hasta ahora)`)
+
+      // Esperar a que el click haga efecto
+      await new Promise(r => setTimeout(r, 1500))
+
+      // Verificar si la página cambió - si no, posible multi-select
+      const textAfterClick = await getVisibleText(page)
+      const urlAfterClick = page.url()
+      if (textAfterClick === pageText && urlAfterClick === urlBefore) {
+        log("🔍", `   Página sin cambiar post-click. Buscando botón next...`)
+        const nextClicked = await trySubmitForm(page)
+        if (nextClicked) {
+          log("📨", `   Botón next clickeado`)
+          await new Promise(r => setTimeout(r, 1500))
+        }
+      }
 
       const urlAfter = page.url()
       if (urlAfter !== urlBefore) {
@@ -231,21 +256,29 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 }
 
 async function trySubmitForm(page: Page): Promise<boolean> {
+  // Palabras que NO son botones de navegación (son toggles de unidades, etc)
+  const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm"]
+
   const selectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']", "button:not([disabled])"]
   for (const selector of selectors) {
     try {
       const elements = await page.$$(selector)
       for (const el of elements) {
-        const isGood = await el.evaluate((node: any) => {
+        const isGood = await el.evaluate((node: any, ignoreTexts: string[]) => {
           const rect = node.getBoundingClientRect()
           if (rect.width <= 0 || rect.height <= 0) return false
           const style = window.getComputedStyle(node)
           if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-          const text = (node.textContent || "").toLowerCase()
+          const text = (node.textContent || "").trim().toLowerCase()
           if (text.includes("googletagmanager") || text.includes("gtag")) return false
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
-          return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("→") || text.includes("➡") || node.type === "submit"
-        })
+          // Ignorar toggles de unidades y textos cortos que no son nav
+          if (ignoreTexts.includes(text)) return false
+          // Debe tener texto de navegación O ser type=submit
+          return text.includes("next") || text.includes("continu") || text.includes("siguien") ||
+            text.includes("submit") || text.includes("enviar") || text.includes("→") ||
+            text.includes("➡") || text.includes("adelante") || node.type === "submit"
+        }, IGNORE_TEXTS)
         if (isGood) { const t = await el.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "?"); log("🎯", `   Submit: "${t}"`); await el.click(); return true }
       }
     } catch { continue }
