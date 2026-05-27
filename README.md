@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Ladroneas - Quiz Funnel Extractor & Analyzer
 
-## Getting Started
+Herramienta para extraer, analizar y documentar quiz funnels de competidores usando scraping + AI.
 
-First, run the development server:
+## Features
+
+- **Extractor automático** — Pega una URL de un quiz funnel y el sistema lo navega automáticamente (Puppeteer), captura screenshots de cada slide y los analiza con AI (OpenAI).
+- **Delay configurable por slide** — Podés elegir cuántos segundos esperar por slide (default: 3s). Si el quiz tiene muchas animaciones/imágenes podés subirlo.
+- **Análisis con AI** — Detecta tipo de slide (pregunta, intro, resultado, oferta), opciones, emojis, estilo visual, copy y psicología.
+- **Editor de slides** — Editá las preguntas, opciones y notas de cada slide manualmente.
+- **Exportar JSON** — Desde el detalle de un funnel, exportá todo (funnel + slides + URLs de imágenes) como JSON para pasárselo a una AI para análisis.
+- **Almacenamiento** — Supabase para datos + Cloudinary para screenshots.
+
+## Tech Stack
+
+- **Frontend**: Next.js 14 (App Router), React, Tailwind CSS, shadcn/ui
+- **Backend**: Next.js API Routes, Puppeteer (scraping), OpenAI API (análisis)
+- **DB**: Supabase (PostgreSQL)
+- **Storage**: Cloudinary (screenshots)
+
+## Setup
+
+1. Clonar el repo
+2. `npm install`
+3. Copiar `.env.local.example` a `.env.local` y completar las variables:
+   - `NEXT_PUBLIC_SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY`
+   - `OPENAI_API_KEY`
+   - `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET`
+4. `npm run dev`
+
+## Uso
+
+### Extractor Web (`/extract`)
+
+1. Pegar URL del quiz funnel
+2. Configurar:
+   - **Max slides** (default: 30) — máximo de slides a extraer
+   - **Delay por slide** (default: 3s) — tiempo de espera para imágenes/animaciones por slide
+3. Click "Extraer" — el sistema navega el quiz, captura screenshots y analiza con AI
+4. Revisar/editar los resultados y guardar como funnel
+
+### Extractor CLI (`scripts/extract.ts`)
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npx tsx scripts/extract.ts <URL> [maxSlides]
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Captura screenshots localmente y los envía al API para análisis.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Exportar Funnel
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Desde la página de detalle de un funnel (`/funnel/[id]`), click en **"Exportar JSON"** para descargar todo el quiz en formato JSON (incluye URLs de imágenes).
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── api/
+│   │   ├── extract/     — API de extracción (scraping + AI)
+│   │   ├── funnels/     — CRUD de funnels
+│   │   └── slides/      — CRUD de slides
+│   ├── extract/         — UI del extractor
+│   └── funnel/[id]/     — Detalle y editor de funnel
+├── components/          — Componentes React (slide editor, preview, etc)
+└── lib/
+    ├── ai.ts            — Integración con OpenAI
+    ├── scraper.ts       — Puppeteer scraper del quiz
+    ├── storage.ts       — Upload a Cloudinary
+    ├── supabase.ts      — Cliente Supabase
+    └── types.ts         — TypeScript types
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy en Vercel. Asegurate de:
+- Agregar todas las env vars
+- El plan debe soportar funciones serverless con timeout extendido (el scraping puede tardar 1-3 min)
