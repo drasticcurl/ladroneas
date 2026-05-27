@@ -53,7 +53,7 @@ export default function ExtractPage() {
       const funnel = await funnelRes.json()
       for (let i = 0; i < result.slides.length; i++) {
         const slide = result.slides[i]
-        await fetch("/api/slides", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ funnel_id: funnel.id, slide_order: i + 1, slide_type: slide.slide_type, question_text: slide.question_text, options: slide.options || [], screenshot_url: null, decoration_type: slide.decoration_type || "none", notes: slide.notes, style_notes: slide.style_notes }) })
+        await fetch("/api/slides", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ funnel_id: funnel.id, slide_order: i + 1, slide_type: slide.slide_type, question_text: slide.question_text, options: slide.options || [], screenshot_base64: slide.screenshot_base64 || null, decoration_type: slide.decoration_type || "none", notes: slide.notes, style_notes: slide.style_notes }) })
       }
       toast.success("Funnel guardado"); router.push("/funnel/" + funnel.id)
     } catch (e: any) { toast.error(e.message || "Error al guardar") } finally { setSaving(false) }
