@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from "@google/generative-ai"
+import OpenAI from "openai"
 
 export interface AnalyzedSlide {
   slide_type: "question" | "intro" | "result" | "offer" | "prueba_social" | "other"
@@ -40,33 +40,42 @@ IMPORTANTE: Responde SOLO con JSON valido, sin markdown, sin backticks. El forma
 }`
 
 export async function analyzeWithGemini(screenshots: { base64: string; text: string; html: string }[]): Promise<AnalysisResult> {
-  const apiKey = process.env.GEMINI_API_KEY
-  if (!apiKey) throw new Error("Missing GEMINI_API_KEY")
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) throw new Error("Missing OPENAI_API_KEY")
 
-  const genAI = new GoogleGenerativeAI(apiKey)
-  const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" })
+  console.log("[ai] 🤖 Conectando con OpenAI (gpt-4.1-mini)...")
+  const openai = new OpenAI({ apiKey })
 
-  const parts: any[] = [{ text: ANALYSIS_PROMPT + "\n\nAqui estan los " + screenshots.length + " slides del funnel:" }]
+  const content: any[] = [{ type: "text", text: ANALYSIS_PROMPT + "\n\nAqui estan los " + screenshots.length + " slides del funnel:" }]
 
   for (let i = 0; i < screenshots.length; i++) {
     const s = screenshots[i]
-    parts.push({ text: "\n--- SLIDE " + (i + 1) + " ---\nTexto visible: " + s.text.slice(0, 800) + "\nElementos interactivos: " + s.html.slice(0, 400) })
-    parts.push({ inlineData: { mimeType: "image/png", data: s.base64 } })
+    content.push({ type: "text", text: "\n--- SLIDE " + (i + 1) + " ---\nTexto visible: " + s.text.slice(0, 800) + "\nElementos interactivos: " + s.html.slice(0, 400) })
+    content.push({ type: "image_url", image_url: { url: "data:image/png;base64," + s.base64, detail: "low" } })
   }
 
-  const result = await model.generateContent(parts)
-  const text = result.response.text()
+  console.log("[ai] 📤 Enviando " + screenshots.length + " slides con screenshots...")
+  const response = await openai.chat.completions.create({
+    model: "gpt-4.1-mini",
+    messages: [{ role: "user", content }],
+    max_tokens: 4096,
+    temperature: 0.3,
+  })
+  console.log("[ai] ✅ Respuesta recibida de OpenAI")
+
+  const text = response.choices[0]?.message?.content || ""
 
   let jsonStr = text.trim()
-  // Remove markdown code fences if present
   if (jsonStr.startsWith("```")) {
     jsonStr = jsonStr.replace(/^```(?:json)?\n?/, "").replace(/\n?```$/, "")
   }
 
   try {
-    return JSON.parse(jsonStr) as AnalysisResult
+    const parsed = JSON.parse(jsonStr) as AnalysisResult
+    console.log("[ai] ✅ JSON parseado: " + parsed.slides.length + " slides analizados")
+    return parsed
   } catch (e) {
-    console.error("Failed to parse Gemini response:", jsonStr.slice(0, 500))
-    throw new Error("Gemini returned invalid JSON")
+    console.error("[ai] ❌ Error parseando JSON:", jsonStr.slice(0, 300))
+    throw new Error("OpenAI returned invalid JSON")
   }
 }
