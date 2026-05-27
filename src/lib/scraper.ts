@@ -379,8 +379,8 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30, delayPerSlid
       }
       log("👆", `Click realizado (${slides.length} slides hasta ahora)`)
 
-      // Esperar a que el click haga efecto
-      await new Promise(r => setTimeout(r, 1500))
+      // Esperar a que el click haga efecto (quizzes sin botón next necesitan más tiempo para la transición)
+      await new Promise(r => setTimeout(r, 2500))
 
       // Verificar si la página cambió - si no, es probablemente multi-select
       const textAfterClick = await getVisibleText(page)
