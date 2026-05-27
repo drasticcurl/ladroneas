@@ -5,14 +5,14 @@ import { Badge } from "@/components/ui/badge"
 interface SlideOption { text: string; emoji?: string; image_url?: string; notes?: string }
 interface FunnelSlide {
   id: string; funnel_id: string; slide_order: number;
-  slide_type: "question" | "intro" | "result" | "offer" | "other";
+  slide_type: "question" | "intro" | "result" | "offer" | "prueba_social" | "other";
   question_text: string | null; options: SlideOption[];
   screenshot_url: string | null; decoration_type: "emojis" | "images" | "none";
   notes: string | null; style_notes: string | null;
 }
 
-const typeLabels: Record<string, string> = { question: "Pregunta", intro: "Intro", result: "Resultado", offer: "Oferta", other: "Otro" }
-const typeColors: Record<string, string> = { question: "bg-blue-500/10 text-blue-400 border-blue-500/20", intro: "bg-green-500/10 text-green-400 border-green-500/20", result: "bg-purple-500/10 text-purple-400 border-purple-500/20", offer: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", other: "bg-gray-500/10 text-gray-400 border-gray-500/20" }
+const typeLabels: Record<string, string> = { question: "Pregunta", intro: "Intro", result: "Resultado", offer: "Oferta", prueba_social: "Prueba Social", other: "Otro" }
+const typeColors: Record<string, string> = { question: "bg-blue-500/10 text-blue-400 border-blue-500/20", intro: "bg-green-500/10 text-green-400 border-green-500/20", result: "bg-purple-500/10 text-purple-400 border-purple-500/20", offer: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", prueba_social: "bg-orange-500/10 text-orange-400 border-orange-500/20", other: "bg-gray-500/10 text-gray-400 border-gray-500/20" }
 
 export function SlidePreview({ slide, index }: { slide: FunnelSlide; index: number }) {
   return (
@@ -22,7 +22,7 @@ export function SlidePreview({ slide, index }: { slide: FunnelSlide; index: numb
           <div className="w-8 h-8 rounded-full bg-muted flex items-center justify-center shrink-0"><span className="text-sm font-bold">{index + 1}</span></div>
           <div className="flex-1 min-w-0"><h3 className="font-medium truncate">{slide.question_text || `Slide ${index + 1}`}</h3></div>
           <div className="flex items-center gap-2">
-            <span className={`text-xs px-2 py-0.5 rounded border ${typeColors[slide.slide_type]}`}>{typeLabels[slide.slide_type]}</span>
+            <span className={`text-xs px-2 py-0.5 rounded border ${typeColors[slide.slide_type] || typeColors.other}`}>{typeLabels[slide.slide_type] || "Otro"}</span>
             {slide.decoration_type !== "none" && <Badge variant="outline" className="text-xs">{slide.decoration_type === "emojis" ? "Emojis" : "Imagenes"}</Badge>}
           </div>
         </div>

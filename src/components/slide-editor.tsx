@@ -13,13 +13,13 @@ import { GripVertical, Copy, Trash2, ChevronDown, ChevronUp } from "lucide-react
 interface SlideOption { text: string; emoji?: string; image_url?: string; notes?: string }
 interface FunnelSlide {
   id: string; funnel_id: string; slide_order: number;
-  slide_type: "question" | "intro" | "result" | "offer" | "other";
+  slide_type: "question" | "intro" | "result" | "offer" | "prueba_social" | "other";
   question_text: string | null; options: SlideOption[];
   screenshot_url: string | null; decoration_type: "emojis" | "images" | "none";
   notes: string | null; style_notes: string | null;
 }
 
-const typeLabels: Record<string, string> = { question: "Pregunta", intro: "Intro", result: "Resultado", offer: "Oferta", other: "Otro" }
+const typeLabels: Record<string, string> = { question: "Pregunta", intro: "Intro", result: "Resultado", offer: "Oferta", prueba_social: "Prueba Social", other: "Otro" }
 
 export function SlideEditor({ slide, index, onChange, onDuplicate, onDelete }: { slide: FunnelSlide; index: number; onChange: (s: FunnelSlide) => void; onDuplicate: () => void; onDelete: () => void }) {
   const [expanded, setExpanded] = useState(true)
@@ -52,6 +52,7 @@ export function SlideEditor({ slide, index, onChange, onDuplicate, onDelete }: {
                   <SelectItem value="question">Pregunta</SelectItem>
                   <SelectItem value="result">Resultado</SelectItem>
                   <SelectItem value="offer">Oferta</SelectItem>
+                  <SelectItem value="prueba_social">Prueba Social</SelectItem>
                   <SelectItem value="other">Otro</SelectItem>
                 </SelectContent>
               </Select>
