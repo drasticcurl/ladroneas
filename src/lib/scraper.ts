@@ -208,6 +208,32 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
       if (!clicked) { log("⏹️", "No hay elementos clickeables. Terminando."); break }
       log("👆", `Click realizado (${slides.length} slides hasta ahora)`)
 
+      // Esperar a que el click haga efecto
+      await new Promise(r => setTimeout(r, 1500))
+
+      // Verificar si la página cambió - si no, es probablemente multi-select
+      const textAfterClick = await getVisibleText(page)
+      const urlAfterClick = page.url()
+      if (textAfterClick === pageText && urlAfterClick === urlBefore) {
+        log("🔍", `   Página sin cambiar post-click. Posible multi-select.`)
+
+        // Seleccionar 1-2 opciones más (simular usuario eligiendo varias)
+        const moreClicked = await tryClickMoreOptions(page, 2)
+        if (moreClicked > 0) {
+          log("✅", `   ${moreClicked} opciones extra seleccionadas (multi-select)`)
+          await new Promise(r => setTimeout(r, 800))
+        }
+
+        // Buscar botón next/continue/submit para avanzar
+        const nextClicked = await trySubmitForm(page)
+        if (nextClicked) {
+          log("📨", `   Botón next encontrado y clickeado`)
+          await new Promise(r => setTimeout(r, 1500))
+        } else {
+          log("⚠️", `   No se encontró botón next después de seleccionar`)
+        }
+      }
+
       const urlAfter = page.url()
       if (urlAfter !== urlBefore) {
         log("🔀", `Nav: ${urlBefore.split("/").pop()} → ${urlAfter.split("/").pop()}`)
@@ -231,8 +257,9 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 }
 
 async function trySubmitForm(page: Page): Promise<boolean> {
-  const selectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']", "button:not([disabled])"]
-  for (const selector of selectors) {
+  // First: buttons with explicit next/continue/submit text
+  const textSelectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']"]
+  for (const selector of textSelectors) {
     try {
       const elements = await page.$$(selector)
       for (const el of elements) {
@@ -250,7 +277,77 @@ async function trySubmitForm(page: Page): Promise<boolean> {
       }
     } catch { continue }
   }
+
+  // Second: any visible button that is NOT an option/answer (nav button, arrow, bottom CTA)
+  try {
+    const allButtons = await page.$$("button:not([disabled])")
+    for (const btn of allButtons) {
+      const isNavButton = await btn.evaluate((node: any) => {
+        const rect = node.getBoundingClientRect()
+        if (rect.width <= 0 || rect.height <= 0) return false
+        const style = window.getComputedStyle(node)
+        if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
+        if (rect.top > window.innerHeight || rect.bottom < 0) return false
+        const text = (node.textContent || "").toLowerCase().trim()
+        if (text.includes("googletagmanager") || text.includes("gtag")) return false
+        const cl = node.className || ""
+        if (cl.includes("option") || cl.includes("answer") || cl.includes("choice")) return false
+        const isArrow = text === "→" || text === "➡" || text === ">" || text === "" || text.length <= 3
+        const hasNavClass = cl.includes("nav") || cl.includes("forward") || cl.includes("arrow") || cl.includes("next") || cl.includes("btn") || cl.includes("primary")
+        const isBottom = rect.top > window.innerHeight * 0.6
+        return isArrow || hasNavClass || isBottom
+      })
+      if (isNavButton) {
+        const t = await btn.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "(arrow/icon)")
+        log("🎯", `   Nav button: "${t}"`)
+        await btn.click()
+        return true
+      }
+    }
+  } catch {}
+
   return false
+}
+
+async function tryClickMoreOptions(page: Page, count: number): Promise<number> {
+  const optionSelectors = [
+    "[data-option]:not([class*='selected']):not([class*='active']):not([aria-selected='true'])",
+    "[class*='option']:not([class*='selected']):not([class*='active']):not([class*='checked'])",
+    "[class*='answer']:not([class*='selected']):not([class*='active'])",
+    "[class*='choice']:not([class*='selected']):not([class*='active'])",
+  ]
+
+  let clicked = 0
+  for (const selector of optionSelectors) {
+    if (clicked >= count) break
+    try {
+      const elements = await page.$$(selector)
+      for (const el of elements) {
+        if (clicked >= count) break
+        const isGood = await el.evaluate((node: any) => {
+          const rect = node.getBoundingClientRect()
+          if (rect.width <= 0 || rect.height <= 0) return false
+          const style = window.getComputedStyle(node)
+          if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
+          const text = node.textContent || ""
+          if (text.includes("googletagmanager")) return false
+          if (rect.top > window.innerHeight || rect.bottom < 0) return false
+          const cl = node.className || ""
+          if (cl.includes("selected") || cl.includes("active") || cl.includes("checked")) return false
+          if (node.getAttribute("aria-selected") === "true") return false
+          return true
+        })
+        if (isGood) {
+          const t = await el.evaluate((e: any) => e.textContent?.trim().slice(0, 30) || "?")
+          await el.click()
+          log("🎯", `   Multi-select: "${t}"`)
+          clicked++
+          await new Promise(r => setTimeout(r, 400))
+        }
+      }
+    } catch { continue }
+  }
+  return clicked
 }
 
 async function tryClickNext(page: Page): Promise<boolean> {
