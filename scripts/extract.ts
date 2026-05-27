@@ -1,38 +1,31 @@
 /**
- * LOCAL EXTRACTOR SCRIPT
+ * EXTRACTOR LOCAL - Corre en tu PC
  * 
- * Corre en tu PC con Puppeteer (necesitas Chrome instalado).
- * Navega el quiz funnel, captura screenshots, y manda todo al API para que OpenAI lo analice.
+ * Navega un quiz funnel con Chrome, captura screenshots de cada slide,
+ * manda todo al API en Vercel donde Gemini lo analiza, y guarda el resultado en la DB.
+ * 
+ * SETUP (una sola vez):
+ *   npm install -D puppeteer tsx
  * 
  * USO:
- *   npx ts-node scripts/extract.ts "https://quiz-funnel-url.com"
- * 
- * O si tenés tsx instalado (más rápido):
  *   npx tsx scripts/extract.ts "https://quiz-funnel-url.com"
  * 
- * REQUISITOS:
- *   npm install -D puppeteer tsx
- *   (puppeteer full, no puppeteer-core — así viene con Chromium bundled)
- * 
- * ENV VARS (en .env.local o exportadas):
- *   EXTRACTOR_API_URL=http://localhost:3000  (o tu URL de Vercel)
+ * ENV VARS (en .env.local):
+ *   EXTRACTOR_API_URL=https://tu-app.vercel.app  (o http://localhost:3000 para dev)
  */
 
 import puppeteer from "puppeteer"
-import * as fs from "fs"
-import * as path from "path"
-
-interface ExtractedSlide {
-  screenshot_base64: string
-  page_text: string
-  page_html: string
-  url: string
-}
 
 const API_URL = process.env.EXTRACTOR_API_URL || "http://localhost:3000"
 
+interface ExtractedSlide {
+  base64: string
+  text: string
+  html: string
+}
+
 async function extractQuizFunnel(url: string, maxSlides = 20): Promise<ExtractedSlide[]> {
-  console.log(`🚀 Launching browser...`)
+  console.log("🚀 Abriendo Chrome...")
   const browser = await puppeteer.launch({
     headless: true,
     defaultViewport: { width: 390, height: 844 },
@@ -47,7 +40,7 @@ async function extractQuizFunnel(url: string, maxSlides = 20): Promise<Extracted
       "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1"
     )
 
-    console.log(`🌐 Navigating to: ${url}`)
+    console.log("🌐 Navegando a: " + url)
     await page.goto(url, { waitUntil: "networkidle0", timeout: 30000 })
     await new Promise((r) => setTimeout(r, 2000))
 
@@ -58,22 +51,14 @@ async function extractQuizFunnel(url: string, maxSlides = 20): Promise<Extracted
       await new Promise((r) => setTimeout(r, 1500))
 
       const currentHtml = await page.evaluate(() => document.body.innerHTML)
-
       if (currentHtml === previousHtml) {
         stuckCount++
-        if (stuckCount >= 2) {
-          console.log(`⏹️  No more changes detected. Stopping.`)
-          break
-        }
-      } else {
-        stuckCount = 0
-      }
+        if (stuckCount >= 2) { console.log("⏹️  Sin cambios. Terminando."); break }
+      } else { stuckCount = 0 }
       previousHtml = currentHtml
 
-      // Screenshot
       const screenshot = await page.screenshot({ encoding: "base64", type: "png" })
 
-      // Extract text
       const pageText = await page.evaluate(() => {
         const getText = (el: Element): string => {
           if (el.tagName === "SCRIPT" || el.tagName === "STYLE") return ""
@@ -83,38 +68,21 @@ async function extractQuizFunnel(url: string, maxSlides = 20): Promise<Extracted
         return getText(document.body)
       })
 
-      // Extract interactive elements
       const pageHtml = await page.evaluate(() => {
         const elements: string[] = []
-        document
-          .querySelectorAll(
-            "button, [role='button'], input, a, [data-option], [class*='option'], [class*='answer'], [class*='choice']"
-          )
-          .forEach((el) => {
-            const text = el.textContent?.trim() || ""
-            if (text && text.length < 200) {
-              elements.push(`<${el.tagName.toLowerCase()}>${text}</${el.tagName.toLowerCase()}>`)
-            }
-          })
+        document.querySelectorAll("button, [role='button'], input, a, [data-option], [class*='option'], [class*='answer'], [class*='choice']").forEach((el) => {
+          const text = el.textContent?.trim() || ""
+          if (text && text.length < 200) elements.push("<" + el.tagName.toLowerCase() + ">" + text + "</" + el.tagName.toLowerCase() + ">")
+        })
         return elements.join("\n")
       })
 
-      slides.push({
-        screenshot_base64: screenshot as string,
-        page_text: pageText,
-        page_html: pageHtml,
-        url: page.url(),
-      })
+      slides.push({ base64: screenshot as string, text: pageText, html: pageHtml })
+      console.log("📸 Slide " + (i + 1) + " capturado (" + pageText.slice(0, 50).replace(/\n/g, " ") + "...)")
 
-      console.log(`📸 Slide ${i + 1} captured (${pageText.slice(0, 60).replace(/\n/g, " ")}...)`)
-
-      // Try to advance
+      // Intentar avanzar al siguiente slide
       const clicked = await tryClickNext(page)
-      if (!clicked) {
-        console.log(`⏹️  No clickable elements found. Stopping.`)
-        break
-      }
-
+      if (!clicked) { console.log("⏹️  No hay mas elementos clickeables. Terminando."); break }
       await new Promise((r) => setTimeout(r, 2000))
     }
 
@@ -124,21 +92,14 @@ async function extractQuizFunnel(url: string, maxSlides = 20): Promise<Extracted
   }
 }
 
-async function tryClickNext(page: puppeteer.Page): Promise<boolean> {
+async function tryClickNext(page: any): Promise<boolean> {
   const selectors = [
-    "[data-option]",
-    "[class*='option']:not([class*='selected'])",
-    "[class*='answer']:not([class*='selected'])",
-    "[class*='choice']:not([class*='selected'])",
-    "[class*='quiz'] button",
-    "[class*='question'] button",
+    "[data-option]", "[class*='option']:not([class*='selected'])",
+    "[class*='answer']:not([class*='selected'])", "[class*='choice']:not([class*='selected'])",
+    "[class*='quiz'] button", "[class*='question'] button",
     "button:not([type='submit']):not([disabled])",
-    "[class*='next']",
-    "[class*='continue']",
-    "[class*='submit']",
-    "button[type='submit']",
-    "a[class*='option']",
-    "a[class*='answer']",
+    "[class*='next']", "[class*='continue']", "[class*='submit']", "button[type='submit']",
+    "a[class*='option']", "a[class*='answer']",
   ]
 
   for (const selector of selectors) {
@@ -146,22 +107,13 @@ async function tryClickNext(page: puppeteer.Page): Promise<boolean> {
       const elements = await page.$$(selector)
       if (elements.length > 0) {
         const target = elements[Math.floor(Math.random() * Math.min(elements.length, 4))]
-        const isVisible = await target.evaluate((el) => {
+        const isVisible = await target.evaluate((el: any) => {
           const rect = el.getBoundingClientRect()
-          return (
-            rect.width > 0 &&
-            rect.height > 0 &&
-            window.getComputedStyle(el).display !== "none"
-          )
+          return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== "none"
         })
-        if (isVisible) {
-          await target.click()
-          return true
-        }
+        if (isVisible) { await target.click(); return true }
       }
-    } catch {
-      continue
-    }
+    } catch { continue }
   }
   return false
 }
@@ -169,101 +121,75 @@ async function tryClickNext(page: puppeteer.Page): Promise<boolean> {
 async function main() {
   const url = process.argv[2]
   if (!url) {
-    console.error("❌ Usage: npx tsx scripts/extract.ts <quiz-funnel-url>")
+    console.error("❌ Uso: npx tsx scripts/extract.ts <url-del-quiz-funnel>")
     process.exit(1)
   }
 
-  console.log(`\n🔍 EXTRACTOR 123 - Local Mode`)
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
-  console.log(`URL: ${url}`)
-  console.log(`API: ${API_URL}`)
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`)
+  console.log("\n🔍 EXTRACTOR 123")
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+  console.log("URL: " + url)
+  console.log("API: " + API_URL)
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-  // Step 1: Extract slides locally
+  // 1. Scrapear localmente
   const slides = await extractQuizFunnel(url)
-  console.log(`\n✅ Extracted ${slides.length} slides locally`)
+  console.log("\n✅ " + slides.length + " slides capturados")
 
-  // Step 2: Send to API for AI analysis
-  console.log(`\n🤖 Sending to API for OpenAI analysis...`)
-  const response = await fetch(`${API_URL}/api/extract`, {
+  // 2. Mandar al API para analisis con Gemini
+  console.log("\n🤖 Enviando al API para analisis con Gemini...")
+  const response = await fetch(API_URL + "/api/extract", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      url,
-      screenshots: slides.map((s) => ({
-        base64: s.screenshot_base64,
-        text: s.page_text,
-        html: s.page_html,
-      })),
-    }),
+    body: JSON.stringify({ url, screenshots: slides }),
   })
 
   if (!response.ok) {
     const err = await response.json()
-    console.error(`❌ API Error: ${err.error}`)
+    console.error("❌ Error del API: " + err.error)
     process.exit(1)
   }
 
   const result = await response.json()
 
-  console.log(`\n✅ Analysis complete!`)
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`)
-  console.log(`📊 ${result.slides_extracted} slides analyzed`)
-  console.log(`❓ ${result.total_questions} preguntas detectadas`)
-  console.log(`🎨 Estilo: ${result.funnel_style_notes?.slice(0, 100)}...`)
-  console.log(`✍️  Copy: ${result.ad_copy_insights?.slice(0, 100)}...`)
-  console.log(`━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n`)
+  console.log("\n✅ Analisis completo!")
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━")
+  console.log("📊 " + result.slides_extracted + " slides analizados")
+  console.log("❓ " + result.total_questions + " preguntas detectadas")
+  console.log("🎨 " + (result.funnel_style_notes || "").slice(0, 80) + "...")
+  console.log("✍️  " + (result.ad_copy_insights || "").slice(0, 80) + "...")
+  console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n")
 
-  // Step 3: Save to DB via API
-  console.log(`💾 Saving to database...`)
-  const funnelRes = await fetch(`${API_URL}/api/funnels`, {
+  // 3. Guardar en la DB
+  console.log("💾 Guardando en la base de datos...")
+  const funnelRes = await fetch(API_URL + "/api/funnels", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      landing_url: url,
-      notes: result.ad_copy_insights,
-      total_questions: result.total_questions,
-      funnel_style_notes: result.funnel_style_notes,
-      format: null,
-      ad_url: null,
-      screenshot_url: null,
-      ad_copy: null,
-      cta: null,
+      landing_url: url, notes: result.ad_copy_insights,
+      total_questions: result.total_questions, funnel_style_notes: result.funnel_style_notes,
+      format: null, ad_url: null, screenshot_url: null, ad_copy: null, cta: null,
     }),
   })
 
-  if (!funnelRes.ok) {
-    console.error(`❌ Failed to save funnel`)
-    process.exit(1)
-  }
-
+  if (!funnelRes.ok) { console.error("❌ Error al guardar funnel"); process.exit(1) }
   const funnel = await funnelRes.json()
 
-  // Save slides
   for (let i = 0; i < result.slides.length; i++) {
     const slide = result.slides[i]
-    await fetch(`${API_URL}/api/slides`, {
+    await fetch(API_URL + "/api/slides", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        funnel_id: funnel.id,
-        slide_order: i + 1,
-        slide_type: slide.slide_type,
-        question_text: slide.question_text,
-        options: slide.options || [],
-        screenshot_url: null,
-        decoration_type: slide.decoration_type || "none",
-        notes: slide.notes,
-        style_notes: slide.style_notes,
+        funnel_id: funnel.id, slide_order: i + 1, slide_type: slide.slide_type,
+        question_text: slide.question_text, options: slide.options || [],
+        screenshot_url: null, decoration_type: slide.decoration_type || "none",
+        notes: slide.notes, style_notes: slide.style_notes,
       }),
     })
   }
 
-  console.log(`\n🎉 Done! Funnel saved with ID: ${funnel.id}`)
-  console.log(`👉 View at: ${API_URL}/funnel/${funnel.id}\n`)
+  console.log("\n🎉 Listo! Funnel guardado: " + funnel.id)
+  console.log("👉 Ver en: " + API_URL + "/funnel/" + funnel.id + "\n")
 }
 
-main().catch((e) => {
-  console.error("❌ Fatal error:", e.message)
-  process.exit(1)
-})
+main().catch((e) => { console.error("❌ Error:", e.message); process.exit(1) })
