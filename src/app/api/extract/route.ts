@@ -24,9 +24,10 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    console.log("[extract] 🤖 Enviando " + screenshots.length + " slides a Gemini...")
+    console.log("[extract] 🤖 Enviando " + screenshots.length + " slides a OpenAI...")
     const analysis = await analyzeWithGemini(screenshots)
     console.log("[extract] ✅ Analisis completo: " + analysis.slides.length + " slides analizados")
+    console.log("[extract] 💰 Costo: $" + analysis.cost.total_cost_usd.toFixed(4) + " USD (" + analysis.cost.total_tokens.toLocaleString() + " tokens)")
 
     const slides = analysis.slides.map((slide, i) => ({
       ...slide,
@@ -40,6 +41,7 @@ export async function POST(request: NextRequest) {
       ad_copy_insights: analysis.ad_copy_insights,
       landing_url: url,
       slides_extracted: screenshots.length,
+      cost: analysis.cost,
     })
   } catch (error: any) {
     console.error("[extract] ❌ Error:", error.message)

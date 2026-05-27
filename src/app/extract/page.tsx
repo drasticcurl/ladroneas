@@ -12,6 +12,17 @@ import { toast } from "sonner"
 import { Loader2, Zap, ArrowLeft, Save } from "lucide-react"
 import Link from "next/link"
 
+interface CostInfo {
+  model: string
+  input_tokens: number
+  output_tokens: number
+  total_tokens: number
+  input_cost_usd: number
+  output_cost_usd: number
+  total_cost_usd: number
+  elapsed_seconds: number
+}
+
 interface AnalyzedSlide {
   slide_type: string
   question_text: string | null
@@ -29,6 +40,7 @@ interface ExtractionResult {
   ad_copy_insights: string
   landing_url: string
   slides_extracted: number
+  cost?: CostInfo
 }
 
 type Status = "idle" | "extracting" | "done" | "error"
@@ -63,7 +75,8 @@ export default function ExtractPage() {
       setEditStyleNotes(data.funnel_style_notes || "")
       setEditNotes(data.ad_copy_insights || "")
       setStatus("done")
-      toast.success("Extraidos " + data.slides_extracted + " slides")
+      const costMsg = data.cost ? ` ($${data.cost.total_cost_usd.toFixed(4)})` : ""
+      toast.success(`Extraidos ${data.slides_extracted} slides${costMsg}`)
     } catch (e: any) { setStatus("error"); setError(e.message); toast.error(e.message) }
   }
 
@@ -98,7 +111,7 @@ export default function ExtractPage() {
       {status === "extracting" && (
         <Card className="mb-8"><CardContent className="p-8 flex flex-col items-center gap-4 text-center">
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center"><Loader2 className="w-8 h-8 animate-spin text-primary" /></div>
-          <div><p className="font-semibold text-lg">Extrayendo y analizando...</p><p className="text-sm text-muted-foreground mt-1">Navegando el quiz, capturando screenshots y analizando con Gemini.</p><p className="text-sm text-muted-foreground">Puede tardar 1-2 minutos.</p></div>
+          <div><p className="font-semibold text-lg">Extrayendo y analizando...</p><p className="text-sm text-muted-foreground mt-1">Navegando el quiz, capturando screenshots y analizando con AI.</p><p className="text-sm text-muted-foreground">Puede tardar 1-3 minutos.</p></div>
         </CardContent></Card>
       )}
 
@@ -112,15 +125,52 @@ export default function ExtractPage() {
 
       {result && (
         <div className="space-y-6">
+          {/* Header con resumen + costo */}
           <Card className="border-green-500/20 bg-green-500/5"><CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
-              <div><h2 className="text-lg font-semibold">Extraccion completada</h2><p className="text-sm text-muted-foreground">{result.slides_extracted} slides &middot; {result.total_questions} preguntas</p></div>
+              <div>
+                <h2 className="text-lg font-semibold">Extraccion completada</h2>
+                <p className="text-sm text-muted-foreground">{result.slides_extracted} slides &middot; {result.total_questions} preguntas</p>
+              </div>
               <Button onClick={handleSave} disabled={saving}>{saving ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}Guardar como Funnel</Button>
             </div>
+
+            {/* Cost info */}
+            {result.cost && (
+              <div className="bg-background/50 rounded-lg border border-border p-4 mb-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="text-sm font-medium">Costo del analisis</span>
+                  <Badge variant="outline" className="text-xs">{result.cost.model}</Badge>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
+                  <div>
+                    <p className="text-muted-foreground text-xs">Input tokens</p>
+                    <p className="font-mono font-medium">{result.cost.input_tokens.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">${result.cost.input_cost_usd.toFixed(4)}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground text-xs">Output tokens</p>
+                    <p className="font-mono font-medium">{result.cost.output_tokens.toLocaleString()}</p>
+                    <p className="text-xs text-muted-foreground">${result.cost.output_cost_usd.toFixed(4)}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground text-xs">Total</p>
+                    <p className="font-mono font-medium text-green-400">{result.cost.total_tokens.toLocaleString()}</p>
+                    <p className="text-xs font-semibold text-green-400">${result.cost.total_cost_usd.toFixed(4)}</p>
+                  </div>
+                  <div>
+                    <p className="text-muted-foreground text-xs">Tiempo</p>
+                    <p className="font-mono font-medium">{result.cost.elapsed_seconds.toFixed(1)}s</p>
+                    <p className="text-xs text-muted-foreground">{Math.round(result.cost.output_tokens / result.cost.elapsed_seconds)} tok/s</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <Separator className="my-4" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2"><Label>Estilo general (editable)</Label><Textarea value={editStyleNotes} onChange={e => setEditStyleNotes(e.target.value)} rows={4} /></div>
-              <div className="space-y-2"><Label>Insights de copy (editable)</Label><Textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} rows={4} /></div>
+              <div className="space-y-2"><Label>Estilo general (editable)</Label><Textarea value={editStyleNotes} onChange={e => setEditStyleNotes(e.target.value)} rows={6} /></div>
+              <div className="space-y-2"><Label>Insights de copy (editable)</Label><Textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} rows={6} /></div>
             </div>
           </CardContent></Card>
 
@@ -138,8 +188,8 @@ export default function ExtractPage() {
                   {slide.screenshot_base64 && <div><img src={"data:image/png;base64," + slide.screenshot_base64} alt={"Slide " + (i + 1)} className="w-full rounded-lg border border-border" /></div>}
                   <div className="space-y-3">
                     {slide.options && slide.options.length > 0 && (<div><h5 className="text-xs font-medium text-muted-foreground mb-2">OPCIONES</h5><div className="space-y-1.5">{slide.options.map((opt, j) => (<div key={j} className="flex items-center gap-2 text-sm bg-muted/50 px-3 py-2 rounded">{opt.emoji && <span>{opt.emoji}</span>}<span className="flex-1">{opt.text}</span></div>))}</div></div>)}
-                    {slide.notes && <div><h5 className="text-xs font-medium text-muted-foreground mb-1">NOTAS (AI)</h5><p className="text-sm text-muted-foreground">{slide.notes}</p></div>}
-                    {slide.style_notes && <div><h5 className="text-xs font-medium text-muted-foreground mb-1">ESTILO (AI)</h5><p className="text-sm text-muted-foreground">{slide.style_notes}</p></div>}
+                    {slide.notes && <div><h5 className="text-xs font-medium text-muted-foreground mb-1">COPY / PSICOLOGIA</h5><p className="text-sm text-muted-foreground">{slide.notes}</p></div>}
+                    {slide.style_notes && <div><h5 className="text-xs font-medium text-muted-foreground mb-1">ESTILOS DETALLADOS</h5><p className="text-sm text-muted-foreground whitespace-pre-wrap">{slide.style_notes}</p></div>}
                   </div>
                 </div></CardContent>
               </Card>
