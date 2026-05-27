@@ -121,7 +121,7 @@ async function waitForContent(page: Page, timeoutMs = 8000): Promise<void> {
   log("⚠️", "Contenido no se estabilizó completamente, continuando...")
 }
 
-async function waitForImages(page: Page, timeoutMs = 10000): Promise<void> {
+async function waitForImages(page: Page, timeoutMs = 3000): Promise<void> {
   log("🖼️", "   Esperando que carguen imágenes y animaciones...")
   const start = Date.now()
 
@@ -286,7 +286,7 @@ async function logAllElements(page: Page, slideNum: number): Promise<void> {
   }
 }
 
-export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<ScrapedSlide[]> {
+export async function scrapeQuizFunnel(url: string, maxSlides = 30, delayPerSlide = 3): Promise<ScrapedSlide[]> {
   const startTime = Date.now()
   log("🚀", "Abriendo Chrome...")
   const browser = await puppeteer.launch({
@@ -318,7 +318,7 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<Scr
       // En el último slide, tomar screenshot de página completa (suele ser página de pago/resultado)
       const isLastSlide = i === maxSlides - 1
       if (isLastSlide) {
-        await waitForImages(page)
+        await waitForImages(page, delayPerSlide * 1000)
         log("📐", `   Último slide: esperando imágenes + screenshot de página COMPLETA`)
       }
       const screenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: isLastSlide })
@@ -362,7 +362,7 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<Scr
             log("✅", `   Contenido nuevo detectado después de ${(wait + 1) * 3}s de espera`)
             foundNewContent = true
             // Esperar a que imágenes y animaciones carguen completamente
-            await waitForImages(page)
+            await waitForImages(page, delayPerSlide * 1000)
             // Tomar screenshot de página completa (probablemente es resultado/pago)
             const finalScreenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: true })
             const finalText = await getVisibleText(page)

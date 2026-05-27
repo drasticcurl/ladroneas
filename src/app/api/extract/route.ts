@@ -7,7 +7,7 @@ import { scrapeQuizFunnel } from "@/lib/scraper"
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { url, screenshots: preScraped, maxSlides } = body
+    const { url, screenshots: preScraped, maxSlides, delayPerSlide } = body
 
     if (!url) return NextResponse.json({ error: "URL is required" }, { status: 400 })
 
@@ -18,8 +18,9 @@ export async function POST(request: NextRequest) {
       screenshots = preScraped
     } else {
       const slidesLimit = maxSlides && Number(maxSlides) > 0 ? Number(maxSlides) : 30
-      console.log("[extract] Modo Web UI: scrapeando " + url + " (max " + slidesLimit + " slides)")
-      screenshots = await scrapeQuizFunnel(url, slidesLimit)
+      const delay = delayPerSlide && Number(delayPerSlide) > 0 ? Number(delayPerSlide) : 3
+      console.log("[extract] Modo Web UI: scrapeando " + url + " (max " + slidesLimit + " slides, " + delay + "s/slide)")
+      screenshots = await scrapeQuizFunnel(url, slidesLimit, delay)
       if (screenshots.length === 0) {
         return NextResponse.json({ error: "No se pudieron extraer slides de esta URL" }, { status: 422 })
       }
