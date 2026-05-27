@@ -299,7 +299,32 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<Scr
       let clicked = false
       if (hasInputs) { clicked = await trySubmitForm(page); if (clicked) log("📨", `   Form enviado`) }
       if (!clicked) clicked = await tryClickNext(page)
-      if (!clicked) { log("⏹️", "No hay elementos clickeables. Terminando."); break }
+      if (!clicked) {
+        // No hay elementos clickeables - podría ser una pantalla de loading/animación
+        // Esperar hasta 15s por si redirige o muestra nuevo contenido después
+        log("⏳", "No hay elementos clickeables. Esperando por posible loading/redirect...")
+        let foundNewContent = false
+        for (let wait = 0; wait < 5; wait++) {
+          await new Promise(r => setTimeout(r, 3000))
+          const newText = await getVisibleText(page)
+          const newUrl = page.url()
+          if (newText !== pageText || newUrl !== currentUrl) {
+            log("✅", `   Contenido nuevo detectado después de ${(wait + 1) * 3}s de espera`)
+            foundNewContent = true
+            // Tomar screenshot de página completa (probablemente es resultado/pago)
+            const finalScreenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: true })
+            const finalText = await getVisibleText(page)
+            const finalHtml = await getInteractiveElements(page)
+            slides.push({ base64: finalScreenshot as string, text: finalText, html: finalHtml })
+            log("📸", `   Screenshot final (fullPage) capturado: "${finalText.slice(0, 60).replace(/\n/g, " ")}..."`)
+            break
+          }
+        }
+        if (!foundNewContent) {
+          log("⏹️", "Sin contenido nuevo después de 15s. Terminando.")
+        }
+        break
+      }
       log("👆", `Click realizado (${slides.length} slides hasta ahora)`)
 
       // Esperar a que el click haga efecto
