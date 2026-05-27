@@ -359,6 +359,9 @@ async function tryClickMoreOptions(page: Page, count: number): Promise<number> {
 }
 
 async function tryClickNext(page: Page): Promise<boolean> {
+  // Unit toggles that should NEVER be clicked as quiz options
+  const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm", "st"]
+
   const allSelectors = [
     "[data-option]", "[class*='option']:not([class*='selected'])", "[class*='answer']:not([class*='selected'])", "[class*='choice']:not([class*='selected'])",
     "[class*='quiz'] button", "[class*='question'] button", "button:not([type='submit']):not([disabled])",
@@ -370,16 +373,18 @@ async function tryClickNext(page: Page): Promise<boolean> {
       if (elements.length === 0) continue
       const visible = []
       for (const el of elements) {
-        const isGood = await el.evaluate((node: any) => {
+        const isGood = await el.evaluate((node: any, ignoreTexts: string[]) => {
           const rect = node.getBoundingClientRect()
           if (rect.width <= 0 || rect.height <= 0) return false
           const style = window.getComputedStyle(node)
           if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-          const text = node.textContent || ""
+          const text = (node.textContent || "").trim()
           if (text.includes("googletagmanager") || text.includes("gtag")) return false
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
+          // Skip unit toggles
+          if (ignoreTexts.includes(text.toLowerCase())) return false
           return true
-        })
+        }, IGNORE_TEXTS)
         if (isGood) visible.push(el)
       }
       if (visible.length > 0) {
