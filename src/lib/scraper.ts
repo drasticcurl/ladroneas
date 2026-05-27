@@ -239,7 +239,7 @@ async function logAllElements(page: Page, slideNum: number): Promise<void> {
   }
 }
 
-export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<ScrapedSlide[]> {
+export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<ScrapedSlide[]> {
   const startTime = Date.now()
   log("🚀", "Abriendo Chrome...")
   const browser = await puppeteer.launch({
@@ -268,7 +268,10 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
       const hasInputs = await detectAndFillInputs(page)
       if (hasInputs) log("📝", `   Slide tiene inputs, rellenados automáticamente`)
 
-      const screenshot = await page.screenshot({ encoding: "base64", type: "png" })
+      // En el último slide, tomar screenshot de página completa (suele ser página de pago/resultado)
+      const isLastSlide = i === maxSlides - 1
+      const screenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: isLastSlide })
+      if (isLastSlide) log("📐", `   Último slide: screenshot de página COMPLETA`)
       const pageText = await getVisibleText(page)
       const pageHtml = await getInteractiveElements(page)
       const currentUrl = page.url()

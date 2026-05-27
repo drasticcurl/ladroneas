@@ -29,12 +29,13 @@ export default function ExtractPage() {
   const [saving, setSaving] = useState(false)
   const [editNotes, setEditNotes] = useState("")
   const [editStyleNotes, setEditStyleNotes] = useState("")
+  const [maxSlides, setMaxSlides] = useState(30)
 
   const handleExtract = async () => {
     if (!url) return
     setStatus("extracting"); setError(""); setResult(null)
     try {
-      const res = await fetch("/api/extract", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }) })
+      const res = await fetch("/api/extract", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url, maxSlides }) })
       if (!res.ok) { const data = await res.json(); throw new Error(data.error || "Extraction failed") }
       const data: ExtractionResult = await res.json()
       setResult(data); setEditStyleNotes(data.funnel_style_notes || ""); setEditNotes(data.ad_copy_insights || ""); setStatus("done")
@@ -67,6 +68,7 @@ export default function ExtractPage() {
 
       <div className="flex gap-3 mb-8">
         <Input placeholder="https://quiz-funnel-de-competidor.com..." value={url} onChange={e => setUrl(e.target.value)} disabled={status === "extracting"} className="flex-1" onKeyDown={e => { if (e.key === "Enter") handleExtract() }} />
+        <Input type="number" min={5} max={60} value={maxSlides} onChange={e => setMaxSlides(Number(e.target.value) || 30)} disabled={status === "extracting"} className="w-20" title="Max slides" />
         <Button onClick={handleExtract} disabled={!url || status === "extracting"}>{status === "extracting" ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Zap className="w-4 h-4 mr-2" />}Extraer</Button>
       </div>
 
