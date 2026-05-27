@@ -121,6 +121,53 @@ async function waitForContent(page: Page, timeoutMs = 8000): Promise<void> {
   log("⚠️", "Contenido no se estabilizó completamente, continuando...")
 }
 
+async function waitForImages(page: Page, timeoutMs = 10000): Promise<void> {
+  log("🖼️", "   Esperando que carguen imágenes y animaciones...")
+  const start = Date.now()
+
+  // Esperar a que todas las imágenes estén cargadas
+  await page.evaluate(() => {
+    return Promise.all(
+      Array.from(document.querySelectorAll("img")).map(img => {
+        if (img.complete) return Promise.resolve()
+        return new Promise(resolve => {
+          img.addEventListener("load", resolve, { once: true })
+          img.addEventListener("error", resolve, { once: true })
+          // Timeout por imagen individual
+          setTimeout(resolve, 5000)
+        })
+      })
+    )
+  })
+
+  // Esperar a que las animaciones CSS terminen (o timeout)
+  const elapsed = Date.now() - start
+  const remaining = Math.max(0, timeoutMs - elapsed)
+  if (remaining > 0) {
+    await page.evaluate((waitMs: number) => {
+      return new Promise<void>(resolve => {
+        // Esperar a que no haya animaciones corriendo
+        const check = () => {
+          const animations = document.getAnimations()
+          if (animations.length === 0) { resolve(); return }
+          // Si hay animaciones, esperar un poco más
+          setTimeout(check, 500)
+        }
+        check()
+        // Timeout de seguridad
+        setTimeout(resolve, waitMs)
+      })
+    }, Math.min(remaining, 5000))
+  }
+
+  // Esperar un poco extra para que todo se renderice (fonts, lazy images, etc)
+  await new Promise(r => setTimeout(r, 2000))
+
+  const totalWait = ((Date.now() - start) / 1000).toFixed(1)
+  const imgCount = await page.evaluate(() => document.querySelectorAll("img").length)
+  log("🖼️", `   Imágenes cargadas (${imgCount} imgs, ${totalWait}s de espera)`)
+}
+
 async function getVisibleText(page: Page): Promise<string> {
   return page.evaluate(() => {
     const getText = (el: Element): string => {
@@ -270,8 +317,11 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<Scr
 
       // En el último slide, tomar screenshot de página completa (suele ser página de pago/resultado)
       const isLastSlide = i === maxSlides - 1
+      if (isLastSlide) {
+        await waitForImages(page)
+        log("📐", `   Último slide: esperando imágenes + screenshot de página COMPLETA`)
+      }
       const screenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: isLastSlide })
-      if (isLastSlide) log("📐", `   Último slide: screenshot de página COMPLETA`)
       const pageText = await getVisibleText(page)
       const pageHtml = await getInteractiveElements(page)
       const currentUrl = page.url()
@@ -311,6 +361,8 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30): Promise<Scr
           if (newText !== pageText || newUrl !== currentUrl) {
             log("✅", `   Contenido nuevo detectado después de ${(wait + 1) * 3}s de espera`)
             foundNewContent = true
+            // Esperar a que imágenes y animaciones carguen completamente
+            await waitForImages(page)
             // Tomar screenshot de página completa (probablemente es resultado/pago)
             const finalScreenshot = await page.screenshot({ encoding: "base64", type: "png", fullPage: true })
             const finalText = await getVisibleText(page)
