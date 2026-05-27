@@ -151,6 +151,94 @@ async function getInteractiveElements(page: Page): Promise<string> {
   })
 }
 
+async function logAllElements(page: Page, slideNum: number): Promise<void> {
+  const elements = await page.evaluate(() => {
+    const results: { type: string; tag: string; text: string; classes: string; id: string; name: string; inputType: string; disabled: boolean; visible: boolean; pos: string }[] = []
+
+    // Buttons
+    document.querySelectorAll("button, [role='button'], [type='submit']").forEach(el => {
+      const rect = el.getBoundingClientRect()
+      const style = window.getComputedStyle(el)
+      const visible = rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+      const text = (el.textContent || "").trim().slice(0, 50)
+      if (!text || text.includes("googletagmanager")) return
+      results.push({
+        type: "BTN",
+        tag: el.tagName.toLowerCase(),
+        text,
+        classes: (el.className || "").toString().slice(0, 40),
+        id: el.id || "",
+        name: el.getAttribute("name") || "",
+        inputType: el.getAttribute("type") || "",
+        disabled: (el as any).disabled || false,
+        visible,
+        pos: `${Math.round(rect.top)}y`,
+      })
+    })
+
+    // Inputs
+    document.querySelectorAll("input, select, textarea").forEach(el => {
+      const rect = el.getBoundingClientRect()
+      const style = window.getComputedStyle(el)
+      const visible = rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+      const inp = el as HTMLInputElement
+      if (inp.type === "hidden") return
+      results.push({
+        type: "INPUT",
+        tag: el.tagName.toLowerCase(),
+        text: inp.value || inp.placeholder || "",
+        classes: (el.className || "").toString().slice(0, 40),
+        id: el.id || "",
+        name: el.getAttribute("name") || "",
+        inputType: inp.type || "",
+        disabled: inp.disabled || false,
+        visible,
+        pos: `${Math.round(rect.top)}y`,
+      })
+    })
+
+    // Options/answers (divs/spans that look like clickable options)
+    document.querySelectorAll("[data-option], [class*='option'], [class*='answer'], [class*='choice']").forEach(el => {
+      if (el.tagName === "BUTTON" || el.tagName === "INPUT") return // already captured
+      const rect = el.getBoundingClientRect()
+      const style = window.getComputedStyle(el)
+      const visible = rect.width > 0 && rect.height > 0 && style.display !== "none" && style.visibility !== "hidden"
+      const text = (el.textContent || "").trim().slice(0, 50)
+      if (!text || text.includes("googletagmanager")) return
+      results.push({
+        type: "OPT",
+        tag: el.tagName.toLowerCase(),
+        text,
+        classes: (el.className || "").toString().slice(0, 40),
+        id: el.id || "",
+        name: "",
+        inputType: "",
+        disabled: false,
+        visible,
+        pos: `${Math.round(rect.top)}y`,
+      })
+    })
+
+    return results
+  })
+
+  if (elements.length === 0) {
+    log("🔎", `   [Slide ${slideNum}] No se encontraron elementos interactivos`)
+    return
+  }
+
+  log("🔎", `   [Slide ${slideNum}] ${elements.length} elementos detectados:`)
+  for (const el of elements) {
+    const vis = el.visible ? "✓" : "✗"
+    const dis = el.disabled ? " [DISABLED]" : ""
+    const cls = el.classes ? ` class="${el.classes}"` : ""
+    const id = el.id ? ` id="${el.id}"` : ""
+    const name = el.name ? ` name="${el.name}"` : ""
+    const iType = el.inputType ? ` type="${el.inputType}"` : ""
+    log("🔎", `     ${vis} ${el.type} <${el.tag}${iType}${id}${name}${cls}> "${el.text}" [${el.pos}]${dis}`)
+  }
+}
+
 export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<ScrapedSlide[]> {
   const startTime = Date.now()
   log("🚀", "Abriendo Chrome...")
@@ -200,6 +288,9 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
       log("📸", `Slide ${i + 1}/${maxSlides} (${slideElapsed}s) [total: ${totalElapsed}s] [${currentUrl.split("/").slice(-2).join("/")}]`)
       log("📝", `   "${textPreview}..."`)
       log("🔘", `   Elementos interactivos: ${pageHtml.split("\n").filter(Boolean).length}`)
+
+      // Log detallado de TODOS los elementos del slide para debugging
+      await logAllElements(page, i + 1)
 
       const urlBefore = page.url()
       let clicked = false
