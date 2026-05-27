@@ -1,4 +1,6 @@
 export const dynamic = 'force-dynamic'
+export const maxDuration = 60
+
 import { NextRequest, NextResponse } from "next/server"
 import { getSupabaseAdmin } from "@/lib/supabase"
 import { uploadScreenshot } from "@/lib/storage"
@@ -20,8 +22,14 @@ export async function POST(request: NextRequest) {
   // Si viene screenshot_base64, subirlo a Cloudinary y guardar la URL
   let screenshotUrl = body.screenshot_url || null
   if (body.screenshot_base64 && body.funnel_id) {
+    console.log(`[slides] 📤 Subiendo screenshot slide ${body.slide_order} a Cloudinary...`)
     const url = await uploadScreenshot(body.funnel_id, body.slide_order || 1, body.screenshot_base64)
-    if (url) screenshotUrl = url
+    if (url) {
+      screenshotUrl = url
+      console.log(`[slides] ✅ Screenshot subido: ${url.slice(0, 80)}...`)
+    } else {
+      console.error(`[slides] ⚠️ No se pudo subir screenshot slide ${body.slide_order}`)
+    }
   }
 
   // Quitar screenshot_base64 del body (no va a la DB) y poner la URL
