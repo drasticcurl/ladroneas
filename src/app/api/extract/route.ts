@@ -2,31 +2,25 @@ export const dynamic = "force-dynamic"
 export const maxDuration = 60
 
 import { NextRequest, NextResponse } from "next/server"
-import { analyzeWithOpenAI } from "@/lib/ai"
+import { analyzeWithGemini } from "@/lib/ai"
 
 // POST /api/extract
-// Accepts pre-scraped screenshots from the local CLI script (or from the frontend)
+// Recibe screenshots pre-scrapeados desde tu PC y los analiza con Gemini
 // Body: { url: string, screenshots: [{ base64: string, text: string, html: string }] }
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { url, screenshots } = body
 
-    if (!url) {
-      return NextResponse.json({ error: "URL is required" }, { status: 400 })
-    }
-
+    if (!url) return NextResponse.json({ error: "URL is required" }, { status: 400 })
     if (!screenshots || !Array.isArray(screenshots) || screenshots.length === 0) {
-      return NextResponse.json(
-        { error: "screenshots array is required (use the local CLI script to scrape first)" },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: "screenshots array is required" }, { status: 400 })
     }
 
-    // Analyze with OpenAI
-    const analysis = await analyzeWithOpenAI(screenshots)
+    // Analyze with Gemini
+    const analysis = await analyzeWithGemini(screenshots)
 
-    // Attach screenshots to analyzed slides
+    // Attach screenshots to slides
     const slides = analysis.slides.map((slide, i) => ({
       ...slide,
       screenshot_base64: screenshots[i]?.base64 || null,
@@ -42,9 +36,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: any) {
     console.error("Extract API error:", error)
-    return NextResponse.json(
-      { error: error.message || "Analysis failed" },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: error.message || "Analysis failed" }, { status: 500 })
   }
 }
