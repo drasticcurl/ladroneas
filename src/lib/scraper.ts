@@ -257,46 +257,54 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 }
 
 async function trySubmitForm(page: Page): Promise<boolean> {
+  // Textos que NO son botones de navegación (toggles de unidades, etc)
+  const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm", "st"]
+
   // First: buttons with explicit next/continue/submit text
   const textSelectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']"]
   for (const selector of textSelectors) {
     try {
       const elements = await page.$$(selector)
       for (const el of elements) {
-        const isGood = await el.evaluate((node: any) => {
+        const isGood = await el.evaluate((node: any, ignoreTexts: string[]) => {
           const rect = node.getBoundingClientRect()
           if (rect.width <= 0 || rect.height <= 0) return false
           const style = window.getComputedStyle(node)
           if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-          const text = (node.textContent || "").toLowerCase()
+          const text = (node.textContent || "").trim().toLowerCase()
           if (text.includes("googletagmanager") || text.includes("gtag")) return false
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
-          return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("→") || text.includes("➡") || node.type === "submit"
-        })
+          // Ignorar toggles de unidades
+          if (ignoreTexts.includes(text)) return false
+          return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("→") || text.includes("➡") || text.includes("adelante") || node.type === "submit"
+        }, IGNORE_TEXTS)
         if (isGood) { const t = await el.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "?"); log("🎯", `   Submit: "${t}"`); await el.click(); return true }
       }
     } catch { continue }
   }
 
-  // Second: any visible button that is NOT an option/answer (nav button, arrow, bottom CTA)
+  // Second: any visible button that is NOT an option/answer and NOT a unit toggle
   try {
     const allButtons = await page.$$("button:not([disabled])")
     for (const btn of allButtons) {
-      const isNavButton = await btn.evaluate((node: any) => {
+      const isNavButton = await btn.evaluate((node: any, ignoreTexts: string[]) => {
         const rect = node.getBoundingClientRect()
         if (rect.width <= 0 || rect.height <= 0) return false
         const style = window.getComputedStyle(node)
         if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
         if (rect.top > window.innerHeight || rect.bottom < 0) return false
-        const text = (node.textContent || "").toLowerCase().trim()
+        const text = (node.textContent || "").trim().toLowerCase()
         if (text.includes("googletagmanager") || text.includes("gtag")) return false
+        // Skip unit toggles
+        if (ignoreTexts.includes(text)) return false
         const cl = node.className || ""
         if (cl.includes("option") || cl.includes("answer") || cl.includes("choice")) return false
-        const isArrow = text === "→" || text === "➡" || text === ">" || text === "" || text.length <= 3
-        const hasNavClass = cl.includes("nav") || cl.includes("forward") || cl.includes("arrow") || cl.includes("next") || cl.includes("btn") || cl.includes("primary")
-        const isBottom = rect.top > window.innerHeight * 0.6
-        return isArrow || hasNavClass || isBottom
-      })
+        // Must be a real nav element: arrow icon, or positioned at bottom
+        const isArrow = text === "→" || text === "➡" || text === ">"
+        const hasNavClass = cl.includes("nav") || cl.includes("forward") || cl.includes("arrow") || cl.includes("next")
+        const isBottom = rect.top > window.innerHeight * 0.7
+        return isArrow || hasNavClass || (isBottom && text.length > 3)
+      }, IGNORE_TEXTS)
       if (isNavButton) {
         const t = await btn.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "(arrow/icon)")
         log("🎯", `   Nav button: "${t}"`)
