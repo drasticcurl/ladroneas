@@ -224,7 +224,8 @@ export async function analyzeWithGemini(
 
       // Models like gpt-5.4-mini require 'max_completion_tokens' instead of 'max_tokens'
       const useMaxCompletionTokens = model.startsWith("gpt-5") || model.startsWith("o1") || model.startsWith("o3")
-      const maxOutputTokens = 16384
+      // Use generous limits to avoid truncation - gpt-5 supports up to 100k output
+      const maxOutputTokens = useMaxCompletionTokens ? 32768 : 16384
       const tokenParam = useMaxCompletionTokens
         ? { max_completion_tokens: maxOutputTokens }
         : { max_tokens: maxOutputTokens }
