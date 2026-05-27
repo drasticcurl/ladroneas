@@ -46,19 +46,37 @@ function calculateCost(model: string, inputTokens: number, outputTokens: number)
 
 const ANALYSIS_PROMPT = `Sos un experto en marketing digital, quiz funnels, copywriting persuasivo y psicología del consumidor. Analiza las capturas de pantalla de un quiz funnel y devuelve JSON estructurado.
 
+CONTEXTO: Un quiz funnel tiene estas etapas: hook/intro → preguntas de engagement → preguntas de cualificación → datos personales (email) → loading/transición → resultado personalizado → oferta/pago. La página final (resultado + oferta) es la MÁS IMPORTANTE porque es donde se convierte.
+
 Para cada slide, identifica:
 1. slide_type: "intro"|"question"|"prueba_social"|"result"|"offer"|"other"
 2. question_text: texto principal de la pregunta o headline
 3. options: [{text, emoji, notes}]
 4. decoration_type: "emojis"|"images"|"none"
-5. notes: Análisis DETALLADO de copywriting y psicología. Para CADA slide incluir:
-   - Gatillo mental principal usado (escasez, autoridad, prueba social, reciprocidad, compromiso, simpatia, urgencia, curiosidad, miedo a perder, identidad, pertenencia)
+5. notes: Análisis DETALLADO de copywriting y psicología.
+
+   Para slides tipo "question" incluir:
+   - Gatillo mental principal (escasez, autoridad, prueba social, reciprocidad, compromiso, simpatia, urgencia, curiosidad, miedo a perder, identidad, pertenencia)
    - Técnica de persuasión (micro-compromiso, foot-in-the-door, sunk cost, framing, anclaje, contraste, storytelling, personalización)
-   - Emoción que busca generar (esperanza, frustración con status quo, validación, empoderamiento, culpa, alivio, FOMO, entusiasmo)
+   - Emoción que busca generar (esperanza, frustración, validación, empoderamiento, culpa, alivio, FOMO, entusiasmo)
    - Sesgo cognitivo explotado (confirmation bias, anchoring, bandwagon, authority bias, loss aversion, endowment effect, ikea effect)
-   - Por qué esta pregunta está en esta posición del funnel (qué prepara psicologicamente para lo que viene)
-   - Cómo conecta con el dolor/deseo del usuario
-   - Nivel de compromiso que genera (bajo/medio/alto) y por qué
+   - Por qué está en esta posición del funnel
+   - Nivel de compromiso (bajo/medio/alto)
+
+   Para slides tipo "result" u "offer" (página final/pago) hacer DESGLOSE POR SECCIONES. Identificar CADA bloque visible de arriba a abajo y clasificarlo:
+   - HEADLINE PRINCIPAL: texto exacto, emoción que genera, si usa personalización (nombre del usuario, datos del quiz)
+   - RESULTADO PERSONALIZADO: qué datos del quiz usa, cómo lo presenta (gráfico, texto, score), si genera urgencia o esperanza
+   - PRUEBA SOCIAL: testimonios, reviews, cantidad de usuarios, logos de medios, rating con estrellas. Cuántos hay, formato, credibilidad
+   - GRÁFICO/PROYECCIÓN: si muestra un gráfico de progreso futuro, timeline, antes/después
+   - OFERTA/PRICING: precio original vs descuento, trial period, qué incluye, cómo ancla el valor (precio total vs por día)
+   - URGENCIA/ESCASEZ: countdown timer, "oferta por tiempo limitado", "solo X quedan", "precio sube en..."
+   - GARANTÍA: money-back guarantee, días, condiciones
+   - BENEFICIOS/FEATURES: lista de qué incluye el plan, formato (bullets, icons, cards)
+   - CTA BOTÓN: texto exacto del botón de compra, color, posición, si se repite
+   - OBJECIONES: sección de FAQ, "sin compromiso", "cancela cuando quieras"
+   - CREDIBILIDAD: logos de pago seguros, SSL, certificaciones, "100% seguro"
+   - BONUS/UPSELL: extras incluidos, valor percibido adicional
+   Para cada sección indicar: qué gatillo mental usa, por qué está en esa posición, y qué pasaría si se quitara
 6. style_notes: DETALLADO - incluir:
    - Colores en HEX (fondo, texto, botones, acentos)
    - Tipografia: familia (sans-serif/serif/rounded), peso, tamaño
