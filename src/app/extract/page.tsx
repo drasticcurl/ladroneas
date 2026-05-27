@@ -9,7 +9,7 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
-import { Loader2, Zap, ArrowLeft, Save } from "lucide-react"
+import { Loader2, Zap, ArrowLeft, Save, Terminal } from "lucide-react"
 import Link from "next/link"
 
 interface AnalyzedSlide {
@@ -31,36 +31,29 @@ interface ExtractionResult {
   slides_extracted: number
 }
 
-type Status = "idle" | "scraping" | "done" | "error"
-
 const typeLabels: Record<string, string> = { question: "Pregunta", intro: "Intro", result: "Resultado", offer: "Oferta", prueba_social: "Prueba Social", other: "Otro" }
 const typeColors: Record<string, string> = { question: "bg-blue-500/10 text-blue-400 border-blue-500/20", intro: "bg-green-500/10 text-green-400 border-green-500/20", result: "bg-purple-500/10 text-purple-400 border-purple-500/20", offer: "bg-yellow-500/10 text-yellow-400 border-yellow-500/20", prueba_social: "bg-orange-500/10 text-orange-400 border-orange-500/20", other: "bg-gray-500/10 text-gray-400 border-gray-500/20" }
 
 export default function ExtractPage() {
   const router = useRouter()
-  const [url, setUrl] = useState("")
-  const [status, setStatus] = useState<Status>("idle")
   const [result, setResult] = useState<ExtractionResult | null>(null)
-  const [error, setError] = useState("")
+  const [jsonInput, setJsonInput] = useState("")
+  const [loading, setLoading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [editNotes, setEditNotes] = useState("")
   const [editStyleNotes, setEditStyleNotes] = useState("")
 
-  const handleExtract = async () => {
-    if (!url) return
-    setStatus("scraping")
-    setError("")
-    setResult(null)
+  // Manual mode: paste JSON output from CLI
+  const handleLoadJson = () => {
     try {
-      const res = await fetch("/api/extract", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ url }) })
-      if (!res.ok) { const data = await res.json(); throw new Error(data.error || "Extraction failed") }
-      const data: ExtractionResult = await res.json()
+      const data = JSON.parse(jsonInput) as ExtractionResult
       setResult(data)
       setEditStyleNotes(data.funnel_style_notes || "")
       setEditNotes(data.ad_copy_insights || "")
-      setStatus("done")
-      toast.success("Extraidos " + data.slides_extracted + " slides")
-    } catch (e: any) { setStatus("error"); setError(e.message); toast.error(e.message) }
+      toast.success("Datos cargados: " + data.slides_extracted + " slides")
+    } catch {
+      toast.error("JSON invalido")
+    }
   }
 
   const handleSave = async () => {
@@ -84,20 +77,53 @@ export default function ExtractPage() {
     <div className="container mx-auto px-4 py-8 max-w-5xl">
       <div className="flex items-center gap-3 mb-8">
         <Link href="/"><Button variant="ghost" size="icon"><ArrowLeft className="w-4 h-4" /></Button></Link>
-        <div><h1 className="text-2xl font-bold">Extractor Automatico</h1><p className="text-muted-foreground text-sm">Pasale una URL de quiz funnel y extraigo todo automaticamente</p></div>
+        <div><h1 className="text-2xl font-bold">Extractor Automatico</h1><p className="text-muted-foreground text-sm">Extraer quiz funnels automaticamente con AI</p></div>
       </div>
 
-      <div className="flex gap-3 mb-8">
-        <Input placeholder="https://quiz-funnel-de-competidor.com..." value={url} onChange={e => setUrl(e.target.value)} disabled={status === "scraping"} className="flex-1" />
-        <Button onClick={handleExtract} disabled={!url || status === "scraping"}>{status === "scraping" ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Zap className="w-4 h-4 mr-2" />}Extraer</Button>
-      </div>
+      {!result && (
+        <div className="space-y-6">
+          {/* Instructions */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <div className="flex items-center gap-3">
+                <Terminal className="w-6 h-6 text-primary" />
+                <h2 className="text-lg font-semibold">Como usar el extractor</h2>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                El scraping corre en tu PC (necesita Chrome). Despues la AI analiza los screenshots en el server.
+              </p>
+              <div className="bg-muted rounded-lg p-4 space-y-2">
+                <p className="text-xs font-medium text-muted-foreground">1. Instala las dependencias (una sola vez):</p>
+                <code className="text-sm block bg-background px-3 py-2 rounded border">npm install -D puppeteer tsx</code>
+                <p className="text-xs font-medium text-muted-foreground mt-3">2. Corre el extractor con la URL del quiz:</p>
+                <code className="text-sm block bg-background px-3 py-2 rounded border">npx tsx scripts/extract.ts &quot;https://quiz-funnel-url.com&quot;</code>
+                <p className="text-xs font-medium text-muted-foreground mt-3">3. El script guarda el funnel automaticamente en la DB</p>
+              </div>
+              <Separator />
+              <p className="text-sm text-muted-foreground">
+                O si queres ver el resultado antes de guardar, pega el JSON de respuesta del API aca abajo:
+              </p>
+            </CardContent>
+          </Card>
 
-      {status === "scraping" && (
-        <Card className="mb-8"><CardContent className="p-6 flex items-center gap-3"><Loader2 className="w-8 h-8 animate-spin text-primary" /><div><p className="font-medium">Extrayendo funnel...</p><p className="text-sm text-muted-foreground">Navegando el quiz, capturando screenshots y analizando con AI. Puede tardar hasta 2 minutos.</p></div></CardContent></Card>
-      )}
-
-      {status === "error" && (
-        <Card className="mb-8"><CardContent className="p-6"><p className="font-medium text-destructive">Error</p><p className="text-sm text-muted-foreground">{error}</p></CardContent></Card>
+          {/* Manual JSON paste */}
+          <Card>
+            <CardContent className="p-6 space-y-4">
+              <Label>Pegar JSON de resultado (opcional)</Label>
+              <Textarea
+                placeholder='{"slides": [...], "funnel_style_notes": "...", ...}'
+                value={jsonInput}
+                onChange={e => setJsonInput(e.target.value)}
+                rows={6}
+                className="font-mono text-xs"
+              />
+              <Button onClick={handleLoadJson} disabled={!jsonInput}>
+                <Zap className="w-4 h-4 mr-2" />
+                Cargar resultado
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
       )}
 
       {result && (
@@ -109,8 +135,8 @@ export default function ExtractPage() {
             </div>
             <Separator className="my-4" />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2"><Label>Estilo general del funnel</Label><Textarea value={editStyleNotes} onChange={e => setEditStyleNotes(e.target.value)} rows={4} placeholder="Descripcion del estilo visual..." /></div>
-              <div className="space-y-2"><Label>Insights de copywriting</Label><Textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} rows={4} placeholder="Notas sobre el copy, ganchos, emociones..." /></div>
+              <div className="space-y-2"><Label>Estilo general del funnel</Label><Textarea value={editStyleNotes} onChange={e => setEditStyleNotes(e.target.value)} rows={4} /></div>
+              <div className="space-y-2"><Label>Insights de copywriting</Label><Textarea value={editNotes} onChange={e => setEditNotes(e.target.value)} rows={4} /></div>
             </div>
           </CardContent></Card>
 

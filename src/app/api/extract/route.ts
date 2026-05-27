@@ -1,25 +1,35 @@
 export const dynamic = "force-dynamic"
-export const maxDuration = 120
+export const maxDuration = 60
 
 import { NextRequest, NextResponse } from "next/server"
-import { extractQuizFunnel } from "@/lib/extractor"
-import { analyzeWithGemini } from "@/lib/gemini"
+import { analyzeWithOpenAI } from "@/lib/ai"
 
+// POST /api/extract
+// Accepts pre-scraped screenshots from the local CLI script (or from the frontend)
+// Body: { url: string, screenshots: [{ base64: string, text: string, html: string }] }
 export async function POST(request: NextRequest) {
   try {
-    const { url } = await request.json()
-    if (!url) return NextResponse.json({ error: "URL is required" }, { status: 400 })
+    const body = await request.json()
+    const { url, screenshots } = body
 
-    const extraction = await extractQuizFunnel(url)
-    if (extraction.slides.length === 0) {
-      return NextResponse.json({ error: "No slides could be extracted from this URL" }, { status: 422 })
+    if (!url) {
+      return NextResponse.json({ error: "URL is required" }, { status: 400 })
     }
 
-    const analysis = await analyzeWithGemini(extraction.slides)
+    if (!screenshots || !Array.isArray(screenshots) || screenshots.length === 0) {
+      return NextResponse.json(
+        { error: "screenshots array is required (use the local CLI script to scrape first)" },
+        { status: 400 }
+      )
+    }
 
+    // Analyze with OpenAI
+    const analysis = await analyzeWithOpenAI(screenshots)
+
+    // Attach screenshots to analyzed slides
     const slides = analysis.slides.map((slide, i) => ({
       ...slide,
-      screenshot_base64: extraction.slides[i]?.screenshot_base64 || null,
+      screenshot_base64: screenshots[i]?.base64 || null,
     }))
 
     return NextResponse.json({
@@ -27,11 +37,14 @@ export async function POST(request: NextRequest) {
       funnel_style_notes: analysis.funnel_style_notes,
       total_questions: analysis.total_questions,
       ad_copy_insights: analysis.ad_copy_insights,
-      landing_url: extraction.landing_url,
-      slides_extracted: extraction.slides.length,
+      landing_url: url,
+      slides_extracted: screenshots.length,
     })
   } catch (error: any) {
-    console.error("Extraction error:", error)
-    return NextResponse.json({ error: error.message || "Extraction failed" }, { status: 500 })
+    console.error("Extract API error:", error)
+    return NextResponse.json(
+      { error: error.message || "Analysis failed" },
+      { status: 500 }
+    )
   }
 }
