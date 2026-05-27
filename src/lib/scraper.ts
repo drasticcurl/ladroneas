@@ -379,8 +379,8 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 30, delayPerSlid
       }
       log("👆", `Click realizado (${slides.length} slides hasta ahora)`)
 
-      // Esperar a que el click haga efecto
-      await new Promise(r => setTimeout(r, 1500))
+      // Esperar a que el click haga efecto (quizzes sin botón next necesitan más tiempo para la transición)
+      await new Promise(r => setTimeout(r, 2500))
 
       // Verificar si la página cambió - si no, es probablemente multi-select
       const textAfterClick = await getVisibleText(page)
@@ -510,7 +510,7 @@ async function tryClickNext(page: Page): Promise<boolean> {
 
   const allSelectors = [
     "[data-option]", "[class*='option']:not([class*='selected'])", "[class*='answer']:not([class*='selected'])", "[class*='choice']:not([class*='selected'])",
-    "[class*='quiz'] button", "[class*='question'] button", "button:not([type='submit']):not([disabled])",
+    "[class*='gender']", "[class*='quiz'] button", "[class*='question'] button", "button:not([type='submit']):not([disabled])",
     "[class*='next']", "[class*='continue']", "[class*='submit']", "button[type='submit']", "a[class*='option']", "a[class*='answer']",
   ]
   for (const selector of allSelectors) {
@@ -535,6 +535,37 @@ async function tryClickNext(page: Page): Promise<boolean> {
       }
       if (visible.length > 0) {
         const target = visible[Math.floor(Math.random() * Math.min(visible.length, 4))]
+
+        // Check if this is a container with multiple clickable children (e.g. gender-options with Mujer/Hombre)
+        const childTarget = await target.evaluate((node: any) => {
+          const children = Array.from(node.children) as HTMLElement[]
+          // If has 2+ visible children with short text, it's probably a container of options
+          const clickableChildren = children.filter(child => {
+            const rect = child.getBoundingClientRect()
+            if (rect.width <= 0 || rect.height <= 0) return false
+            const style = window.getComputedStyle(child)
+            if (style.display === "none" || style.visibility === "hidden") return false
+            const text = (child.textContent || "").trim()
+            return text.length > 0 && text.length < 50
+          })
+          if (clickableChildren.length >= 2) {
+            // Click first child option
+            return true
+          }
+          return false
+        })
+
+        if (childTarget) {
+          // Click a child element instead of the container
+          const childEl = await target.$(':scope > *:first-child')
+          if (childEl) {
+            const childText = await childEl.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "?")
+            log("🎯", `   Click (hijo): "${childText}" (${selector} → child)`)
+            await childEl.click()
+            return true
+          }
+        }
+
         const targetText = await target.evaluate((el: any) => el.textContent?.trim().slice(0, 40) || "?")
         log("🎯", `   Click: "${targetText}" (${selector}, ${visible.length} opts)`)
         await target.click()
