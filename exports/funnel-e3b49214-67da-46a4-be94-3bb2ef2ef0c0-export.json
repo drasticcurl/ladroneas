@@ -1,0 +1,1222 @@
+{
+  "funnel": {
+    "id": "e3b49214-67da-46a4-be94-3bb2ef2ef0c0",
+    "created_at": "2026-05-27T21:14:04.426866+00:00",
+    "ad_url": null,
+    "landing_url": "https://keto.best.me/ww-es/k-39m-usd-1w7-trial-no-carb/0-landing/",
+    "screenshot_url": null,
+    "ad_copy": null,
+    "cta": null,
+    "format": null,
+    "total_questions": 32,
+    "notes": "Estructura narrativa: problema → educación → diagnóstico → agitación → personalización → validación → prueba social → captura de lead → oferta con urgencia. Usa un arco tipo before/after con micro-recompensas constantes. Tone of voice: cercano, empático, motivador, con tuteo implícito y lenguaje simple; mezcla de autoridad suave y acompañamiento. Power words más usados: 'personalizado', 'rápido', 'ideal', 'fácil', 'sabroso', 'gran objetivo', 'superdescuento', 'garantía', 'resultados', 'saludable', 'alcanzable'. Se usan para reducir fricción y aumentar deseo. Escalera de compromiso: empieza con datos fáciles (género, edad), pasa a motivaciones, luego hábitos, después medidas corporales, luego nombre/email, y finalmente salud/medicación y oferta. Cada slide aumenta la inversión psicológica. Validación emocional: 'es un gran objetivo', 'te ayudaremos en todo momento', 'la dieta Keto es diferente', 'muy sabrosa', 'no se trata solo del cuerpo'. Estas frases reducen culpa y refuerzan esperanza. Objeciones implícitas: aburrimiento de la dieta, miedo a recuperar peso, dificultad para mantener resultados, seguridad médica, privacidad, cancelación, renovación automática. Pricing: anclaje fuerte con precio original tachado, ahorro por día, escalado por duración, descuento temporal y garantía de 30 días; además usa countdown para urgencia. CTA style: verbos de posesión y beneficio ('Obtener mi plan', 'Quiero mi superdescuento ahora'), más orientados al resultado que a la acción fría. Target audience implícito: adultos 27-50+, hombres y mujeres, con sobrepeso o frustración por rebote, interesados en perder peso sin complicarse, probablemente nivel socioeconómico medio, sensibles a salud, estética y practicidad. Patrón de engagement: mantiene al usuario avanzando con preguntas fáciles, visuales de transformación, refuerzos positivos, personalización progresiva y prueba social; alterna tensión (IMC, talla, salud) con alivio (validación, sabroso, fácil, personalizado).",
+    "funnel_style_notes": "Palette completa: primario verde bosque (#0E5B43 aprox), secundario verde medio (#2E6F57 aprox), fondo beige cálido (#F8EEDC aprox), texto verde muy oscuro (#0E3B2E aprox), acentos naranja/dorado suave (#F2B36D aprox), blanco para cards y modales. Tipografía: sans-serif geométrica/rounded, muy bold en headlines, pesos medios en body, jerarquía clara con títulos grandes centrados y textos secundarios más pequeños. Botones/opciones: border-radius alto, aprox 12-18px; padding generoso; colores verdes sólidos o outline blanco en slides oscuras; sombras suaves y consistentes. Cards/contenedores: rectangulares redondeados, bordes finos beige o verdes, fondo blanco/crema, sombras ligeras; en algunas slides usan paneles comparativos y badges. Spacing general: spacious, con mucho aire vertical; mobile-first evidente. Animaciones/transiciones: modales emergentes, countdown dinámico, sensación de carga/transición entre bloques; no se detectan animaciones complejas, pero sí cambios de fondo y slides de refuerzo. Progress bar: horizontal superior, verde sobre track beige, posición fija arriba, estilo simple y limpio. Responsive: claramente mobile-first, con layouts de una columna y CTAs grandes. Decorativos: fotos de comida, avatares, iconos de sobre/regalo/diana, before-after, badges de descuento, estrellas, logos de medios, sombras suaves. Feeling/vibe: salud, confianza, personalización, urgencia comercial, transformación corporal, app de nutrición premium pero accesible."
+  },
+  "slides": [
+    {
+      "id": "e60b3ffc-d82b-4809-b304-4a4c9825753d",
+      "slide_order": 1,
+      "slide_type": "intro",
+      "question_text": "Reto cero carbohidratos / ¿Cuál es tu género?",
+      "options": [
+        {
+          "text": "Mujer",
+          "emoji": "👩",
+          "notes": "Opción de identificación inicial; usa representación visual para facilitar auto-selección y reducir fricción."
+        },
+        {
+          "text": "Hombre",
+          "emoji": "👨",
+          "notes": "Opción de identificación inicial; segmentación básica para personalización posterior."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916446/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_01.png",
+      "decoration_type": "images",
+      "notes": "Slide de entrada con promesa de reto y segmentación demográfica mínima. Gatillo principal: personalización e identidad. Técnica: micro-compromiso (primer clic fácil) y framing de acompañamiento ('a tu ritmo'). Emoción buscada: validación y esperanza. Sesgo explotado: endowment effect leve al hacer sentir que el plan será 'para mí'. Está al inicio porque reduce fricción y abre la puerta a la personalización. Nivel de compromiso: bajo. Incluye disclaimer largo para credibilidad y compliance, lo que también baja objeciones implícitas de salud/seguridad.",
+      "style_notes": "Fondo beige cálido (#F8EEDC aprox), texto verde oscuro (#0E3B2E aprox), botones/acentos verde bosque (#2E6F57 aprox) con borde naranja suave (#F3B37A aprox). Tipografía sans-serif muy bold en headlines, tamaño grande, centrado. Layout centrado con mucho aire vertical. Botones rectangulares redondeados, grandes, con borde fino y sombra suave. Imágenes tipo foto recortada de comida y avatars, tamaño medio-grande. Barra de progreso superior ausente en esta slide. Estética limpia, saludable, cercana, profesional."
+    },
+    {
+      "id": "594c3dbd-dd7f-4611-8866-d4ba69f00046",
+      "slide_order": 2,
+      "slide_type": "question",
+      "question_text": "Adapta tu plan de pérdida de peso a tu edad",
+      "options": [
+        {
+          "text": "18-26",
+          "emoji": "🧑",
+          "notes": "Segmentación por etapa de vida; visual de persona joven."
+        },
+        {
+          "text": "27-38",
+          "emoji": "👨",
+          "notes": "Segmentación por etapa de vida; visual de adulto joven."
+        },
+        {
+          "text": "39-50",
+          "emoji": "👨‍🦳",
+          "notes": "Segmentación por etapa de vida; visual de adulto maduro."
+        },
+        {
+          "text": "50+",
+          "emoji": "👴",
+          "notes": "Segmentación por etapa de vida; visual de mayor edad."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916447/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_02.png",
+      "decoration_type": "images",
+      "notes": "Gatillo principal: personalización e identidad. Técnica: framing de relevancia ('adapta tu plan') y micro-compromiso. Emoción: validación y esperanza. Sesgo: confirmation bias, porque el usuario espera que el plan encaje con su edad. Posición temprana para empezar a perfilar el algoritmo y aumentar percepción de precisión. Compromiso: bajo. La edad es un dato fácil y no amenazante, ideal para arrancar la escalera de compromiso.",
+      "style_notes": "Fondo beige claro, texto verde oscuro, tarjetas blancas/crema con borde beige. Tipografía sans-serif pesada, headlines centrados. Grid 2x2 con cards grandes, imágenes de stock dentro de cada card. Barra de progreso horizontal arriba, verde sobre track beige. Botones/opciones con esquinas redondeadas, padding amplio. Vibe: amigable, moderno, wellness."
+    },
+    {
+      "id": "c566db00-2705-4516-8519-01ffb3f57b72",
+      "slide_order": 3,
+      "slide_type": "question",
+      "question_text": "¿Qué quieres conseguir al perder peso?",
+      "options": [
+        {
+          "text": "Mejorar mi aspecto y sentirme mejor",
+          "emoji": "🙂",
+          "notes": "Beneficio emocional/estético; combina identidad y autoestima."
+        },
+        {
+          "text": "Mejorar mi salud",
+          "emoji": "❤️",
+          "notes": "Beneficio funcional; apela a prevención y bienestar."
+        },
+        {
+          "text": "Ambos",
+          "emoji": "✨",
+          "notes": "Opción de máxima amplitud; reduce disonancia y captura más usuarios."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916448/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_03.png",
+      "decoration_type": "images",
+      "notes": "Gatillo principal: identidad y pertenencia. Técnica: framing de doble beneficio y personalización. Emoción: esperanza y validación. Sesgo: confirmation bias, porque cada opción confirma una motivación interna distinta. Está temprano para que el usuario se vea reflejado y sienta que el funnel entiende su motivo real. Compromiso: bajo-medio. La opción 'Ambos' funciona como respuesta segura y aumenta tasa de avance.",
+      "style_notes": "Fondo beige, cards horizontales con imagen recortada a la derecha y texto a la izquierda. Headline grande, centrada, bold. Opciones en tarjetas apiladas con bordes suaves. Acentos verdes y beige. Mucho espacio vertical entre cards. Estética cálida, humana, orientada a transformación personal."
+    },
+    {
+      "id": "d0def337-460a-4b3c-8374-c5d906ad9ba9",
+      "slide_order": 4,
+      "slide_type": "question",
+      "question_text": "¿Qué sabes de la dieta sin carbohidratos (Keto)?",
+      "options": [
+        {
+          "text": "La he probado",
+          "emoji": "✅",
+          "notes": "Autoidentificación de experiencia previa; segmenta usuarios avanzados."
+        },
+        {
+          "text": "He oído alguna que otra cosa",
+          "emoji": "👂",
+          "notes": "Segmenta curiosidad/interés superficial."
+        },
+        {
+          "text": "Nunca he oído hablar de ella",
+          "emoji": "🆕",
+          "notes": "Segmenta novatos; permite adaptar educación posterior."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916449/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_04.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: curiosidad y personalización. Técnica: micro-compromiso y diagnóstico. Emoción: alivio al no ser juzgado por nivel de conocimiento. Sesgo: confirmation bias, porque el usuario elige el nivel que coincide con su autopercepción. Está aquí para calibrar el contenido educativo posterior y evitar sobreexplicar o subexplicar. Compromiso: bajo.",
+      "style_notes": "Minimalista, sin imágenes. Fondo beige, texto verde oscuro, opciones en cajas simples con borde fino y esquinas redondeadas. Tipografía sans-serif bold en headline, opciones en peso medio. Espaciado amplio, diseño muy limpio. Vibe: educativo, sobrio, fácil de escanear."
+    },
+    {
+      "id": "42856abb-a5de-44eb-93ca-f7097f37db72",
+      "slide_order": 5,
+      "slide_type": "question",
+      "question_text": "La dieta Keto es una dieta baja en carbohidratos y rica en grasas que facilita la pérdida rápida de peso",
+      "options": [
+        {
+          "text": "Siguiente",
+          "emoji": "➡️",
+          "notes": "CTA de avance, no opción de respuesta; funciona como slide de educación/convicción."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916449/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_05.png",
+      "decoration_type": "images",
+      "notes": "Gatillo principal: autoridad y curiosidad. Técnica: storytelling educativo + framing + anclaje de resultados rápidos. Emoción: esperanza y entusiasmo. Sesgo: anchoring, al fijar expectativas de pérdida rápida, y authority bias por el tono explicativo. Está en esta posición para educar, reducir incertidumbre y preparar aceptación del método. Compromiso: medio, porque ya no solo responde, sino que internaliza una explicación. Si se quitara, el funnel perdería capacidad de convencimiento y de anclar la promesa de transformación.",
+      "style_notes": "Fondo beige con gran gráfico circular de macros en el centro. Texto verde oscuro muy grande, centrado. Imagen/infografía colorida con iconos de comida. Botón principal verde bosque, grande, rectangular con bordes redondeados y sombra. Estética más didáctica y visual que las anteriores."
+    },
+    {
+      "id": "30c846fe-7138-4404-bc7c-3cff6edde466",
+      "slide_order": 6,
+      "slide_type": "question",
+      "question_text": "¿A qué hora del día sueles sentir hambre?",
+      "options": [
+        {
+          "text": "Por la mañana",
+          "emoji": "🌅",
+          "notes": "Detecta patrón de hambre temprano."
+        },
+        {
+          "text": "Por la tarde",
+          "emoji": "🌤️",
+          "notes": "Detecta patrón de hambre intermedio."
+        },
+        {
+          "text": "Por la noche",
+          "emoji": "🌙",
+          "notes": "Detecta hambre nocturna, útil para personalización."
+        },
+        {
+          "text": "No está ligado a una hora concreta del día",
+          "emoji": "🔄",
+          "notes": "Captura patrón irregular; evita fricción por falta de encaje."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916450/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_06.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: diagnóstico conductual. Emoción: validación ('mi caso es único'). Sesgo: confirmation bias, porque el usuario siente que el plan se adaptará a su patrón real. Está en medio del funnel para profundizar la segmentación y aumentar la sensación de precisión. Compromiso: medio. La pregunta es concreta y fácil, pero ya implica autoobservación.",
+      "style_notes": "Fondo beige, opciones en tarjetas grandes con checkbox a la izquierda. Botón 'Siguiente' abajo, deshabilitado visualmente hasta selección. Barra de progreso superior verde. Tipografía sans-serif bold, layout centrado. Vibe: funcional, simple, mobile-first."
+    },
+    {
+      "id": "fd7c2053-c1ca-47d8-b1d3-ea0664d45448",
+      "slide_order": 7,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu comida favorita del día?",
+      "options": [
+        {
+          "text": "Desayuno",
+          "emoji": "🍳",
+          "notes": "Preferencia de momento del día."
+        },
+        {
+          "text": "Comida",
+          "emoji": "🍽️",
+          "notes": "Preferencia de comida principal."
+        },
+        {
+          "text": "Cena",
+          "emoji": "🌙",
+          "notes": "Preferencia nocturna."
+        },
+        {
+          "text": "Aperitivos",
+          "emoji": "🥜",
+          "notes": "Preferencia por snacks."
+        },
+        {
+          "text": "No tengo una comida favorita",
+          "emoji": "🤷",
+          "notes": "Opción neutral que evita abandono."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916451/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_07.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización y simpatía. Técnica: micro-compromiso y diagnóstico de hábitos. Emoción: validación y alivio. Sesgo: endowment effect leve, porque el usuario empieza a sentir que el plan le pertenece. Posición útil para perfilar estructura de comidas y aumentar relevancia percibida. Compromiso: medio.",
+      "style_notes": "Diseño consistente con slide anterior: fondo beige, tarjetas apiladas, bordes suaves, texto verde oscuro. Sin imágenes, muy escaneable. Botón de avance al final. Vibe: simple, conversacional, sin presión."
+    },
+    {
+      "id": "8aa0ef8a-1f2a-41ab-88b8-92b409f402ee",
+      "slide_order": 8,
+      "slide_type": "question",
+      "question_text": "¿Has logrado perder peso antes, pero no has conseguido mantener los resultados?",
+      "options": [
+        {
+          "text": "Sí",
+          "emoji": "✅",
+          "notes": "Reconoce fracaso previo; abre puerta a solución distinta."
+        },
+        {
+          "text": "No",
+          "emoji": "❌",
+          "notes": "Segmenta a quienes no han tenido ese problema."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916452/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_08.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: miedo a perder y validación. Técnica: agitación del problema + contraste con solución. Emoción: frustración si responde sí, o alivio si responde no. Sesgo: loss aversion, porque recuerda la pérdida de resultados previos. Está aquí para activar el dolor central del target: rebote y falta de mantenimiento. Compromiso: medio. Si se quitara, el funnel perdería tensión emocional y necesidad percibida de una solución diferente.",
+      "style_notes": "Minimalista, beige, dos opciones grandes. Headline centrado y muy bold. Sin imágenes. Barra de progreso arriba. Vibe: directo, empático, orientado a dolor."
+    },
+    {
+      "id": "fab113e0-9c48-45c7-b19c-bf91e8d4a5f3",
+      "slide_order": 9,
+      "slide_type": "other",
+      "question_text": "La dieta Keto es diferente",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de transición."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916453/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_09.png",
+      "decoration_type": "images",
+      "notes": "Slide de transición/educación. Gatillo principal: esperanza y contraste. Técnica: framing de diferenciación y storytelling. Emoción: alivio y curiosidad. Sesgo: contrast effect, al presentar Keto como alternativa a dietas que fallan. Está después de la pregunta sobre rebote para reencuadrar el problema y posicionar la solución. Compromiso: medio. Si se quitara, la narrativa perdería puente entre dolor y solución.",
+      "style_notes": "Fondo verde oscuro sólido, texto blanco, imagen pequeña de comida arriba a la izquierda. Botón blanco con borde blanco, estilo outline. Layout muy limpio, centrado a la izquierda con mucho espacio vacío. Vibe: premium, serio, confiable."
+    },
+    {
+      "id": "6cc966c5-463e-404c-a8ca-cb8d0877b017",
+      "slide_order": 10,
+      "slide_type": "question",
+      "question_text": "¿Cuánto mides?",
+      "options": [
+        {
+          "text": "cm",
+          "emoji": "📏",
+          "notes": "Selector de unidad."
+        },
+        {
+          "text": "ft/in",
+          "emoji": "📐",
+          "notes": "Selector de unidad imperial."
+        },
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de avance tras introducir dato."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916454/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_10.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: micro-compromiso y precisión. Emoción: sensación de progreso. Sesgo: anchoring, porque la altura será base para el cálculo del IMC y del objetivo. Está en la fase de cualificación para construir el plan personalizado. Compromiso: medio. Si se quitara, se perdería la base de cálculo y la credibilidad del resultado.",
+      "style_notes": "Fondo beige, selector de unidades tipo pill con verde activo y beige inactivo. Campo numérico centrado con borde verde. Botón grande verde con sombra. Tipografía sans-serif bold. Vibe: utilitario, limpio, app-like."
+    },
+    {
+      "id": "cc9fb2c2-18fb-46df-a8bc-f7b41c50d929",
+      "slide_order": 11,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu peso actual?",
+      "options": [
+        {
+          "text": "kg",
+          "emoji": "⚖️",
+          "notes": "Selector de unidad."
+        },
+        {
+          "text": "lbs",
+          "emoji": "⚖️",
+          "notes": "Selector de unidad imperial."
+        },
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de avance."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916455/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_11.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: miedo a perder y personalización. Técnica: diagnóstico + framing de riesgo. Emoción: preocupación y urgencia moderada. Sesgo: loss aversion y anchoring, al mostrar IMC 25.5 y categoría 'Sobrepeso'. Está en una posición crítica porque convierte un dato neutro en un problema concreto, elevando la necesidad de solución. Compromiso: alto para una pregunta, porque introduce autoevaluación sensible. Si se quitara, el funnel perdería gran parte de la personalización y del dolor cuantificado.",
+      "style_notes": "Fondo beige, caja de IMC con borde naranja/amarillo de alerta, texto oscuro. Botón verde grande. Tipografía bold. Layout centrado. Vibe: clínico-suave, persuasivo, ligeramente alarmista sin ser agresivo."
+    },
+    {
+      "id": "cfd62334-e6d4-45f4-bd0e-3a286cf5a31a",
+      "slide_order": 12,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu peso objetivo?",
+      "options": [
+        {
+          "text": "kg",
+          "emoji": "⚖️",
+          "notes": "Selector de unidad."
+        },
+        {
+          "text": "lbs",
+          "emoji": "⚖️",
+          "notes": "Selector de unidad imperial."
+        },
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de avance."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916455/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_12.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: compromiso e identidad. Técnica: anclaje + contraste + personalización. Emoción: esperanza y empoderamiento. Sesgo: anchoring, porque sugiere un 'peso ideal' y un rango saludable. Está aquí para convertir el deseo en objetivo cuantificable, aumentando compromiso psicológico. Compromiso: alto. Si se quitara, el funnel perdería la meta concreta necesaria para el resultado personalizado.",
+      "style_notes": "Mismo sistema visual que la slide anterior, con énfasis en 'Peso ideal sugerido'. Texto verde oscuro, números destacados. Botón verde grande. Vibe: guiado, motivador, orientado a logro."
+    },
+    {
+      "id": "2dabce67-703d-462b-8c29-d5188c79bef7",
+      "slide_order": 13,
+      "slide_type": "other",
+      "question_text": "¡Es un gran objetivo!",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de validación y avance."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916456/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_13.png",
+      "decoration_type": "images",
+      "notes": "Slide de validación emocional. Gatillo principal: simpatía y reciprocidad. Técnica: refuerzo positivo y micro-recompensa. Emoción: validación, esperanza y empoderamiento. Sesgo: IKEA effect, porque el usuario siente que su objetivo ya tiene valor al haberlo definido. Está aquí para consolidar el compromiso tras fijar la meta. Compromiso: medio-alto. Si se quitara, se perdería el refuerzo emocional que reduce abandono.",
+      "style_notes": "Fondo verde oscuro, icono de diana grande, texto blanco. Botón outline blanco. Layout centrado, muy limpio. Vibe: motivacional, celebratorio, premium."
+    },
+    {
+      "id": "ba727aa4-11c1-4972-bf6f-abe6579be647",
+      "slide_order": 14,
+      "slide_type": "question",
+      "question_text": "¡Tu proceso para perder peso con la dieta Keto está a punto de comenzar! ¿Cómo te llamas?",
+      "options": [
+        {
+          "text": "Siguiente",
+          "emoji": "➡️",
+          "notes": "CTA de avance tras introducir nombre."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916457/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_14.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización e identidad. Técnica: foot-in-the-door y personalización explícita. Emoción: cercanía y pertenencia. Sesgo: endowment effect, porque el plan empieza a sentirse propio al usar el nombre. Está justo antes del bloque de email para aumentar la sensación de trato individual. Compromiso: alto, porque pedir el nombre es un paso íntimo y prepara la captura de lead. Si se quitara, el email se sentiría más frío y menos personalizado.",
+      "style_notes": "Fondo beige, campo de texto grande, botón verde con sombra. Headline muy bold y centrado. Sin imágenes. Vibe: cálido, conversacional, conversión."
+    },
+    {
+      "id": "2bb0da3d-7f19-4e63-9038-822ec6aded6a",
+      "slide_order": 15,
+      "slide_type": "question",
+      "question_text": "¿Cómo describirías tu nivel de actividad durante la semana?",
+      "options": [
+        {
+          "text": "Poco o nada de ejercicio",
+          "emoji": "🛋️",
+          "notes": "Sedentarismo alto."
+        },
+        {
+          "text": "Un poco activo (1-2 entrenamientos)",
+          "emoji": "🚶",
+          "notes": "Actividad baja."
+        },
+        {
+          "text": "Moderadamente activo (3-5 entrenamientos)",
+          "emoji": "🏃",
+          "notes": "Actividad media."
+        },
+        {
+          "text": "Activo (6-7 entrenamientos)",
+          "emoji": "💪",
+          "notes": "Actividad alta."
+        },
+        {
+          "text": "Muy activo (ejercicio, deporte o trabajo físico a diario)",
+          "emoji": "🔥",
+          "notes": "Actividad muy alta."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916458/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_15.png",
+      "decoration_type": "images",
+      "notes": "Gatillo principal: personalización. Técnica: diagnóstico conductual y framing de adecuación. Emoción: validación. Sesgo: confirmation bias, porque el usuario elige la categoría que mejor encaja con su autoimagen. Está en la mitad del funnel para refinar el plan y hacer sentir que el algoritmo entiende su rutina. Compromiso: medio.",
+      "style_notes": "Fondo beige, opciones en tarjetas con iconos circulares tipo progreso a la izquierda. Tipografía sans-serif bold. Barra de progreso arriba. Acentos naranja suave en iconos, verde oscuro en texto. Vibe: app de salud, ordenada, moderna."
+    },
+    {
+      "id": "2790a327-ec8a-4afa-b1b5-3d4ce7fb63e8",
+      "slide_order": 16,
+      "slide_type": "question",
+      "question_text": "¿Cuánto hace que no estás en tu peso ideal?",
+      "options": [
+        {
+          "text": "Menos de 1 año",
+          "emoji": "⏳",
+          "notes": "Recencia baja."
+        },
+        {
+          "text": "Entre 1 y 3 años",
+          "emoji": "📆",
+          "notes": "Recencia media."
+        },
+        {
+          "text": "Más de 3 años",
+          "emoji": "🕰️",
+          "notes": "Recencia alta."
+        },
+        {
+          "text": "Nunca he estado en mi peso ideal",
+          "emoji": "🚫",
+          "notes": "Dolor crónico o de larga data."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916459/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_16.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: miedo a perder e identidad. Técnica: agitación del problema y narrativa de largo plazo. Emoción: frustración y esperanza de cambio. Sesgo: loss aversion, al recordar tiempo perdido y estado no deseado. Está aquí para intensificar el problema y justificar la necesidad de un plan estructurado. Compromiso: medio-alto. Si se quitara, el funnel perdería profundidad emocional y sentido de urgencia interna.",
+      "style_notes": "Minimalista, beige, opciones simples en cajas. Headline centrado, bold. Sin imágenes. Vibe: introspectivo, serio, orientado a dolor acumulado."
+    },
+    {
+      "id": "6471d32c-6fa0-4c8a-9fe5-a68acc44137e",
+      "slide_order": 17,
+      "slide_type": "question",
+      "question_text": "¿Qué talla de ropa sueles llevar?",
+      "options": [
+        {
+          "text": "XXXL+",
+          "emoji": "📏",
+          "notes": "Talla muy alta."
+        },
+        {
+          "text": "XXXL",
+          "emoji": "📏",
+          "notes": "Talla alta."
+        },
+        {
+          "text": "XXL",
+          "emoji": "📏",
+          "notes": "Talla alta-media."
+        },
+        {
+          "text": "XL",
+          "emoji": "📏",
+          "notes": "Talla media-alta."
+        },
+        {
+          "text": "L",
+          "emoji": "📏",
+          "notes": "Talla media."
+        },
+        {
+          "text": "M",
+          "emoji": "📏",
+          "notes": "Talla media-baja."
+        },
+        {
+          "text": "S o más pequeña",
+          "emoji": "📏",
+          "notes": "Talla baja."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916460/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_17.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: identidad y miedo a perder. Técnica: contraste y autoevaluación tangible. Emoción: vulnerabilidad y deseo de cambio. Sesgo: anchoring, porque la talla funciona como marcador social inmediato. Está en una fase avanzada para cuantificar el problema de forma muy visual y emocional. Compromiso: alto. Si se quitara, se perdería una de las métricas más potentes para visualizar transformación.",
+      "style_notes": "Fondo beige, lista vertical de opciones grandes. Sin imágenes. Tipografía bold. Espaciado amplio. Vibe: directo, sensible, orientado a transformación corporal."
+    },
+    {
+      "id": "a55b34d9-e341-4393-80e6-4b99a8df457f",
+      "slide_order": 18,
+      "slide_type": "question",
+      "question_text": "¿Qué talla de ropa te gustaría llevar?",
+      "options": [
+        {
+          "text": "XXXL+",
+          "emoji": "🎯",
+          "notes": "Objetivo alto."
+        },
+        {
+          "text": "XXXL",
+          "emoji": "🎯",
+          "notes": "Objetivo alto."
+        },
+        {
+          "text": "XXL",
+          "emoji": "🎯",
+          "notes": "Objetivo intermedio."
+        },
+        {
+          "text": "XL",
+          "emoji": "🎯",
+          "notes": "Objetivo intermedio."
+        },
+        {
+          "text": "L",
+          "emoji": "🎯",
+          "notes": "Objetivo medio."
+        },
+        {
+          "text": "M",
+          "emoji": "🎯",
+          "notes": "Objetivo medio-bajo."
+        },
+        {
+          "text": "S o más pequeña",
+          "emoji": "🎯",
+          "notes": "Objetivo bajo."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916461/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_18.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: identidad y esperanza. Técnica: contraste entre estado actual y deseado. Emoción: motivación y visualización. Sesgo: endowment effect y anchoring, al fijar una meta concreta y deseable. Está justo después de la talla actual para maximizar contraste y deseo. Compromiso: alto. Si se quitara, se perdería el puente emocional entre dolor y recompensa.",
+      "style_notes": "Consistente con la slide anterior, beige y minimalista. Opciones en cajas grandes. Headline bold, centrado. Vibe: aspiracional, claro, fácil de responder."
+    },
+    {
+      "id": "5358e1fc-7b62-4c43-bab5-cde70dc072dc",
+      "slide_order": 19,
+      "slide_type": "prueba_social",
+      "question_text": "El 85 % de los usuarios de la aplicación Keto Best.me que han seguido su plan han reducido al menos una talla",
+      "options": [
+        {
+          "text": "Perdió 24 kg",
+          "emoji": "🏷️",
+          "notes": "Etiqueta de resultado destacado."
+        },
+        {
+          "text": "Victor K. (38)",
+          "emoji": "⭐",
+          "notes": "Testimonio con nombre, edad y foto antes/después."
+        },
+        {
+          "text": "¡Me encanta esta aplicación!...",
+          "emoji": "💬",
+          "notes": "Cita testimonial extensa con detalle de transformación."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916462/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_19.png",
+      "decoration_type": "images",
+      "notes": "Prueba social fuerte. Gatillo principal: prueba social y autoridad. Técnica: social proof + storytelling + contraste antes/después. Emoción: esperanza, FOMO y validación. Sesgo: bandwagon y authority bias, reforzado por el porcentaje 85% y el testimonio específico. Está en esta posición para reducir escepticismo justo antes de preguntas más personales y del tramo final. Compromiso: medio-alto. Si se quitara, el funnel perdería credibilidad y prueba de eficacia real.",
+      "style_notes": "Fondo beige, headline grande arriba, imagen antes/después central, badge de pérdida de peso, estrellas amarillas, texto testimonial debajo. Botón verde grande al final. Vibe: convincente, social, aspiracional, muy orientado a resultados."
+    },
+    {
+      "id": "317974d3-d69c-4721-afe1-482a9bcaaf24",
+      "slide_order": 20,
+      "slide_type": "question",
+      "question_text": "¿Cómo describirías tus hábitos alimenticios?",
+      "options": [
+        {
+          "text": "Como lo mismo casi todos los días",
+          "emoji": "🍽️",
+          "notes": "Rutina repetitiva."
+        },
+        {
+          "text": "Cocino los mismos ingredientes de manera variada",
+          "emoji": "👩‍🍳",
+          "notes": "Rutina con variación."
+        },
+        {
+          "text": "Tengo un par de favoritos entre los que voy alternando",
+          "emoji": "🔁",
+          "notes": "Patrón intermedio."
+        },
+        {
+          "text": "Tengo una alimentación variada",
+          "emoji": "🥗",
+          "notes": "Patrón amplio."
+        },
+        {
+          "text": "No lo tengo claro",
+          "emoji": "❓",
+          "notes": "Incertidumbre; evita abandono."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916463/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_20.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: diagnóstico de hábitos y micro-compromiso. Emoción: validación y alivio. Sesgo: confirmation bias, porque el usuario se reconoce en una categoría. Está aquí para ajustar el plan de comidas y aumentar relevancia. Compromiso: medio. Si se quitara, el plan perdería granularidad nutricional.",
+      "style_notes": "Beige, tarjetas apiladas, texto verde oscuro, sin imágenes. Muy legible. Vibe: funcional, conversacional, app de nutrición."
+    },
+    {
+      "id": "85516a3d-3123-4761-97a6-74f29d4652a6",
+      "slide_order": 21,
+      "slide_type": "other",
+      "question_text": "¡La dieta Keto es muy sabrosa!",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de avance."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916464/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_21.png",
+      "decoration_type": "images",
+      "notes": "Slide de objeción/beneficio. Gatillo principal: simpatía y reciprocidad. Técnica: reencuadre positivo y reducción de objeción ('no será aburrido'). Emoción: entusiasmo y alivio. Sesgo: confirmation bias, al reforzar la idea de que comer rico es compatible con adelgazar. Está aquí para neutralizar la objeción de monotonía alimentaria antes de pedir preferencias concretas. Compromiso: medio.",
+      "style_notes": "Fondo verde oscuro, imagen de comida arriba, texto blanco grande. Botón outline blanco. Vibe: apetitoso, premium, confiable."
+    },
+    {
+      "id": "2ca2446a-dc3e-4a78-a04a-0de6c45b40d1",
+      "slide_order": 22,
+      "slide_type": "question",
+      "question_text": "Elige hasta cinco ingredientes favoritos de esta lista",
+      "options": [
+        {
+          "text": "Aguacate",
+          "emoji": "🥑",
+          "notes": "Ingrediente keto-friendly."
+        },
+        {
+          "text": "Huevos",
+          "emoji": "🥚",
+          "notes": "Ingrediente base."
+        },
+        {
+          "text": "Frutos secos",
+          "emoji": "🌰",
+          "notes": "Ingrediente keto-friendly."
+        },
+        {
+          "text": "Mantequilla",
+          "emoji": "🧈",
+          "notes": "Ingrediente keto-friendly."
+        },
+        {
+          "text": "Queso",
+          "emoji": "🧀",
+          "notes": "Ingrediente keto-friendly."
+        },
+        {
+          "text": "Carne",
+          "emoji": "🥩",
+          "notes": "Ingrediente proteico."
+        },
+        {
+          "text": "Tofu",
+          "emoji": "🧊",
+          "notes": "Opción vegetal."
+        },
+        {
+          "text": "Judías",
+          "emoji": "🫘",
+          "notes": "Opción vegetal/legumbre."
+        },
+        {
+          "text": "Champiñones",
+          "emoji": "🍄",
+          "notes": "Ingrediente vegetal."
+        },
+        {
+          "text": "Nada de lo anterior",
+          "emoji": "🚫",
+          "notes": "Salida neutral."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916465/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_22.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: compromiso y personalización. Técnica: micro-compromiso + IKEA effect, porque el usuario 'construye' su plan eligiendo ingredientes. Emoción: control y empoderamiento. Sesgo: endowment effect, al sentir que el plan será suyo. Está en una fase avanzada para afinar preferencias y aumentar sensación de co-creación. Compromiso: alto. Si se quitara, el plan sería menos personalizado y menos 'propio'.",
+      "style_notes": "Beige, lista larga con checkboxes, botón verde al fondo. Tipografía bold. Espaciado normal, diseño mobile-first. Vibe: práctico, participativo."
+    },
+    {
+      "id": "3a5b8ba5-7e2c-4f6d-bc59-72e1c08cb27a",
+      "slide_order": 23,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu proteína preferida?",
+      "options": [
+        {
+          "text": "Me lo como todo",
+          "emoji": "🍗",
+          "notes": "Opción amplia, reduce fricción."
+        },
+        {
+          "text": "Huevos",
+          "emoji": "🥚",
+          "notes": "Proteína simple."
+        },
+        {
+          "text": "Proteínas lácteas (leche, yogur, queso, requesón, etc.)",
+          "emoji": "🥛",
+          "notes": "Proteína láctea; opción detallada."
+        },
+        {
+          "text": "Pollo",
+          "emoji": "🍗",
+          "notes": "Proteína magra."
+        },
+        {
+          "text": "Ternera",
+          "emoji": "🥩",
+          "notes": "Proteína roja."
+        },
+        {
+          "text": "Cerdo",
+          "emoji": "🐖",
+          "notes": "Proteína roja."
+        },
+        {
+          "text": "Pavo",
+          "emoji": "🦃",
+          "notes": "Proteína magra."
+        },
+        {
+          "text": "Pescado",
+          "emoji": "🐟",
+          "notes": "Proteína saludable."
+        },
+        {
+          "text": "Cordero",
+          "emoji": "🐑",
+          "notes": "Proteína roja."
+        },
+        {
+          "text": "Proteína vegetal",
+          "emoji": "🌱",
+          "notes": "Opción plant-based."
+        },
+        {
+          "text": "Nada de lo anterior",
+          "emoji": "🚫",
+          "notes": "Salida neutral."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916466/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_23.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: co-creación y micro-compromiso. Emoción: control y validación. Sesgo: IKEA effect, porque el usuario participa en la construcción del plan. Está en la mitad avanzada para refinar macros y preferencias. Compromiso: alto. Si se quitara, el plan perdería precisión y sensación de adaptación real.",
+      "style_notes": "Beige, lista larga, checkboxes, botón verde. Tipografía sans-serif bold. Vibe: nutricional, práctico, sin fricción."
+    },
+    {
+      "id": "48d58425-83a2-45ee-968b-2af8ccbb7a4a",
+      "slide_order": 24,
+      "slide_type": "question",
+      "question_text": "¿Tienes alguna alergia o intolerancia alimentaria?",
+      "options": [
+        {
+          "text": "Nada",
+          "emoji": "✅",
+          "notes": "Opción de no restricción."
+        },
+        {
+          "text": "Lactosa",
+          "emoji": "🥛",
+          "notes": "Intolerancia común."
+        },
+        {
+          "text": "Frutos secos",
+          "emoji": "🌰",
+          "notes": "Alergia frecuente."
+        },
+        {
+          "text": "Marisco",
+          "emoji": "🦐",
+          "notes": "Alergia frecuente."
+        },
+        {
+          "text": "Proteína de leche",
+          "emoji": "🥛",
+          "notes": "Restricción específica."
+        },
+        {
+          "text": "Proteína de huevo",
+          "emoji": "🥚",
+          "notes": "Restricción específica."
+        },
+        {
+          "text": "Miel",
+          "emoji": "🍯",
+          "notes": "Restricción alimentaria."
+        },
+        {
+          "text": "Cítricos",
+          "emoji": "🍋",
+          "notes": "Restricción específica."
+        },
+        {
+          "text": "Otros",
+          "emoji": "➕",
+          "notes": "Captura de casos no listados."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916467/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_24.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: seguridad y personalización. Técnica: reducción de riesgo + diagnóstico. Emoción: alivio y confianza. Sesgo: authority bias, porque el sistema parece cuidadoso y clínico. Está aquí para evitar errores en el plan y aumentar credibilidad. Compromiso: alto, porque toca salud y restricciones. Si se quitara, el plan parecería menos seguro y menos profesional.",
+      "style_notes": "Consistente con el resto: beige, tarjetas, checkboxes, botón verde. Muy legible. Vibe: seguro, responsable, sanitario."
+    },
+    {
+      "id": "85ca3180-c09d-43f7-8d82-e522cf44c09b",
+      "slide_order": 25,
+      "slide_type": "other",
+      "question_text": "Tu plan de comidas Keto personalizado se está creando",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de transición."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916468/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_25.png",
+      "decoration_type": "images",
+      "notes": "Slide de loading/transición. Gatillo principal: curiosidad y anticipación. Técnica: progress framing y recompensa diferida. Emoción: entusiasmo y expectativa. Sesgo: sunk cost, porque ya respondió muchas preguntas y quiere ver el resultado. Está aquí para hacer sentir que el sistema trabaja en tiempo real. Compromiso: alto. Si se quitara, la transición al resultado sería brusca y menos convincente.",
+      "style_notes": "Fondo verde oscuro, grid de platos/recetas, texto blanco grande. Botón outline blanco. Layout centrado, visualmente rico. Vibe: premium, culinario, personalizado."
+    },
+    {
+      "id": "e9d8ab63-bf36-4224-b9b2-a902fe7cfa82",
+      "slide_order": 26,
+      "slide_type": "question",
+      "question_text": "¿Cuánto sueles dormir cada noche?",
+      "options": [
+        {
+          "text": "Más de 8 horas",
+          "emoji": "😴",
+          "notes": "Sueño alto."
+        },
+        {
+          "text": "7-8 horas",
+          "emoji": "🌙",
+          "notes": "Sueño recomendado."
+        },
+        {
+          "text": "5-6 horas",
+          "emoji": "🕒",
+          "notes": "Sueño insuficiente."
+        },
+        {
+          "text": "Tengo problemas para dormir. Algunas noches duermo menos de 5 horas.",
+          "emoji": "⚠️",
+          "notes": "Problema de sueño severo."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916469/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_26.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización y miedo a perder. Técnica: diagnóstico de estilo de vida. Emoción: validación y preocupación. Sesgo: loss aversion, porque el sueño afecta resultados y salud. Está en esta posición para ajustar el plan a factores metabólicos y de adherencia. Compromiso: medio-alto. Si se quitara, el plan sería menos preciso y menos holístico.",
+      "style_notes": "Beige, opciones en tarjetas, texto verde oscuro. Sin imágenes. Vibe: clínico-suave, funcional."
+    },
+    {
+      "id": "d5e07a5a-9cb5-4fe2-b640-739a1c765a18",
+      "slide_order": 27,
+      "slide_type": "question",
+      "question_text": "¿Cuántos vasos de agua sueles beber al día?",
+      "options": [
+        {
+          "text": "1 vaso o menos",
+          "emoji": "💧",
+          "notes": "Hidratación muy baja."
+        },
+        {
+          "text": "2-3 vasos",
+          "emoji": "💧",
+          "notes": "Hidratación baja."
+        },
+        {
+          "text": "4-5 vasos",
+          "emoji": "💧",
+          "notes": "Hidratación media-baja."
+        },
+        {
+          "text": "6-7 vasos",
+          "emoji": "💧",
+          "notes": "Hidratación media."
+        },
+        {
+          "text": "8+ vasos",
+          "emoji": "💧",
+          "notes": "Hidratación alta."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916470/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_27.png",
+      "decoration_type": "images",
+      "notes": "Gatillo principal: personalización y salud. Técnica: diagnóstico conductual. Emoción: autoevaluación y control. Sesgo: confirmation bias, porque el usuario se ubica en una categoría familiar. Está aquí para completar el perfil de hábitos saludables. Compromiso: medio. Si se quitara, el plan perdería una variable relevante de bienestar general.",
+      "style_notes": "Beige, opciones con iconos circulares tipo medidor, barra de progreso arriba. Tipografía bold. Vibe: saludable, simple, app-like."
+    },
+    {
+      "id": "55de5fbe-625e-4b1b-a5bb-dfb63cd43c95",
+      "slide_order": 28,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu horario de trabajo?",
+      "options": [
+        {
+          "text": "Trabajo de 9:00 a 17:00",
+          "emoji": "🕘",
+          "notes": "Horario estándar."
+        },
+        {
+          "text": "Trabajo nocturno",
+          "emoji": "🌙",
+          "notes": "Horario nocturno."
+        },
+        {
+          "text": "Irregular, turnos diferentes",
+          "emoji": "🔄",
+          "notes": "Horario variable."
+        },
+        {
+          "text": "Me he jubilado",
+          "emoji": "👴",
+          "notes": "Segmento retirado."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916471/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_28.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: diagnóstico de contexto y framing de rutina. Emoción: validación. Sesgo: confirmation bias, porque el usuario se reconoce en un patrón de vida. Está aquí para adaptar el plan a horarios y adherencia. Compromiso: medio. Si se quitara, el plan sería menos realista.",
+      "style_notes": "Beige, tarjetas simples, texto verde oscuro. Sin imágenes. Vibe: práctico, contextual, fácil de responder."
+    },
+    {
+      "id": "9f61f32a-b0f7-4366-ad84-4d602b87ffff",
+      "slide_order": 29,
+      "slide_type": "question",
+      "question_text": "Describe tu día habitual",
+      "options": [
+        {
+          "text": "Principalmente sedentario (caminar un poco, estar de pie)",
+          "emoji": "🪑",
+          "notes": "Baja actividad diaria."
+        },
+        {
+          "text": "Equilibrado (posición sentada, algunos paseos y ejercicio ligero)",
+          "emoji": "⚖️",
+          "notes": "Actividad moderada."
+        },
+        {
+          "text": "Muy físico (trabajo duro)",
+          "emoji": "🏋️",
+          "notes": "Alta demanda física."
+        },
+        {
+          "text": "Impredecible. Puede ser sedentario o físico, según el día.",
+          "emoji": "🎲",
+          "notes": "Variabilidad alta."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916472/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_29.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: personalización. Técnica: diagnóstico de estilo de vida. Emoción: comprensión y alivio. Sesgo: confirmation bias. Está cerca del final para completar el modelo de gasto energético y adherencia. Compromiso: medio-alto. Si se quitara, el plan perdería precisión contextual.",
+      "style_notes": "Beige, opciones largas en tarjetas, tipografía bold, layout centrado. Vibe: funcional, analítico."
+    },
+    {
+      "id": "82f5c2d8-05aa-45ea-a4b4-31d89d993649",
+      "slide_order": 30,
+      "slide_type": "question",
+      "question_text": "¿Tomas alguna medicación?",
+      "options": [
+        {
+          "text": "Antibióticos",
+          "emoji": "💊",
+          "notes": "Medicamento específico."
+        },
+        {
+          "text": "Ansiolíticos",
+          "emoji": "💊",
+          "notes": "Medicamento específico."
+        },
+        {
+          "text": "Hormonas",
+          "emoji": "💊",
+          "notes": "Tratamiento hormonal."
+        },
+        {
+          "text": "Vitaminas",
+          "emoji": "💊",
+          "notes": "Suplementación."
+        },
+        {
+          "text": "Otros",
+          "emoji": "➕",
+          "notes": "Captura de casos no listados."
+        },
+        {
+          "text": "No",
+          "emoji": "❌",
+          "notes": "Opción de no medicación."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916472/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_30.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: seguridad y autoridad. Técnica: reducción de riesgo y diagnóstico clínico. Emoción: confianza y cuidado. Sesgo: authority bias, porque el funnel parece actuar con prudencia médica. Está aquí para evitar incompatibilidades y reforzar seriedad. Compromiso: alto. Si se quitara, el plan parecería menos responsable.",
+      "style_notes": "Beige, checkboxes, botón verde. Muy limpio y legible. Vibe: clínico, responsable, seguro."
+    },
+    {
+      "id": "76f0fc1c-2626-4f71-8e81-6ef65db97f62",
+      "slide_order": 31,
+      "slide_type": "question",
+      "question_text": "¿Tienes alguno de estos problemas de salud?",
+      "options": [
+        {
+          "text": "Diabetes (cualquier fase)",
+          "emoji": "🩺",
+          "notes": "Condición relevante."
+        },
+        {
+          "text": "Reflujo gastroesofágico",
+          "emoji": "🩺",
+          "notes": "Condición digestiva."
+        },
+        {
+          "text": "Apnea del sueño",
+          "emoji": "🩺",
+          "notes": "Condición de sueño."
+        },
+        {
+          "text": "Hipertensión arterial",
+          "emoji": "🩺",
+          "notes": "Condición cardiovascular."
+        },
+        {
+          "text": "Colesterol alto",
+          "emoji": "🩺",
+          "notes": "Condición metabólica."
+        },
+        {
+          "text": "Enfermedades o problemas cardíacos",
+          "emoji": "🩺",
+          "notes": "Condición de riesgo alto."
+        },
+        {
+          "text": "Enfermedades o problemas renales",
+          "emoji": "🩺",
+          "notes": "Condición de riesgo alto."
+        },
+        {
+          "text": "Cáncer",
+          "emoji": "🩺",
+          "notes": "Condición grave."
+        },
+        {
+          "text": "Estoy recuperándome de una operación",
+          "emoji": "🩺",
+          "notes": "Estado postoperatorio."
+        },
+        {
+          "text": "Nada de lo anterior",
+          "emoji": "✅",
+          "notes": "Opción de no condición."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916473/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_31.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: seguridad, autoridad y miedo a perder. Técnica: diagnóstico clínico y reducción de riesgo. Emoción: preocupación y confianza simultáneas. Sesgo: authority bias y loss aversion. Está muy cerca del final porque estas preguntas elevan la seriedad del plan y justifican personalización avanzada. Compromiso: alto. Si se quitara, el funnel perdería credibilidad sanitaria.",
+      "style_notes": "Beige, lista larga, checkboxes, botón verde. Vibe: médico-suave, serio, responsable."
+    },
+    {
+      "id": "fd713ea7-c2e2-475e-8f49-56f4b3d956ad",
+      "slide_order": 32,
+      "slide_type": "question",
+      "question_text": "¿Qué objetivo te gustaría alcanzar además de la pérdida de peso?",
+      "options": [
+        {
+          "text": "Correr una carrera de 5k",
+          "emoji": "🏃",
+          "notes": "Objetivo de rendimiento."
+        },
+        {
+          "text": "Te verás mejor en el espejo",
+          "emoji": "🪞",
+          "notes": "Objetivo estético."
+        },
+        {
+          "text": "Tener mejor salud y más energía",
+          "emoji": "⚡",
+          "notes": "Objetivo de bienestar."
+        },
+        {
+          "text": "Dormir mejor",
+          "emoji": "😴",
+          "notes": "Objetivo funcional."
+        },
+        {
+          "text": "Prepararme para un acontecimiento especial",
+          "emoji": "🎉",
+          "notes": "Objetivo puntual."
+        },
+        {
+          "text": "Sentirme bien en mi propio cuerpo",
+          "emoji": "💚",
+          "notes": "Objetivo identitario."
+        },
+        {
+          "text": "Tener una mejor vida sexual",
+          "emoji": "🔥",
+          "notes": "Objetivo íntimo."
+        },
+        {
+          "text": "Tener una vida más activa",
+          "emoji": "🏃‍♂️",
+          "notes": "Objetivo de estilo de vida."
+        },
+        {
+          "text": "Aún no lo he pensado",
+          "emoji": "❓",
+          "notes": "Opción abierta."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916474/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_32.png",
+      "decoration_type": "none",
+      "notes": "Gatillo principal: identidad y esperanza. Técnica: expansión de beneficios y visualización del after-state. Emoción: entusiasmo y empoderamiento. Sesgo: framing, al ampliar el valor más allá del peso. Está aquí para aumentar el valor percibido del plan y conectar con motivaciones profundas. Compromiso: alto. Si se quitara, la oferta final sería menos aspiracional y menos completa.",
+      "style_notes": "Beige, opciones múltiples en tarjetas, texto bold. Vibe: aspiracional, holístico, motivador."
+    },
+    {
+      "id": "90740add-86d5-4b5c-8709-3f08672332e4",
+      "slide_order": 33,
+      "slide_type": "other",
+      "question_text": "¡No se trata solo del cuerpo! ¡Así es como la pérdida de peso puede cambiarte la cara!",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de avance."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916475/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_33.png",
+      "decoration_type": "images",
+      "notes": "Slide de visualización de transformación. Gatillo principal: curiosidad y deseo de mejora. Técnica: before/after + contraste + storytelling visual. Emoción: esperanza y entusiasmo. Sesgo: contrast effect y anchoring visual. Está aquí para hacer tangible el beneficio estético y aumentar deseo antes del email/offer. Compromiso: medio-alto. Si se quitara, se perdería una demostración visual muy persuasiva.",
+      "style_notes": "Fondo verde oscuro, tres imágenes de rostro antes/durante/después, etiquetas de peso en colores, texto blanco grande. Botón outline blanco. Vibe: impactante, transformacional, visualmente fuerte."
+    },
+    {
+      "id": "48cd2c77-bfeb-4f17-9fd4-00b5960e2552",
+      "slide_order": 34,
+      "slide_type": "other",
+      "question_text": "Recibe tu programa de pérdida de peso en el correo electrónico para alcanzar el objetivo de 72 kg",
+      "options": [
+        {
+          "text": "Continuar",
+          "emoji": "➡️",
+          "notes": "CTA de captura de lead."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916476/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_34.png",
+      "decoration_type": "images",
+      "notes": "Bloque de captura de email. Gatillo principal: compromiso y personalización. Técnica: foot-in-the-door + personalización explícita del objetivo. Emoción: anticipación y confianza. Sesgo: endowment effect, porque el plan ya parece suyo. Está justo antes de la oferta para convertir el interés en lead y preparar el pago. Compromiso: alto. Si se quitara, se perdería la captura del lead y la continuidad del funnel.",
+      "style_notes": "Fondo beige, icono de sobre, campo email grande, texto de privacidad con icono de candado. Botón verde grande. Tipografía bold. Vibe: seguro, claro, conversión."
+    },
+    {
+      "id": "d9803c44-005d-438b-a6f5-a0e01999e77f",
+      "slide_order": 35,
+      "slide_type": "offer",
+      "question_text": "El 60% de DESCUENTO está activo durante 04:48 / Obtener mi plan",
+      "options": [
+        {
+          "text": "Obtener mi plan",
+          "emoji": "🛒",
+          "notes": "CTA principal de compra."
+        },
+        {
+          "text": "¡Quiero mi superdescuento ahora!",
+          "emoji": "🎁",
+          "notes": "CTA alternativo con urgencia y beneficio."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916477/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_35.png",
+      "decoration_type": "images",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'El 60% de DESCUENTO está activo durante 04:48' y 'Empieza con un 60% de descuento sobre el precio regular'; emoción: urgencia y ahorro; personalización: sí, por el contexto del plan. RESULTADO PERSONALIZADO: muestra 'Tú hoy' vs 'Tú el 26 de junio de 2026', peso actual 72 kg, peso alcanzado 72 kg, IMC actual 25.5, IMC alcanzado 25.5, eficiencia metabólica; formato: panel comparativo con imagen de transformación; genera esperanza y visualización, aunque en esta captura el resultado parece inconsistente (mismos números), lo que puede debilitar credibilidad. PRUEBA SOCIAL: en esta captura no se ve aún claramente en la parte superior, pero el diseño sugiere que la prueba social aparece más abajo en el flujo; gatillo: bandwagon; si se quitara, bajaría la confianza. GRÁFICO/PROYECCIÓN: panel antes/después con flecha central; gatillo: contraste; si se quitara, se perdería la visualización del cambio. OFERTA/PRICING: prueba de 1 semana $18.00 -> $7.00 -> $1.00 al día; plan 1 mes $39.00 -> $16.00 -> $0.53 al día; plan 3 meses $69.00 -> $26.00 -> $0.29 al día; ancla valor por día y por periodo; gatillo: anclaje y contraste; si se quitara, el valor percibido caería. URGENCIA/ESCASEZ: countdown timer 04:48 y descuento activo; gatillo: urgencia; si se quitara, bajaría conversión inmediata. GARANTÍA: se menciona garantía de reembolso de 30 días más abajo; gatillo: reducción de riesgo; si se quitara, subirían objeciones. BENEFICIOS/FEATURES: en esta vista no se detallan aún, pero el plan se presenta como personalizado; gatillo: personalización; si se quitara, la oferta sería más genérica. CTA BOTÓN: 'Obtener mi plan' en verde, arriba a la derecha y repetido en la página; también '¡Quiero mi superdescuento ahora!' en modal; gatillo: acción + urgencia; si se quitara, la intención de compra se diluiría. OBJECIONES: texto legal de renovación automática y cancelación; gatillo: transparencia; si se quitara, aumentaría desconfianza. CREDIBILIDAD: privacidad, términos, y diseño limpio; gatillo: seguridad; si se quitara, bajaría confianza. BONUS/UPSELL: no visible en esta captura. Esta sección es la más importante porque convierte; por eso mezcla urgencia, ahorro, personalización y reducción de riesgo. Nivel de compromiso: muy alto.",
+      "style_notes": "Paleta dominante verde bosque (#0E5B43 aprox), beige claro (#F8EEDC), blanco, acentos dorados/naranja suave (#F2B36D aprox). Tipografía sans-serif muy bold en headlines, jerarquía clara. Botones grandes, rounded-rectangle, verde con sombra, CTA sticky arriba en móvil. Cards blancas con bordes suaves y sombras ligeras. Spacing normal a spacious. Animaciones/transiciones: modal emergente con overlay oscuro; posible countdown dinámico. Progress bar no visible en esta parte final, pero el header sticky ocupa la parte superior. Mobile-first claramente sí. Decorativos: gift icon, before/after panel, badges de ahorro, sombras suaves. Feeling/vibe: urgencia, confianza, salud, ahorro, transformación."
+    },
+    {
+      "id": "a4bdd80d-08ea-4208-9edd-e5092fde165e",
+      "slide_order": 36,
+      "slide_type": "offer",
+      "question_text": "El 65% de DESCUENTO está activo durante 04:57 / Obtener mi plan",
+      "options": [
+        {
+          "text": "Obtener mi plan",
+          "emoji": "🛒",
+          "notes": "CTA principal de compra."
+        },
+        {
+          "text": "¡Quiero mi superdescuento ahora!",
+          "emoji": "🎁",
+          "notes": "CTA alternativo con mayor carga emocional."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916478/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_36.png",
+      "decoration_type": "images",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'El 65% de DESCUENTO está activo durante 04:57' y '¿Qué te parece si te damos un SUPERDESCUENTO para tu plan Keto?'; emoción: urgencia, sorpresa y deseo de ahorro; personalización: sí, por el plan generado. RESULTADO PERSONALIZADO: panel comparativo 'Tú hoy' vs 'Tú el 26 de junio de 2026', peso actual 72 kg, peso alcanzado 72 kg, IMC actual 25.5, IMC alcanzado 25.5, eficiencia metabólica; formato visual con imagen de transformación; genera esperanza pero también puede verse poco creíble si los números no cambian. PRUEBA SOCIAL: no visible en esta captura superior; el diseño sugiere que aparecerá más abajo; gatillo: confianza social; si se quitara, la oferta dependería solo del precio. GRÁFICO/PROYECCIÓN: panel de antes/después con flecha; gatillo: contraste; si se quitara, bajaría la claridad del beneficio. OFERTA/PRICING: 1 semana $18.00 -> $6.00 -> $0.86/día; 1 mes $39.00 -> $13.50 -> $0.45/día; 3 meses $69.00 -> $23.00 -> $0.26/día; anclaje fuerte por día y por periodo; gatillo: anclaje y contraste; si se quitara, el ahorro sería menos tangible. URGENCIA/ESCASEZ: countdown 04:57 y descuento activo; gatillo: urgencia; si se quitara, la conversión inmediata bajaría. GARANTÍA: no visible arriba, pero se menciona más abajo en el flujo; gatillo: reducción de riesgo. BENEFICIOS/FEATURES: aún no visibles en esta captura; el foco está en precio y personalización; si se quitaran más adelante, la oferta quedaría demasiado centrada en descuento. CTA BOTÓN: 'Obtener mi plan' sticky arriba y repetido; modal con '¡Quiero mi superdescuento ahora!'; gatillo: acción inmediata; si se quitara, el usuario podría seguir scrolleando sin comprar. OBJECIONES: texto legal de renovación/cancelación; gatillo: transparencia; si se quitara, aumentaría fricción. CREDIBILIDAD: diseño limpio, privacidad implícita. BONUS/UPSELL: no visible. Esta variante intensifica la urgencia con un descuento mayor y un modal de regalo para empujar el clic. Nivel de compromiso: muy alto.",
+      "style_notes": "Paleta verde bosque, beige, blanco, acentos dorados. Tipografía bold, jerarquía fuerte. Botón sticky superior verde con sombra. Modal blanco con icono de regalo, bordes redondeados y overlay oscuro. Cards y paneles con sombras suaves. Mobile-first sí. Vibe: más agresiva en urgencia, más promocional, más 'deal'."
+    },
+    {
+      "id": "b2d77ced-93d5-46d8-ab37-082e9e361b29",
+      "slide_order": 37,
+      "slide_type": "offer",
+      "question_text": "El 65% de DESCUENTO está activo durante 04:51 / Obtener mi plan",
+      "options": [
+        {
+          "text": "Obtener mi plan",
+          "emoji": "🛒",
+          "notes": "CTA principal de compra."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916479/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_37.png",
+      "decoration_type": "images",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'El 65% de DESCUENTO está activo durante 04:51' y '¡Empieza con un 65% de descuento sobre el precio regular!'; emoción: urgencia y ahorro. RESULTADO PERSONALIZADO: panel comparativo antes/después con peso actual 72 kg, peso alcanzado 72 kg, IMC actual 25.5, IMC alcanzado 25.5, eficiencia metabólica; formato visual; genera expectativa pero la falta de cambio visible puede restar credibilidad. PRUEBA SOCIAL: no visible en esta sección superior. GRÁFICO/PROYECCIÓN: panel comparativo con flecha y dos cuerpos; gatillo: contraste; si se quitara, la oferta sería menos tangible. OFERTA/PRICING: prueba 1 semana $18.00 -> $6.00 -> $0.86/día; plan 1 mes $39.00 -> $13.50 -> $0.45/día; plan 3 meses $69.00 -> $23.00 -> $0.26/día; anclaje por día y por periodo; gatillo: anclaje/contraste. URGENCIA/ESCASEZ: countdown 04:51 y descuento activo; gatillo: urgencia. GARANTÍA: 'Garantía de reembolso de 30 días' visible más abajo; gatillo: reducción de riesgo; si se quitara, subiría el miedo a comprar. BENEFICIOS/FEATURES: sección '¿Qué incluye?' con lista de comidas sanas, consejos nutricionales y herramientas complementarias; formato de bullets con iconos; gatillo: valor percibido; si se quitara, el precio parecería más alto. CTA BOTÓN: 'Obtener mi plan' grande, verde, centrado; repetición probable más abajo; gatillo: acción. OBJECIONES: texto de renovación automática y cancelación en cualquier momento; gatillo: transparencia. CREDIBILIDAD: lenguaje de privacidad y estructura limpia. BONUS/UPSELL: no visible. Esta captura ya empieza a vender con más detalle de valor y menos dependencia del modal. Nivel de compromiso: muy alto.",
+      "style_notes": "Beige claro, verde bosque, blanco, acentos dorados. Tipografía sans-serif bold, headlines grandes. Botones rounded con sombra. Cards blancas con bordes suaves. Espaciado normal. Mobile-first sí. Vibe: comercial, confiable, orientado a valor."
+    },
+    {
+      "id": "5b4f36ba-5bd4-4ec8-8dfe-a8cf24f1e746",
+      "slide_order": 38,
+      "slide_type": "offer",
+      "question_text": "El 65% de DESCUENTO está activo durante 04:40 / Obtener mi plan",
+      "options": [
+        {
+          "text": "Obtener mi plan",
+          "emoji": "🛒",
+          "notes": "CTA principal de compra."
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779916480/funnels/e3b49214-67da-46a4-be94-3bb2ef2ef0c0/slide_38.png",
+      "decoration_type": "images",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'El 65% de DESCUENTO está activo durante 04:40' y '¡Empieza con un 65% de descuento sobre el precio regular!'; emoción: urgencia y oportunidad. RESULTADO PERSONALIZADO: no se ve en esta captura, pero el flujo sigue anclado al objetivo 72 kg; personalización implícita. PRUEBA SOCIAL: aparece más abajo con 'Más de 500.000' y testimonios, además de logos de medios; gatillo: bandwagon y autoridad; credibilidad alta. GRÁFICO/PROYECCIÓN: no visible arriba en esta captura, pero el flujo incluye antes/después en otras capturas; gatillo: contraste. OFERTA/PRICING: planes de 1 semana, 1 mes y 3 meses con precio original tachado y precio rebajado; anclaje por día; gatillo: anclaje y contraste. URGENCIA/ESCASEZ: countdown 04:40; gatillo: urgencia. GARANTÍA: 'Garantía de reembolso de 30 días' visible; gatillo: reducción de riesgo; si se quitara, la compra sería más arriesgada. BENEFICIOS/FEATURES: lista de qué incluye con iconos, plan de comidas, consejos nutricionales, herramientas complementarias, atención al cliente, cancelar cuando quieras; gatillo: valor y objeciones. CTA BOTÓN: 'Obtener mi plan' repetido arriba y abajo; gatillo: acción. OBJECIONES: texto de renovación automática, cancelación en cualquier momento, garantía y soporte; gatillo: reducción de fricción. CREDIBILIDAD: logos de medios (The Washington Post, CNN, MNT) y mención de más de 500.000 usuarios; gatillo: autoridad y prueba social. BONUS/UPSELL: no se ve un upsell clásico, pero sí un paquete de beneficios extra percibidos. Esta es la versión más completa y persuasiva del checkout. Nivel de compromiso: muy alto.",
+      "style_notes": "Paleta beige/verde con acentos dorados. Tipografía bold, jerarquía fuerte. Botón verde grande. Cards blancas con bordes suaves. Sección de testimonios y logos en formato limpio. Espaciado normal a spacious. Mobile-first sí. Vibe: confiable, social proof fuerte, conversión alta."
+    }
+  ],
+  "metadata": {
+    "exported_at": "2026-05-27T21:15:12.397Z",
+    "total_slides": 38
+  }
+}

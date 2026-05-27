@@ -1,0 +1,680 @@
+{
+  "funnel": {
+    "id": "a98abf0b-49e2-41c3-900d-65c303c23048",
+    "created_at": "2026-05-27T21:01:51.867972+00:00",
+    "ad_url": null,
+    "landing_url": "https://gelatina-delta.vercel.app",
+    "screenshot_url": null,
+    "ad_copy": null,
+    "cta": null,
+    "format": null,
+    "total_questions": 17,
+    "notes": "Estructura narrativa: arranca con hook de curiosidad/beneficio ('receta de gelatina') y rápidamente pasa a una secuencia de diagnóstico guiado. La narrativa es problema → agitación → validación → solución → cierre. Usa un mini hero's journey: 'no es tu culpa' → 'entendemos tu bloqueo' → 'tenés un plan personalizado' → 'generá tu diagnóstico' → oferta. Tone of voice: cercano, empático, femenino, con tuteo rioplatense ('tenés', 'usá', 'respondé'), pero apoyado por autoridad profesional. Power words más usados: 'personalizado', 'diagnóstico', 'severo', 'bloqueo', 'reversible', 'natural', 'sin hambre', 'desde tu casa', 'resultado inmediato', 'gratis', 'sin tarjeta', 'solo por hoy', 'garantía'. Se usan para bajar fricción y elevar deseo. Escalera de compromiso: empieza con preguntas fáciles y no amenazantes (edad, cuerpo), luego pasa a dolor y hábitos, después a datos sensibles (peso, altura, embarazos, rutina, sueño, agua), y finalmente a email y oferta. Cada slide aumenta la inversión psicológica. Validación emocional: muy presente en frases como 'No es tu culpa', 'Sé honesta, no hay respuestas incorrectas', 'siempre me culpo', 'es pura biología'. Esto reduce vergüenza y resistencia. Objeciones implícitas: se neutralizan con autoridad médica, prueba social, diagnóstico cuantificado, promesa natural, sin hambre, desde casa, garantía de 30 días, acceso inmediato y precio bajo. Técnica de pricing: anclaje a bajo ticket ($6.000 ARS), urgencia temporal ('solo por hoy'), garantía de devolución, y repetición del valor percibido mediante beneficios y credenciales. CTA style: verbos de acción con beneficio y reducción de riesgo ('Quiero mi plan personalizado', 'Comprar sin riesgo', 'Generar mi plan'), a menudo reforzados con urgencia o garantía. Target implícito: mujeres adultas, probablemente 25-55, preocupadas por peso, hinchazón, ansiedad nocturna, metabolismo lento, autoestima y ropa; nivel socioeconómico medio, sensibles a soluciones prácticas y accesibles. Patrón de engagement: alterna preguntas de autoidentificación con validación emocional y micro-recompensas visuales (barra de progreso, selección de opciones, nombre del usuario, diagnóstico parcial). El usuario avanza porque siente que cada respuesta mejora la precisión del resultado y porque el funnel le quita culpa mientras le promete una salida concreta.",
+    "funnel_style_notes": "Palette completa: primario rosa/fucsia (#E83A8C aprox), secundario rosa claro (#F7B3D0 aprox), fondo rosa muy pálido (#FFF4FA aprox), texto principal negro azulado (#1F2433 aprox), texto secundario gris azulado (#6E7890 aprox), acentos de confianza verde (#22C55E aprox), alerta rojo (#FF3B30 aprox), y amarillo dorado en badges (#F7C948 aprox). Tipografía: sans-serif moderna, muy legible, con jerarquía clara; títulos en bold/extra-bold, subtítulos medium, cuerpo regular. Tamaños grandes en títulos y números de sliders para reforzar claridad mobile. Botones/opciones: border-radius alto, estilo pill/rounded, padding amplio, color degradado rosa-fucsia o sólido fucsia, sombras suaves para dar profundidad. Cards/contenedores: blancos, bordes gris claro o rosa suave, esquinas redondeadas, separación consistente. Spacing general: spacious, con mucho aire vertical para mobile. Animaciones/transiciones: sensación de progreso por barra superior y pantalla de loading; no se observan animaciones complejas, pero sí microinteracciones de slider y selección. Progress bar: fina, arriba, rosa/fucsia, avanza por slide y refuerza compromiso. Mobile-first: sí, claramente diseñado para pantalla vertical estrecha. Decorativos: emojis, imágenes de cuerpo/gelatina/noticia, barras de progreso, sombras suaves, algunos degradados. Feeling/vibe: femenino, cercano, aspiracional, clínico-amable, con mezcla de salud, urgencia y esperanza. El funnel prioriza claridad, personalización y empuje emocional progresivo."
+  },
+  "slides": [
+    {
+      "id": "4fd32468-f8b6-496f-a42c-8933a7481f79",
+      "slide_order": 1,
+      "slide_type": "intro",
+      "question_text": "Descubrí la receta de la gelatina para bajar de peso",
+      "options": [
+        {
+          "text": "✅ Sí, quiero descubrir la receta",
+          "emoji": "✅",
+          "notes": "CTA principal, promesa de resultado inmediato y bajo riesgo"
+        },
+        {
+          "text": "No, prefiero seguir igual",
+          "emoji": "",
+          "notes": "Opción de rechazo que refuerza la elección del sí por contraste"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915714/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_01.png",
+      "decoration_type": "images",
+      "notes": "Hook de entrada muy fuerte: combina curiosidad ('receta especial'), beneficio funcional ('sentirte más liviana', 'controlar antojos', 'ordenar tu rutina') y alivio de dolor. Usa autoridad implícita con la firma profesional (Lic. Carolina Méndez, MN 8847) y prueba social ('+2.400 diagnósticos realizados'). El framing es de diagnóstico rápido y gratuito, reduciendo fricción. Psicológicamente apela a esperanza, validación y pertenencia ('te invita a descubrir tu análisis personalizado'). Nivel de compromiso: bajo. Posición ideal al inicio porque vende el clic inicial sin pedir datos sensibles todavía. Si se quitara la prueba social o la autoridad, bajaría la credibilidad; si se quitara el CTA de rechazo, perdería el contraste que hace más atractivo el sí.",
+      "style_notes": "Fondo rosa muy claro (#FFF4FA aprox), texto principal en negro azulado (#1F2433 aprox), acentos fucsia/rosa intenso (#E83A8C aprox) y amarillo suave en badge de prueba social (#F7C948 aprox). Tipografía sans-serif moderna, pesada en títulos (bold/extra-bold) y regular en cuerpo. Layout centrado, con mucho aire vertical. Botón principal grande, rounded/pill, degradado rosa-fucsia, sombra suave. Imagen principal tipo collage/hero con foto de gelatina roja y tarjeta de autoridad. Barra de progreso fina arriba, en rosa. Estética femenina, limpia, aspiracional, con foco en salud y transformación."
+    },
+    {
+      "id": "e275c007-a11d-4566-9176-8e214141f826",
+      "slide_order": 2,
+      "slide_type": "question",
+      "question_text": "¿Qué edad tenés?",
+      "options": [
+        {
+          "text": "18 años",
+          "emoji": "",
+          "notes": "Extremo inferior del slider"
+        },
+        {
+          "text": "99 años",
+          "emoji": "",
+          "notes": "Extremo superior del slider"
+        },
+        {
+          "text": "Continuar →",
+          "emoji": "",
+          "notes": "CTA de avance"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915716/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_02.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de cualificación demográfica con baja fricción. El slider crea micro-interacción y sensación de personalización inmediata. Gatillo principal: compromiso; técnica: micro-compromiso/foot-in-the-door. Emoción buscada: validación y curiosidad sobre el resultado. Sesgo explotado: personalización y anclaje (el usuario se auto-ubica en un rango). Está aquí para segmentar sin asustar, antes de preguntas más sensibles. Nivel de compromiso: bajo. Si se quitara, el funnel perdería capacidad de segmentación y la ilusión de diagnóstico individual.",
+      "style_notes": "Misma paleta rosa/fucsia. Slider horizontal con track rosa claro y thumb circular blanco con borde fucsia. Título centrado, grande. Botón CTA ancho, rounded, con sombra suave. Espaciado amplio, diseño mobile-first, sin imágenes. Visual minimalista y limpio."
+    },
+    {
+      "id": "1003dace-df7a-4710-a18b-afeaf9ddbfe4",
+      "slide_order": 3,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu tipo de cuerpo?",
+      "options": [
+        {
+          "text": "En forma",
+          "emoji": "",
+          "notes": "Autoimagen positiva"
+        },
+        {
+          "text": "Unos kilos de más",
+          "emoji": "",
+          "notes": "Categoría intermedia, suaviza el juicio"
+        },
+        {
+          "text": "Sobrepeso",
+          "emoji": "",
+          "notes": "Categoría explícita de mayor dolor"
+        },
+        {
+          "text": "Plus size",
+          "emoji": "",
+          "notes": "Etiqueta identitaria, más inclusiva"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915717/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_03.png",
+      "decoration_type": "images",
+      "notes": "Pregunta de segmentación corporal con imágenes comparativas. Gatillo principal: identidad. Técnica: framing y personalización visual. Emoción buscada: auto-reconocimiento, a veces incomodidad controlada que impulsa avance. Sesgo: confirmation bias (el usuario elige la opción que confirma su percepción) e ikea effect (participa activamente en definir su perfil). Está temprano para perfilar el problema y aumentar relevancia del resultado. Nivel de compromiso: medio-bajo. Si se quitara, el diagnóstico perdería especificidad visual y el usuario sentiría menos personalización.",
+      "style_notes": "Grid 2x2 de cards blancas con borde gris claro y esquinas redondeadas. Imágenes de torsos/figuras en tonos morados. Título centrado, tipografía bold. Fondo rosa pálido. Mucho padding entre cards. Estética clínica-amable, femenina, sin saturación."
+    },
+    {
+      "id": "a288005c-824c-41ad-b67e-ea959cc77317",
+      "slide_order": 4,
+      "slide_type": "question",
+      "question_text": "¿Dónde acumulás más grasa?",
+      "options": [
+        {
+          "text": "Abdomen",
+          "emoji": "🎯",
+          "notes": "Zona de dolor principal"
+        },
+        {
+          "text": "Piernas y muslos",
+          "emoji": "🦵",
+          "notes": "Zona frecuente, menos estigmatizante"
+        },
+        {
+          "text": "Brazos",
+          "emoji": "💪",
+          "notes": "Zona visible, ligada a imagen corporal"
+        },
+        {
+          "text": "Espalda",
+          "emoji": "🔙",
+          "notes": "Zona menos hablada, aumenta precisión"
+        },
+        {
+          "text": "Cara y papada",
+          "emoji": "😊",
+          "notes": "Zona facial, impacto social"
+        },
+        {
+          "text": "Cintura",
+          "emoji": "📏",
+          "notes": "Zona asociada a salud/metabolismo"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915718/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_04.png",
+      "decoration_type": "emojis",
+      "notes": "Pregunta de cualificación que profundiza el dolor específico. Gatillo principal: curiosidad + identidad. Técnica: personalización y contraste (varias zonas para que el usuario se vea reflejado). Emoción: frustración validada y esperanza de solución específica. Sesgo: confirmation bias. Está en esta posición para hacer que el usuario sienta que el plan será hecho a medida. Nivel de compromiso: medio. Si se quitara, el resultado sería menos creíble y menos 'diagnóstico'.",
+      "style_notes": "Lista de opciones en cards blancas con borde gris; opción seleccionada resaltada con borde rosa. Iconos emoji a la izquierda, checkbox a la derecha. Botón CTA rosa grande al final. Layout vertical, limpio, mobile-first."
+    },
+    {
+      "id": "2c8449c0-627e-48bf-96c3-9d9ac4e17cd5",
+      "slide_order": 5,
+      "slide_type": "question",
+      "question_text": "¿Llegaste a ver esta noticia que se hizo viral en las últimas semanas?",
+      "options": [
+        {
+          "text": "✅ Sí, lo vi en internet y quiero probarlo",
+          "emoji": "✅",
+          "notes": "Aprovecha familiaridad y deseo de prueba"
+        },
+        {
+          "text": "🔍 No, es la primera vez que lo escucho (¡Quiero saber más!)",
+          "emoji": "🔍",
+          "notes": "Opción de curiosidad para no perder a quien no conoce la tendencia"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915719/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_05.png",
+      "decoration_type": "images",
+      "notes": "Pregunta basada en prueba social y curiosidad. Gatillo principal: prueba social + curiosidad. Técnica: storytelling y bandwagon ('viral', 'se filtró en internet'). Emoción: FOMO y entusiasmo. Sesgo: bandwagon effect. Está aquí para legitimar el método antes de pedir más datos. Nivel de compromiso: medio. Si se quitara, se perdería el efecto de tendencia y la sensación de que 'todo el mundo lo está viendo'.",
+      "style_notes": "Incluye imagen tipo captura de noticia/medio (Infobae) como prueba visual. Botón principal fucsia sólido; opción secundaria en blanco con borde rosa. Títulos centrados, texto explicativo pequeño en gris. Estética de noticia/viralidad dentro de un marco de salud."
+    },
+    {
+      "id": "34f82323-01f6-40bf-817e-e4d0ef4c0fa6",
+      "slide_order": 6,
+      "slide_type": "question",
+      "question_text": "¿Cómo te llamás?",
+      "options": [
+        {
+          "text": "Continuar →",
+          "emoji": "",
+          "notes": "CTA de avance"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915721/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_06.png",
+      "decoration_type": "none",
+      "notes": "Paso de captura de dato personal para aumentar personalización. Gatillo principal: simpatía/identidad. Técnica: personalización y compromiso. Emoción: cercanía y validación. Sesgo: endowment effect, porque el usuario empieza a sentir el funnel como 'suyo'. Está aquí justo antes de preguntas más íntimas para aumentar la sensación de trato individual. Nivel de compromiso: medio. Si se quitara, el resultado perdería el uso del nombre, reduciendo relevancia emocional.",
+      "style_notes": "Input de texto grande con borde rosa. Título centrado, botón CTA ancho y degradado. Diseño muy simple, sin distracciones. Fondo rosa claro, tipografía sans-serif bold."
+    },
+    {
+      "id": "36a14dc6-8b6d-4d21-a6be-409a47ba50f5",
+      "slide_order": 7,
+      "slide_type": "question",
+      "question_text": "Maria, ¿cómo afecta el peso tu vida diaria?",
+      "options": [
+        {
+          "text": "Me impide hacer cosas que disfruto",
+          "emoji": "",
+          "notes": "Dolor funcional"
+        },
+        {
+          "text": "Afecta mi autoestima",
+          "emoji": "",
+          "notes": "Dolor emocional"
+        },
+        {
+          "text": "Me preocupa mi salud",
+          "emoji": "",
+          "notes": "Dolor racional/salud"
+        },
+        {
+          "text": "Me cuesta encontrar ropa que me quede bien",
+          "emoji": "",
+          "notes": "Dolor práctico y social"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915722/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_07.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de agitación del problema. Gatillo principal: empatía + miedo a perder. Técnica: storytelling implícito y framing negativo. Emoción: frustración, culpa, alivio al ser comprendida. Sesgo: loss aversion. Está aquí para profundizar el dolor y preparar la necesidad de solución. Nivel de compromiso: medio-alto. Si se quitara, el funnel perdería intensidad emocional y capacidad de hacer que el usuario se vea reflejado.",
+      "style_notes": "Opciones en cards blancas con radio alto, selección resaltada en rosa. Título centrado con nombre del usuario para personalización. Mucho espacio vertical. Minimalista, sin imágenes."
+    },
+    {
+      "id": "6e92e1bf-e728-449e-bcb1-047afb508f43",
+      "slide_order": 8,
+      "slide_type": "question",
+      "question_text": "¿Estás feliz con tu apariencia actual?",
+      "options": [
+        {
+          "text": "No, quiero cambiar",
+          "emoji": "",
+          "notes": "Respuesta de dolor alto"
+        },
+        {
+          "text": "Más o menos, podría mejorar",
+          "emoji": "",
+          "notes": "Respuesta ambivalente"
+        },
+        {
+          "text": "Sí, pero quiero sentirme mejor",
+          "emoji": "",
+          "notes": "Respuesta positiva que no cierra la puerta al cambio"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915723/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_08.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de autoevaluación emocional. Gatillo principal: identidad. Técnica: validación y compromiso gradual. Emoción: honestidad, alivio, esperanza. Sesgo: confirmation bias. Está aquí para hacer que el usuario verbalice insatisfacción sin sentirse juzgada. Nivel de compromiso: medio. Si se quitara, se perdería una capa importante de autoidentificación con el problema.",
+      "style_notes": "Tres opciones tipo radio en cards blancas, borde gris y selección rosa. Título grande, centrado. Subcopy tranquilizador. Estética suave, no agresiva."
+    },
+    {
+      "id": "030ae073-9cad-4c24-a5ba-fb0a09a6efc4",
+      "slide_order": 9,
+      "slide_type": "question",
+      "question_text": "¿Qué te impide bajar de peso?",
+      "options": [
+        {
+          "text": "Ansiedad por la comida",
+          "emoji": "",
+          "notes": "Barreras emocionales"
+        },
+        {
+          "text": "Falta de tiempo",
+          "emoji": "",
+          "notes": "Barreras de agenda"
+        },
+        {
+          "text": "Metabolismo lento",
+          "emoji": "",
+          "notes": "Barreras biológicas"
+        },
+        {
+          "text": "Falta de motivación",
+          "emoji": "",
+          "notes": "Barreras psicológicas"
+        },
+        {
+          "text": "Dietas aburridas o restrictivas",
+          "emoji": "",
+          "notes": "Barreras de experiencia"
+        },
+        {
+          "text": "Retención de líquidos",
+          "emoji": "",
+          "notes": "Barreras fisiológicas"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915724/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_09.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de cualificación profunda que mapea objeciones y permite personalización del resultado. Gatillo principal: curiosidad + validación. Técnica: personalización y agitación. Emoción: alivio al poner nombre al problema. Sesgo: confirmation bias. Está en esta posición para que el usuario sienta que el diagnóstico entiende su bloqueo real. Nivel de compromiso: alto. Si se quitara, el resultado sería genérico y menos persuasivo.",
+      "style_notes": "Lista larga de opciones con checkboxes a la derecha. Fondo rosa muy claro, cards blancas. Botón CTA rosa grande al final. Diseño limpio, orientado a mobile."
+    },
+    {
+      "id": "12756799-28c6-4993-ae8b-59a5f6f90d21",
+      "slide_order": 10,
+      "slide_type": "question",
+      "question_text": "¿Estás de acuerdo con la Lic. Carolina en que la ansiedad incontrolable por lo dulce a la noche NO es tu culpa?",
+      "options": [
+        {
+          "text": "😍 ¡Totalmente de acuerdo! Siempre me culpo por no tener constancia.",
+          "emoji": "😍",
+          "notes": "Alta identificación emocional"
+        },
+        {
+          "text": "🤔 Estoy de acuerdo en parte... pero siento que algo en mi cuerpo no funciona bien.",
+          "emoji": "🤔",
+          "notes": "Ambivalencia racional"
+        },
+        {
+          "text": "😥 No lo sabía... siempre pensé que yo era el problema y que no tenía solución.",
+          "emoji": "😥",
+          "notes": "Dolor y resignificación"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915725/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_10.png",
+      "decoration_type": "emojis",
+      "notes": "Slide de validación emocional muy potente. Gatillo principal: simpatía + autoridad + reciprocidad. Técnica: storytelling y reencuadre ('NO es tu culpa'). Emoción: alivio, esperanza, validación. Sesgo: authority bias y confirmation bias. Está aquí para romper la culpa y preparar la aceptación del método. Nivel de compromiso: alto. Si se quitara, el funnel perdería su momento más empático y persuasivo.",
+      "style_notes": "Texto con énfasis en rosa/fucsia para 'NO es tu culpa'. Opciones en cards blancas con emojis expresivos. Título centrado, subcopy explicativo. Estética emocional, cercana, con fuerte contraste tipográfico."
+    },
+    {
+      "id": "42e7b6ba-75df-4fce-8e21-b4962d47ce67",
+      "slide_order": 11,
+      "slide_type": "question",
+      "question_text": "¿Qué te gustaría lograr?",
+      "options": [
+        {
+          "text": "Bajar de peso de forma saludable",
+          "emoji": "",
+          "notes": "Objetivo principal"
+        },
+        {
+          "text": "Reducir la hinchazón",
+          "emoji": "",
+          "notes": "Objetivo de alivio inmediato"
+        },
+        {
+          "text": "Mejorar mi digestión",
+          "emoji": "",
+          "notes": "Objetivo funcional"
+        },
+        {
+          "text": "Tener más energía",
+          "emoji": "",
+          "notes": "Objetivo de bienestar"
+        },
+        {
+          "text": "Sentirme más segura",
+          "emoji": "",
+          "notes": "Objetivo emocional"
+        },
+        {
+          "text": "Mejorar mi piel",
+          "emoji": "",
+          "notes": "Objetivo estético"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915726/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_11.png",
+      "decoration_type": "none",
+      "notes": "Pregunta aspiracional que transforma el dolor en deseo. Gatillo principal: esperanza. Técnica: framing positivo y personalización. Emoción: entusiasmo y alivio. Sesgo: endowment effect (el usuario empieza a imaginar su futuro). Está aquí para preparar el valor del resultado y la oferta. Nivel de compromiso: medio-alto. Si se quitara, el funnel quedaría demasiado centrado en el problema y menos en la transformación.",
+      "style_notes": "Opciones múltiples en cards blancas, selección rosa. Título centrado, subcopy claro. Botón CTA grande. Visual consistente con el resto del funnel."
+    },
+    {
+      "id": "d38b4e8b-4ba8-43ed-aee0-232584199444",
+      "slide_order": 12,
+      "slide_type": "question",
+      "question_text": "¿Cuánto pesás actualmente?",
+      "options": [
+        {
+          "text": "40 kg",
+          "emoji": "",
+          "notes": "Extremo inferior del slider"
+        },
+        {
+          "text": "150 kg",
+          "emoji": "",
+          "notes": "Extremo superior del slider"
+        },
+        {
+          "text": "Continuar →",
+          "emoji": "",
+          "notes": "CTA de avance"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915727/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_12.png",
+      "decoration_type": "none",
+      "notes": "Dato cuantitativo clave para el cálculo del diagnóstico. Gatillo principal: personalización. Técnica: micro-compromiso y anclaje numérico. Emoción: curiosidad y validación. Sesgo: anchoring. Está aquí porque el usuario ya está comprometido y acepta compartir un dato sensible. Nivel de compromiso: alto. Si se quitara, el diagnóstico perdería precisión y credibilidad.",
+      "style_notes": "Slider con número grande en rosa intenso, track rosa claro, thumb circular blanco con borde fucsia. Título centrado. CTA grande, degradado rosa. Minimalista."
+    },
+    {
+      "id": "462f4aa8-5dcb-4b4c-8a5d-3547ffd18408",
+      "slide_order": 13,
+      "slide_type": "question",
+      "question_text": "¿Cuánto medís?",
+      "options": [
+        {
+          "text": "140 cm",
+          "emoji": "",
+          "notes": "Extremo inferior del slider"
+        },
+        {
+          "text": "190 cm",
+          "emoji": "",
+          "notes": "Extremo superior del slider"
+        },
+        {
+          "text": "Continuar →",
+          "emoji": "",
+          "notes": "CTA de avance"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915728/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_13.png",
+      "decoration_type": "none",
+      "notes": "Complementa el cálculo de IMC y refuerza la sensación de diagnóstico científico. Gatillo principal: autoridad + personalización. Técnica: framing técnico. Emoción: confianza. Sesgo: authority bias. Está aquí para sostener la narrativa de precisión. Nivel de compromiso: alto. Si se quitara, el cálculo del IMC no tendría base visible y bajaría la legitimidad.",
+      "style_notes": "Mismo patrón visual que la slide anterior. Tipografía grande para el valor numérico. Fondo rosa pálido, botón fucsia degradado, layout centrado."
+    },
+    {
+      "id": "3f188c0a-653b-4d31-a7e4-57a31812d009",
+      "slide_order": 14,
+      "slide_type": "question",
+      "question_text": "¿Cuál es tu peso deseado?",
+      "options": [
+        {
+          "text": "40 kg",
+          "emoji": "",
+          "notes": "Extremo inferior del slider"
+        },
+        {
+          "text": "72 kg",
+          "emoji": "",
+          "notes": "Valor actual o cercano, ancla realista"
+        },
+        {
+          "text": "Continuar →",
+          "emoji": "",
+          "notes": "CTA de avance"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915729/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_14.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de meta que activa contraste entre estado actual y deseado. Gatillo principal: esperanza. Técnica: contraste y anclaje. Emoción: motivación. Sesgo: anchoring y endowment effect. Está aquí para definir el objetivo y hacer tangible la transformación. Nivel de compromiso: alto. Si se quitara, la oferta perdería dirección y personalización del objetivo.",
+      "style_notes": "Slider con valor grande en rosa. Diseño idéntico a las preguntas numéricas previas. Muy consistente y fácil de usar en mobile."
+    },
+    {
+      "id": "6470edfb-3cd2-44d4-adad-a0a40fed9f77",
+      "slide_order": 15,
+      "slide_type": "question",
+      "question_text": "¿Cuántos embarazos tuviste?",
+      "options": [
+        {
+          "text": "Nunca estuve embarazada",
+          "emoji": "",
+          "notes": "Segmentación negativa"
+        },
+        {
+          "text": "1 embarazo",
+          "emoji": "",
+          "notes": "Segmentación leve"
+        },
+        {
+          "text": "2 embarazos",
+          "emoji": "",
+          "notes": "Segmentación media"
+        },
+        {
+          "text": "3 o más embarazos",
+          "emoji": "",
+          "notes": "Segmentación alta"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915730/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_15.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de segmentación fisiológica muy específica. Gatillo principal: personalización + autoridad. Técnica: framing clínico. Emoción: validación y precisión. Sesgo: authority bias. Está aquí para adaptar el plan a un factor biológico relevante. Nivel de compromiso: alto. Si se quitara, el diagnóstico perdería especificidad clínica y credibilidad segmentada.",
+      "style_notes": "Opciones tipo radio en cards blancas. Selección resaltada en rosa. Título centrado, subcopy explicativo. Estética clínica y ordenada."
+    },
+    {
+      "id": "2dda646e-e712-490a-89b9-ea35491e30f8",
+      "slide_order": 16,
+      "slide_type": "question",
+      "question_text": "¿Cómo es tu rutina diaria?",
+      "options": [
+        {
+          "text": "Sedentaria (trabajo de oficina)",
+          "emoji": "",
+          "notes": "Baja actividad"
+        },
+        {
+          "text": "Poco activa (camino un poco)",
+          "emoji": "",
+          "notes": "Actividad ligera"
+        },
+        {
+          "text": "Moderadamente activa",
+          "emoji": "",
+          "notes": "Actividad media"
+        },
+        {
+          "text": "Muy activa (ejercicio regular)",
+          "emoji": "",
+          "notes": "Alta actividad"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915731/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_16.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de estilo de vida para ajustar el plan. Gatillo principal: autoridad + personalización. Técnica: micro-segmentación. Emoción: confianza. Sesgo: authority bias. Está aquí para reforzar que el plan será 'a medida'. Nivel de compromiso: medio-alto. Si se quitara, el resultado sería menos preciso y menos creíble.",
+      "style_notes": "Cards blancas con borde gris, selección rosa. Título centrado. Mucho espacio en blanco. Mobile-first y muy legible."
+    },
+    {
+      "id": "7e846036-e004-421b-8392-dd0348185a72",
+      "slide_order": 17,
+      "slide_type": "question",
+      "question_text": "¿Cuántas horas dormís por noche?",
+      "options": [
+        {
+          "text": "Menos de 5 horas",
+          "emoji": "",
+          "notes": "Sueño insuficiente"
+        },
+        {
+          "text": "5 a 6 horas",
+          "emoji": "",
+          "notes": "Sueño bajo"
+        },
+        {
+          "text": "7 a 8 horas",
+          "emoji": "",
+          "notes": "Sueño ideal"
+        },
+        {
+          "text": "Más de 8 horas",
+          "emoji": "",
+          "notes": "Sueño alto"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915732/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_17.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de hábitos que conecta sueño con metabolismo. Gatillo principal: autoridad + curiosidad. Técnica: educación implícita. Emoción: conciencia y validación. Sesgo: authority bias. Está aquí para ampliar el diagnóstico y justificar recomendaciones posteriores. Nivel de compromiso: medio-alto. Si se quitara, el plan perdería una variable importante de estilo de vida.",
+      "style_notes": "Misma estructura visual de opciones en cards. Fondo rosa claro, tipografía sans-serif bold en título, subcopy gris. Consistencia total."
+    },
+    {
+      "id": "05808aac-da1e-45c2-8ca3-e30ed3910beb",
+      "slide_order": 18,
+      "slide_type": "question",
+      "question_text": "¿Cuánta agua tomás por día?",
+      "options": [
+        {
+          "text": "Menos de 1 litro",
+          "emoji": "",
+          "notes": "Hidratación baja"
+        },
+        {
+          "text": "1 a 2 litros",
+          "emoji": "",
+          "notes": "Hidratación media"
+        },
+        {
+          "text": "2 a 3 litros",
+          "emoji": "",
+          "notes": "Hidratación buena"
+        },
+        {
+          "text": "Más de 3 litros",
+          "emoji": "",
+          "notes": "Hidratación alta"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915734/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_18.png",
+      "decoration_type": "none",
+      "notes": "Pregunta de hábitos saludables que prepara recomendaciones de producto. Gatillo principal: autoridad + personalización. Técnica: framing de salud. Emoción: control y mejora. Sesgo: authority bias. Está aquí para conectar el diagnóstico con acciones concretas. Nivel de compromiso: medio-alto. Si se quitara, el plan perdería una variable de optimización y una oportunidad de upsell contextual.",
+      "style_notes": "Cards blancas, selección rosa, layout centrado. Muy consistente con el resto del funnel. Sin imágenes, foco en claridad."
+    },
+    {
+      "id": "3fa39764-85e0-43cd-8e68-e7e200220169",
+      "slide_order": 19,
+      "slide_type": "other",
+      "question_text": "Tu diagnóstico personalizado",
+      "options": [
+        {
+          "text": "Generar mi diagnóstico personalizado →",
+          "emoji": "",
+          "notes": "CTA principal de transición"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915735/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_19.png",
+      "decoration_type": "images",
+      "notes": "Slide puente entre quiz y resultado. Funciona como pre-sell y autoridad. Presenta a la experta con credenciales (Lic. Carolina Méndez, MN 8847), foto profesional y especializaciones. Gatillo principal: autoridad. Técnica: personalización y prueba de expertise. Emoción: confianza y expectativa. Sesgo: authority bias. Está aquí para elevar credibilidad antes del resultado final. Nivel de compromiso: alto. Si se quitara, el salto al resultado/oferta sería más brusco y menos creíble.",
+      "style_notes": "Tarjeta central con foto profesional, texto de credenciales y botón rosa grande. Fondo rosa pálido. Tipografía jerárquica: título en mayúsculas/rosa, subtítulo en gris, cuerpo en negro. Layout centrado, limpio, con bastante padding."
+    },
+    {
+      "id": "3f892e94-8bad-4679-b12d-ec021573d5be",
+      "slide_order": 20,
+      "slide_type": "result",
+      "question_text": "Maria, tus resultados indican un Bloqueo Metabólico Severo.",
+      "options": [
+        {
+          "text": "👇 VER MI PROTOCOLO DE DESBLOQUEO AHORA 👇",
+          "emoji": "👇",
+          "notes": "CTA principal de conversión"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915736/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_20.png",
+      "decoration_type": "none",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'Maria, tus resultados indican un Bloqueo Metabólico Severo.' Usa personalización con nombre y emoción de alarma/urgencia. RESULTADO PERSONALIZADO: muestra 3 métricas con barras y porcentajes: Nivel de Bloqueo Metabólico 87% (Alto), Riesgo de Descontrol Nocturno 92% (Crítico), Eficiencia de Quema de Grasa 14% (Bajo). Presenta el diagnóstico como científico y visual, generando urgencia y esperanza a la vez. PRUEBA SOCIAL: no se ve en este bloque. GRÁFICO/PROYECCIÓN: barras de progreso/estado que visualizan el problema. OFERTA/PRICING: no visible aún en esta captura. URGENCIA/ESCASEZ: lenguaje de 'estado de emergencia' y 'la buena noticia es que es 100% reversible'. GARANTÍA: no visible. BENEFICIOS/FEATURES: promesa de protocolo de desbloqueo natural, sin hambre, desde casa. CTA BOTÓN: grande, rosa/fucsia, texto imperativo con flechas hacia abajo, posición al final del bloque. OBJECIONES: reencuadre 'No es tu culpa, es pura biología'. CREDIBILIDAD: uso de tono clínico y porcentajes. BONUS/UPSELL: no visible. Qué gatillo usa: miedo a perder + autoridad + alivio. Por qué está aquí: es el momento de máxima tensión antes de la oferta. Si se quitara, la conversión caería porque faltaría el clímax emocional y la justificación del producto.",
+      "style_notes": "Paleta más intensa con rojos de alerta (#FF3B30 aprox) en porcentajes y barras, manteniendo fondo rosa claro. Título grande, bold, centrado. Cards blancas con borde rosa suave. Barras horizontales rojas dentro de contenedores. CTA final muy prominente, degradado rosa-fucsia, sombra suave. Estética de diagnóstico médico-emocional, mobile-first."
+    },
+    {
+      "id": "9d38e1fa-ba48-4f67-b5c2-253f0d562ed4",
+      "slide_order": 21,
+      "slide_type": "other",
+      "question_text": "Maria, estamos preparando tu plan",
+      "options": [
+        {
+          "text": "✅ Analizando tus respuestas...",
+          "emoji": "✅",
+          "notes": "Paso de progreso"
+        },
+        {
+          "text": "✅ Calculando tu plan nutricional...",
+          "emoji": "✅",
+          "notes": "Paso de progreso"
+        },
+        {
+          "text": "✅ Personalizando tu programa...",
+          "emoji": "✅",
+          "notes": "Paso de progreso"
+        },
+        {
+          "text": "✅ Preparando tus resultados...",
+          "emoji": "✅",
+          "notes": "Paso de progreso"
+        },
+        {
+          "text": "⏳ ¡Tu plan está listo!",
+          "emoji": "⏳",
+          "notes": "Cierre de transición"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915737/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_21.png",
+      "decoration_type": "none",
+      "notes": "Pantalla de loading/transición. Gatillo principal: curiosidad + compromiso. Técnica: sunk cost y anticipación. Emoción: expectativa y alivio. Sesgo: IKEA effect y progress bias. Está aquí para mantener al usuario esperando el resultado y reforzar que el sistema está trabajando para él/ella. Si se quitara, la entrega del resultado sería menos satisfactoria y más brusca.",
+      "style_notes": "Círculo de progreso 100% en rosa, lista de pasos con checks verdes, fondo rosa claro. Tipografía grande en título, elementos centrados. Animación implícita de carga. Minimalista y funcional."
+    },
+    {
+      "id": "f6055387-7b73-433c-8088-d53d20cafec2",
+      "slide_order": 22,
+      "slide_type": "offer",
+      "question_text": "Informe Personalizado",
+      "options": [
+        {
+          "text": "Quiero mi plan personalizado→Acceso inmediato · Garantía 30 días",
+          "emoji": "",
+          "notes": "CTA con garantía"
+        },
+        {
+          "text": "Empezar mi transformación→Solo por hoy · $6.000 ARS",
+          "emoji": "",
+          "notes": "CTA con urgencia y precio"
+        },
+        {
+          "text": "Obtener mi plan ahora→",
+          "emoji": "",
+          "notes": "CTA genérico"
+        },
+        {
+          "text": "Quiero todo esto por $6.000→+ Garantía de devolución 30 días",
+          "emoji": "",
+          "notes": "CTA con anclaje de valor"
+        },
+        {
+          "text": "Quiero mi plan ahora →",
+          "emoji": "",
+          "notes": "CTA directo"
+        },
+        {
+          "text": "Comprar sin riesgo→30 días de garantía · Devolución total",
+          "emoji": "",
+          "notes": "CTA con reducción de riesgo"
+        },
+        {
+          "text": "¿Cuándo",
+          "emoji": "",
+          "notes": "Texto truncado visible en captura"
+        }
+      ],
+      "screenshot_url": "https://res.cloudinary.com/dqjn5jzfd/image/upload/v1779915738/funnels/a98abf0b-49e2-41c3-900d-65c303c23048/slide_22.png",
+      "decoration_type": "images",
+      "notes": "DESGLOSE POR SECCIONES: HEADLINE PRINCIPAL: 'Informe Personalizado' + presentación de la experta y saludo a Maria. Emoción: confianza y cercanía. Personalización: nombre del usuario y referencia a su transformación. RESULTADO PERSONALIZADO: menciona IMC actual de 25.5, objetivo de mejorar bienestar y plan con gelatina con colágeno hidrolizado; lo presenta como ya armado y a medida. PRUEBA SOCIAL: en la captura completa se intuyen testimonios/reviews y elementos de validación, pero no se leen con claridad aquí; si están, funcionan como bandwagon y credibilidad. GRÁFICO/PROYECCIÓN: no claramente visible en esta captura parcial. OFERTA/PRICING: se ve precio de $6.000 ARS en botones/etiquetas; ancla de bajo ticket y urgencia 'solo por hoy'. Puede haber comparación con valor mayor implícito. URGENCIA/ESCASEZ: 'solo por hoy', countdown/timer visible en la miniatura inferior, y lenguaje de acceso inmediato. GARANTÍA: 30 días / devolución total visible en CTAs. BENEFICIOS/FEATURES: recomendaciones tipo energía extra, hidratación, mejor descanso, metabolismo activo; formato de bullets con iconos. CTA BOTÓN: múltiples variantes de CTA, rosa/fucsia, texto orientado a beneficio + riesgo cero; repetición fuerte para capturar distintos niveles de intención. OBJECIONES: garantía, 'sin riesgo', 'acceso inmediato', posible FAQ en la parte inferior de la captura. CREDIBILIDAD: credenciales MN 8847, especialista, logos/elementos de pago seguro probablemente en la sección inferior. BONUS/UPSELL: se menciona 'Té Mounjaro Japonés' como complemento/upsell contextual. Qué gatillo usa: autoridad, urgencia, reducción de riesgo, personalización. Por qué está aquí: es la página más importante, donde el usuario ya está convencido y solo falta cerrar. Si se quitara el precio/garantía/CTA repetido, la conversión bajaría notablemente.",
+      "style_notes": "Paleta consistente rosa/fucsia con acentos verdes para checks y rojos para urgencia. Tipografía sans-serif moderna, títulos bold, cuerpo regular. Layout en columnas/blocks apilados, cards blancas con bordes suaves. Botones grandes, rounded/pill, degradado rosa-fucsia, sombras suaves. Uso de imágenes de producto/resultado y capturas de testimonios en la parte inferior. Muy cargado visualmente, orientado a conversión. Mobile-first, con mucha densidad de información en scroll largo."
+    }
+  ],
+  "metadata": {
+    "exported_at": "2026-05-27T21:16:18.734Z",
+    "total_slides": 22
+  }
+}
