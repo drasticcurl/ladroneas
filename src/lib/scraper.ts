@@ -1,5 +1,4 @@
-import puppeteer from "puppeteer-core"
-import chromium from "@sparticuz/chromium"
+import puppeteer from "puppeteer"
 
 export interface ScrapedSlide {
   base64: string
@@ -8,19 +7,23 @@ export interface ScrapedSlide {
 }
 
 export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<ScrapedSlide[]> {
+  console.log("[scraper] 🚀 Abriendo Chrome...")
   const browser = await puppeteer.launch({
-    args: chromium.args,
-    defaultViewport: { width: 390, height: 844 },
-    executablePath: await chromium.executablePath(),
     headless: true,
+    defaultViewport: { width: 390, height: 844 },
+    args: ["--no-sandbox", "--disable-setuid-sandbox"],
   })
+  console.log("[scraper] ✅ Chrome abierto")
 
   const slides: ScrapedSlide[] = []
 
   try {
     const page = await browser.newPage()
     await page.setUserAgent("Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1")
+
+    console.log("[scraper] 🌐 Navegando a: " + url)
     await page.goto(url, { waitUntil: "networkidle0", timeout: 30000 })
+    console.log("[scraper] ✅ Pagina cargada")
     await new Promise(r => setTimeout(r, 2000))
 
     let previousHtml = ""
@@ -32,7 +35,10 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
 
       if (currentHtml === previousHtml) {
         stuckCount++
-        if (stuckCount >= 2) break
+        if (stuckCount >= 2) {
+          console.log("[scraper] ⏹️  Sin cambios detectados. Terminando.")
+          break
+        }
       } else { stuckCount = 0 }
       previousHtml = currentHtml
 
@@ -57,15 +63,26 @@ export async function scrapeQuizFunnel(url: string, maxSlides = 15): Promise<Scr
       })
 
       slides.push({ base64: screenshot as string, text: pageText, html: pageHtml })
+      console.log("[scraper] 📸 Slide " + (i + 1) + " capturado (" + pageText.slice(0, 50).replace(/\n/g, " ") + "...)")
 
+      // Intentar avanzar
       const clicked = await tryClickNext(page)
-      if (!clicked) break
+      if (!clicked) {
+        console.log("[scraper] ⏹️  No hay elementos clickeables. Terminando.")
+        break
+      }
+      console.log("[scraper] 👆 Click realizado, esperando transicion...")
       await new Promise(r => setTimeout(r, 2000))
     }
 
+    console.log("[scraper] ✅ Scraping terminado: " + slides.length + " slides")
     return slides
+  } catch (error: any) {
+    console.error("[scraper] ❌ Error durante scraping:", error.message)
+    throw error
   } finally {
     await browser.close()
+    console.log("[scraper] 🔒 Chrome cerrado")
   }
 }
 
@@ -88,7 +105,10 @@ async function tryClickNext(page: any): Promise<boolean> {
           const rect = el.getBoundingClientRect()
           return rect.width > 0 && rect.height > 0 && window.getComputedStyle(el).display !== "none"
         })
-        if (isVisible) { await target.click(); return true }
+        if (isVisible) {
+          await target.click()
+          return true
+        }
       }
     } catch { continue }
   }
