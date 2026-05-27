@@ -10,6 +10,7 @@ Herramienta automatizada para **scrapear quiz funnels de competidores**, captura
 4. **Analiza** con GPT-4.1-mini: copy, psicología, estilos, gatillos mentales
 5. **Guarda** todo en Supabase (datos) + Cloudinary (screenshots)
 6. **Muestra** el análisis en una UI con costo del request
+7. **Exporta** el quiz completo como JSON (funnel + slides + URLs de imágenes) para pasarle a otra AI
 
 ---
 
@@ -246,7 +247,8 @@ Cada request muestra:
 
 ### Extract page (`/extract`)
 
-- Input de URL + selector de maxSlides (5-60, default 30)
+- Input de URL + selector de maxSlides (5-60, default 30) + **delay por slide** (1-30s, default 3s)
+- El delay controla cuánto esperar para imágenes/animaciones por slide (antes era 10s fijo, una banda)
 - Muestra progreso mientras scrapea
 - Resultados: card con costo + textareas editables de estilos/copy
 - Lista de slides con screenshot + análisis
@@ -256,6 +258,7 @@ Cada request muestra:
 
 - Vista del funnel guardado con todos sus slides
 - Screenshots desde Cloudinary URLs
+- **Botón "Exportar JSON"** — descarga un `.json` con toda la data del funnel + slides + URLs de imágenes, listo para pasarle a una AI para análisis
 
 ---
 
@@ -311,6 +314,8 @@ El script local guarda capturas en `.cache/` para no perder progreso si falla la
 | #22 | Prompt detallado sección por sección para páginas de pago |
 | #24 | Guardar screenshots en Cloudinary |
 | #25 | Fix: Cloudinary upload usa FormData en vez de JSON |
+| #27 | Botón "Exportar JSON" en detalle de funnel |
+| #28 | Delay configurable por slide (default 3s en vez de 10s) |
 
 ---
 
