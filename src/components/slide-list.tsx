@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { SlideEditor } from "@/components/slide-editor"
 import { Button } from "@/components/ui/button"
 import { Plus, Save, Loader2 } from "lucide-react"
@@ -8,23 +8,28 @@ import { toast } from "sonner"
 interface SlideOption { text: string; emoji?: string; image_url?: string; notes?: string }
 interface FunnelSlide {
   id: string; funnel_id: string; slide_order: number;
-  slide_type: "question" | "intro" | "result" | "offer" | "other";
+  slide_type: "question" | "intro" | "result" | "offer" | "prueba_social" | "other";
   question_text: string | null; options: SlideOption[];
   screenshot_url: string | null; decoration_type: "emojis" | "images" | "none";
   notes: string | null; style_notes: string | null;
 }
 
-export function SlideList({ funnelId }: { funnelId: string }) {
+export function SlideList({ funnelId, onSaved }: { funnelId: string; onSaved?: () => void }) {
   const [slides, setSlides] = useState<FunnelSlide[]>([])
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [dragIdx, setDragIdx] = useState<number | null>(null)
 
-  useEffect(() => { fetchSlides() }, [funnelId])
+  const fetchSlides = useCallback(async () => {
+    try {
+      const r = await fetch(`/api/slides?funnel_id=${funnelId}`)
+      const data = await r.json()
+      if (Array.isArray(data)) setSlides(data)
+    } catch (e) { console.error(e) }
+    finally { setLoading(false) }
+  }, [funnelId])
 
-  const fetchSlides = async () => {
-    try { const r = await fetch(`/api/slides?funnel_id=${funnelId}`); setSlides(await r.json()) } catch (e) { console.error(e) } finally { setLoading(false) }
-  }
+  useEffect(() => { fetchSlides() }, [fetchSlides])
 
   const addSlide = () => {
     setSlides([...slides, { id: `temp-${Date.now()}`, funnel_id: funnelId, slide_order: slides.length + 1, slide_type: "question", question_text: null, options: [], screenshot_url: null, decoration_type: "none", notes: null, style_notes: null }])
@@ -54,17 +59,22 @@ export function SlideList({ funnelId }: { funnelId: string }) {
   const saveAll = async () => {
     setSaving(true)
     try {
+      const savedSlides: FunnelSlide[] = []
       for (let i = 0; i < slides.length; i++) {
         const s = slides[i]
         const payload = { funnel_id: funnelId, slide_order: i + 1, slide_type: s.slide_type, question_text: s.question_text, options: s.options, screenshot_url: s.screenshot_url, decoration_type: s.decoration_type, notes: s.notes, style_notes: s.style_notes }
         if (s.id.startsWith("temp-")) {
           const r = await fetch("/api/slides", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
-          if (r.ok) slides[i] = await r.json()
+          if (r.ok) { savedSlides.push(await r.json()) } else { savedSlides.push(s) }
         } else {
           await fetch(`/api/slides/${s.id}`, { method: "PUT", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) })
+          savedSlides.push({ ...s, slide_order: i + 1 })
         }
       }
-      toast.success("Slides guardados"); fetchSlides()
+      setSlides(savedSlides)
+      toast.success("Slides guardados")
+      // Notify parent to refresh slide count
+      if (onSaved) onSaved()
     } catch { toast.error("Error al guardar") } finally { setSaving(false) }
   }
 

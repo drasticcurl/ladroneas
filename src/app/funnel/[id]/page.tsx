@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { useParams, useRouter } from "next/navigation"
 import { SlideList } from "@/components/slide-list"
 import { SlidePreview } from "@/components/slide-preview"
@@ -17,13 +17,27 @@ export default function FunnelDetailPage() {
   const [funnel, setFunnel] = useState<any>(null)
   const [slides, setSlides] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState("info")
+
+  const fetchSlides = useCallback(async () => {
+    try {
+      const r = await fetch(`/api/slides?funnel_id=${params.id}`)
+      const data = await r.json()
+      if (Array.isArray(data)) setSlides(data)
+    } catch (e) { console.error(e) }
+  }, [params.id])
 
   useEffect(() => {
     Promise.all([
       fetch(`/api/funnels/${params.id}`).then(r => r.json()),
       fetch(`/api/slides?funnel_id=${params.id}`).then(r => r.json()),
-    ]).then(([f, s]) => { setFunnel(f); setSlides(s) }).catch(console.error).finally(() => setLoading(false))
-  }, [])
+    ]).then(([f, s]) => { setFunnel(f); if (Array.isArray(s)) setSlides(s) }).catch(console.error).finally(() => setLoading(false))
+  }, [params.id])
+
+  // Re-fetch slides when switching to the slides tab
+  useEffect(() => {
+    if (activeTab === "slides") fetchSlides()
+  }, [activeTab, fetchSlides])
 
   const handleDelete = async () => {
     if (!confirm("Seguro que queres eliminar este funnel?")) return
@@ -50,7 +64,7 @@ export default function FunnelDetailPage() {
         </div>
       </div>
 
-      <Tabs defaultValue="info" className="space-y-6">
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
         <TabsList>
           <TabsTrigger value="info">Info del Anuncio</TabsTrigger>
           <TabsTrigger value="slides">Slides ({slides.length})</TabsTrigger>
@@ -84,7 +98,7 @@ export default function FunnelDetailPage() {
           {slides.length === 0 ? <div className="text-center py-12 text-muted-foreground"><p className="mb-2">No hay slides registrados</p><p className="text-sm">Usa el tab Editor de Slides para agregar</p></div> : slides.map((s: any, i: number) => <SlidePreview key={s.id} slide={s} index={i} />)}
         </TabsContent>
 
-        <TabsContent value="editor"><SlideList funnelId={funnel.id} /></TabsContent>
+        <TabsContent value="editor"><SlideList funnelId={funnel.id} onSaved={fetchSlides} /></TabsContent>
       </Tabs>
     </div>
   )
