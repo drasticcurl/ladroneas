@@ -159,8 +159,14 @@ export async function analyzeWithGemini(
       log("🔄", `Intento ${attempt}/${maxRetries}...`)
       const startTime = Date.now()
 
+      // Models like gpt-5.4-mini require 'max_completion_tokens' instead of 'max_tokens'
+      const useMaxCompletionTokens = model.startsWith("gpt-5") || model.startsWith("o1") || model.startsWith("o3")
+      const tokenParam = useMaxCompletionTokens
+        ? { max_completion_tokens: 8192 }
+        : { max_tokens: 8192 }
+
       const response = await openai.chat.completions.create({
-        model, messages: [{ role: "user", content }], max_tokens: 8192, temperature: 0.3,
+        model, messages: [{ role: "user", content }], ...tokenParam, temperature: 0.3,
       })
 
       const elapsed = (Date.now() - startTime) / 1000
