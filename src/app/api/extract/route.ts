@@ -1,20 +1,31 @@
 export const dynamic = "force-dynamic"
-export const maxDuration = 60
+export const maxDuration = 120
 
 import { NextRequest, NextResponse } from "next/server"
 import { analyzeWithGemini } from "@/lib/ai"
+import { scrapeQuizFunnel } from "@/lib/scraper"
 
 // POST /api/extract
-// Recibe screenshots pre-scrapeados desde tu PC y los analiza con Gemini
-// Body: { url: string, screenshots: [{ base64: string, text: string, html: string }] }
+// Modo 1 (desde web UI): { url: string } → scrapea + analiza
+// Modo 2 (desde CLI): { url: string, screenshots: [...] } → solo analiza
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { url, screenshots } = body
+    const { url, screenshots: preScraped } = body
 
     if (!url) return NextResponse.json({ error: "URL is required" }, { status: 400 })
-    if (!screenshots || !Array.isArray(screenshots) || screenshots.length === 0) {
-      return NextResponse.json({ error: "screenshots array is required" }, { status: 400 })
+
+    let screenshots: { base64: string; text: string; html: string }[]
+
+    if (preScraped && Array.isArray(preScraped) && preScraped.length > 0) {
+      // Modo CLI: ya vienen los screenshots
+      screenshots = preScraped
+    } else {
+      // Modo Web UI: scrapear server-side
+      screenshots = await scrapeQuizFunnel(url)
+      if (screenshots.length === 0) {
+        return NextResponse.json({ error: "No se pudieron extraer slides de esta URL" }, { status: 422 })
+      }
     }
 
     // Analyze with Gemini
@@ -36,6 +47,6 @@ export async function POST(request: NextRequest) {
     })
   } catch (error: any) {
     console.error("Extract API error:", error)
-    return NextResponse.json({ error: error.message || "Analysis failed" }, { status: 500 })
+    return NextResponse.json({ error: error.message || "Extraction failed" }, { status: 500 })
   }
 }
