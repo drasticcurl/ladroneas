@@ -13,10 +13,12 @@ export function ImageUpload({ value, onChange }: { value: string | null; onChang
     try {
       const fd = new FormData()
       fd.append("file", file)
-      const res = await fetch("/api/upload", { method: "POST", body: fd })
+      fd.append("upload_preset", process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET!)
+      fd.append("folder", "extractor-123")
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload`, { method: "POST", body: fd })
       if (!res.ok) throw new Error("Upload failed")
-      const { url } = await res.json()
-      onChange(url)
+      const data = await res.json()
+      onChange(data.secure_url)
     } catch (err) { console.error(err) } finally { setUploading(false) }
   }
 
