@@ -260,9 +260,14 @@ async function trySubmitForm(page: Page): Promise<boolean> {
   // Textos que NO son botones de navegación (toggles de unidades, etc)
   const IGNORE_TEXTS = ["cm", "ft", "in", "ft/in", "kg", "lbs", "lb", "m", "mm", "st"]
 
-  // First: buttons with explicit next/continue/submit text
-  const textSelectors = ["button[type='submit']", "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']"]
-  for (const selector of textSelectors) {
+  // Search ALL buttons (not just ones with specific classes) for nav-like text
+  // This catches "Continuar" buttons that don't have class="continue" or class="next"
+  const selectors = [
+    "button[type='submit']",
+    "[class*='submit']", "[class*='next']", "[class*='continue']", "[class*='continuar']", "[class*='siguiente']",
+    "button:not([disabled])",  // catch-all: any enabled button, filtered by text below
+  ]
+  for (const selector of selectors) {
     try {
       const elements = await page.$$(selector)
       for (const el of elements) {
@@ -276,43 +281,13 @@ async function trySubmitForm(page: Page): Promise<boolean> {
           if (rect.top > window.innerHeight || rect.bottom < 0) return false
           // Ignorar toggles de unidades
           if (ignoreTexts.includes(text)) return false
+          // Must contain navigation-like text
           return text.includes("next") || text.includes("continu") || text.includes("siguien") || text.includes("submit") || text.includes("enviar") || text.includes("→") || text.includes("➡") || text.includes("adelante") || node.type === "submit"
         }, IGNORE_TEXTS)
         if (isGood) { const t = await el.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "?"); log("🎯", `   Submit: "${t}"`); await el.click(); return true }
       }
     } catch { continue }
   }
-
-  // Second: any visible button that is NOT an option/answer and NOT a unit toggle
-  try {
-    const allButtons = await page.$$("button:not([disabled])")
-    for (const btn of allButtons) {
-      const isNavButton = await btn.evaluate((node: any, ignoreTexts: string[]) => {
-        const rect = node.getBoundingClientRect()
-        if (rect.width <= 0 || rect.height <= 0) return false
-        const style = window.getComputedStyle(node)
-        if (style.display === "none" || style.visibility === "hidden" || style.opacity === "0") return false
-        if (rect.top > window.innerHeight || rect.bottom < 0) return false
-        const text = (node.textContent || "").trim().toLowerCase()
-        if (text.includes("googletagmanager") || text.includes("gtag")) return false
-        // Skip unit toggles
-        if (ignoreTexts.includes(text)) return false
-        const cl = node.className || ""
-        if (cl.includes("option") || cl.includes("answer") || cl.includes("choice")) return false
-        // Must be a real nav element: arrow icon, or positioned at bottom
-        const isArrow = text === "→" || text === "➡" || text === ">"
-        const hasNavClass = cl.includes("nav") || cl.includes("forward") || cl.includes("arrow") || cl.includes("next")
-        const isBottom = rect.top > window.innerHeight * 0.7
-        return isArrow || hasNavClass || (isBottom && text.length > 3)
-      }, IGNORE_TEXTS)
-      if (isNavButton) {
-        const t = await btn.evaluate((e: any) => e.textContent?.trim().slice(0, 40) || "(arrow/icon)")
-        log("🎯", `   Nav button: "${t}"`)
-        await btn.click()
-        return true
-      }
-    }
-  } catch {}
 
   return false
 }
