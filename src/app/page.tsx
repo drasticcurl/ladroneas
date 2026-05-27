@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { FunnelCard } from "@/components/funnel-card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Plus, Search, Loader2 } from "lucide-react"
+import { Plus, Search, Loader2, Zap } from "lucide-react"
 import Link from "next/link"
 
 export default function Dashboard() {
@@ -24,7 +24,7 @@ export default function Dashboard() {
     <div className="container mx-auto px-4 py-8 max-w-7xl">
       <div className="flex items-center justify-between mb-8">
         <div><h1 className="text-3xl font-bold">Extractor 123</h1><p className="text-muted-foreground mt-1">Quiz funnels robados del Ad Library</p></div>
-        <Link href="/funnel/new"><Button><Plus className="w-4 h-4 mr-2" />Nuevo Funnel</Button></Link>
+        <div className="flex gap-2"><Link href="/extract"><Button variant="outline"><Zap className="w-4 h-4 mr-2" />Extraer Funnel</Button></Link><Link href="/funnel/new"><Button><Plus className="w-4 h-4 mr-2" />Nuevo Funnel</Button></Link></div>
       </div>
       <form onSubmit={handleSearch} className="flex gap-2 mb-8">
         <div className="relative flex-1"><Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" /><Input placeholder="Buscar por copy, notas, CTA..." value={search} onChange={e => setSearch(e.target.value)} className="pl-10" /></div>
