@@ -28,14 +28,15 @@ export interface AnalysisResult {
   cost: CostInfo
 }
 
-const PRICING = {
+const PRICING: Record<string, { input: number; output: number }> = {
   "gpt-4.1-mini": { input: 0.40, output: 1.60 },
   "gpt-4.1": { input: 2.00, output: 8.00 },
   "gpt-4o-mini": { input: 0.15, output: 0.60 },
   "gpt-4o": { input: 2.50, output: 10.00 },
-} as const
+  "gpt-5.4-mini": { input: 0.50, output: 2.00 },
+}
 
-const MODEL = "gpt-4.1-mini"
+const DEFAULT_MODEL = "gpt-4.1-mini"
 
 function calculateCost(model: string, inputTokens: number, outputTokens: number) {
   const pricing = PRICING[model as keyof typeof PRICING] || PRICING["gpt-4.1-mini"]
@@ -121,15 +122,16 @@ async function sleep(ms: number) { return new Promise(r => setTimeout(r, ms)) }
 
 export async function analyzeWithGemini(
   screenshots: { base64: string; text: string; html: string }[],
-  options?: { maxRetries?: number; timeoutMs?: number }
+  options?: { maxRetries?: number; timeoutMs?: number; model?: string }
 ): Promise<AnalysisResult> {
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) throw new Error("Missing OPENAI_API_KEY")
 
   const maxRetries = options?.maxRetries ?? 3
   const timeoutMs = options?.timeoutMs ?? 180_000
+  const model = options?.model || DEFAULT_MODEL
 
-  log("🤖", `OpenAI (${MODEL}) - ${screenshots.length} slides`)
+  log("🤖", `OpenAI (${model}) - ${screenshots.length} slides`)
   log("⚙️", `maxRetries=${maxRetries}, timeout=${timeoutMs / 1000}s`)
 
   const openai = new OpenAI({ apiKey, timeout: timeoutMs })
@@ -145,7 +147,7 @@ export async function analyzeWithGemini(
   const estimatedTextTokens = Math.ceil(textChars / 4)
   const imageTokens = screenshots.length * 85
   const estimatedInputTokens = estimatedTextTokens + imageTokens
-  const estimatedCost = calculateCost(MODEL, estimatedInputTokens, 3000)
+  const estimatedCost = calculateCost(model, estimatedInputTokens, 3000)
 
   log("📊", `Tokens estimados: ~${estimatedInputTokens.toLocaleString()} input (${estimatedTextTokens.toLocaleString()} texto + ${imageTokens} imgs)`)
   log("💰", `Costo estimado: ~$${estimatedCost.total_cost_usd.toFixed(4)} USD`)
@@ -158,7 +160,7 @@ export async function analyzeWithGemini(
       const startTime = Date.now()
 
       const response = await openai.chat.completions.create({
-        model: MODEL, messages: [{ role: "user", content }], max_tokens: 8192, temperature: 0.3,
+        model, messages: [{ role: "user", content }], max_tokens: 8192, temperature: 0.3,
       })
 
       const elapsed = (Date.now() - startTime) / 1000
@@ -167,13 +169,13 @@ export async function analyzeWithGemini(
       const usage = response.usage
       let costInfo: CostInfo
       if (usage) {
-        const costs = calculateCost(MODEL, usage.prompt_tokens, usage.completion_tokens)
-        costInfo = { model: MODEL, input_tokens: usage.prompt_tokens, output_tokens: usage.completion_tokens, total_tokens: usage.total_tokens, ...costs, elapsed_seconds: elapsed }
+        const costs = calculateCost(model, usage.prompt_tokens, usage.completion_tokens)
+        costInfo = { model, input_tokens: usage.prompt_tokens, output_tokens: usage.completion_tokens, total_tokens: usage.total_tokens, ...costs, elapsed_seconds: elapsed }
         log("📊", `Tokens REALES: ${usage.prompt_tokens.toLocaleString()} in + ${usage.completion_tokens.toLocaleString()} out = ${usage.total_tokens.toLocaleString()}`)
         log("💰", `Costo REAL: $${costs.input_cost_usd.toFixed(4)} + $${costs.output_cost_usd.toFixed(4)} = $${costs.total_cost_usd.toFixed(4)} USD`)
         log("⏱️", `${Math.round(usage.completion_tokens / elapsed)} tokens/s`)
       } else {
-        costInfo = { model: MODEL, input_tokens: estimatedInputTokens, output_tokens: 3000, total_tokens: estimatedInputTokens + 3000, ...estimatedCost, elapsed_seconds: elapsed }
+        costInfo = { model, input_tokens: estimatedInputTokens, output_tokens: 3000, total_tokens: estimatedInputTokens + 3000, ...estimatedCost, elapsed_seconds: elapsed }
       }
 
       const text = response.choices[0]?.message?.content || ""
