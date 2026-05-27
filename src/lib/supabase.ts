@@ -1,11 +1,16 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient, SupabaseClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Lazy initialization para evitar errores en build time
+// Los clients se crean solo cuando se los llama (runtime)
 
-// Client para el frontend (usa anon key, respeta RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+let _supabaseAdmin: SupabaseClient | null = null
 
-// Client para API routes server-side (bypasea RLS)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+export function getSupabaseAdmin() {
+  if (!_supabaseAdmin) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!url || !key) throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY")
+    _supabaseAdmin = createClient(url, key)
+  }
+  return _supabaseAdmin
+}
