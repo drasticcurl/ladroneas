@@ -1,11 +1,27 @@
-import { createClient } from "@supabase/supabase-js"
+import { createClient, SupabaseClient } from "@supabase/supabase-js"
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+// Lazy initialization — no se crea ningún client al importar el módulo
+// Esto evita errores en build time cuando las env vars no están disponibles
 
-// Client para el frontend (usa anon key, respeta RLS)
-export const supabase = createClient(supabaseUrl, supabaseAnonKey)
+let _supabase: SupabaseClient | null = null
+let _supabaseAdmin: SupabaseClient | null = null
 
-// Client para API routes server-side (bypasea RLS)
-export const supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey)
+export function getSupabase() {
+  if (!_supabase) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    if (!url || !key) throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY")
+    _supabase = createClient(url, key)
+  }
+  return _supabase
+}
+
+export function getSupabaseAdmin() {
+  if (!_supabaseAdmin) {
+    const url = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (!url || !key) throw new Error("Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY")
+    _supabaseAdmin = createClient(url, key)
+  }
+  return _supabaseAdmin
+}
