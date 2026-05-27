@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Separator } from "@/components/ui/separator"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ArrowLeft, Edit, Trash2, ExternalLink, Image, Video, LayoutGrid, Loader2 } from "lucide-react"
+import { ArrowLeft, Edit, Trash2, ExternalLink, Image, Video, LayoutGrid, Loader2, Download } from "lucide-react"
 import Link from "next/link"
 import { toast } from "sonner"
 
@@ -45,6 +45,50 @@ export default function FunnelDetailPage() {
     toast.success("Funnel eliminado"); router.push("/")
   }
 
+  const handleExport = () => {
+    const exportData = {
+      funnel: {
+        id: funnel.id,
+        created_at: funnel.created_at,
+        ad_url: funnel.ad_url,
+        landing_url: funnel.landing_url,
+        screenshot_url: funnel.screenshot_url,
+        ad_copy: funnel.ad_copy,
+        cta: funnel.cta,
+        format: funnel.format,
+        total_questions: funnel.total_questions,
+        notes: funnel.notes,
+        funnel_style_notes: funnel.funnel_style_notes,
+      },
+      slides: slides.map((s: any) => ({
+        id: s.id,
+        slide_order: s.slide_order,
+        slide_type: s.slide_type,
+        question_text: s.question_text,
+        options: s.options,
+        screenshot_url: s.screenshot_url,
+        decoration_type: s.decoration_type,
+        notes: s.notes,
+        style_notes: s.style_notes,
+      })),
+      metadata: {
+        exported_at: new Date().toISOString(),
+        total_slides: slides.length,
+      },
+    }
+
+    const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: "application/json" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `funnel-${funnel.id}-export.json`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+    toast.success("Quiz exportado como JSON")
+  }
+
   if (loading) return <div className="flex items-center justify-center min-h-screen"><Loader2 className="w-8 h-8 animate-spin text-muted-foreground" /></div>
   if (!funnel) return <div className="flex items-center justify-center min-h-screen"><p className="text-muted-foreground">Funnel no encontrado</p></div>
 
@@ -59,6 +103,7 @@ export default function FunnelDetailPage() {
           <div><h1 className="text-2xl font-bold">Detalle del Funnel</h1><p className="text-sm text-muted-foreground">Creado {new Date(funnel.created_at).toLocaleDateString("es-AR")}</p></div>
         </div>
         <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={handleExport}><Download className="w-4 h-4 mr-1" />Exportar JSON</Button>
           <Link href={`/funnel/${funnel.id}/edit`}><Button variant="outline" size="sm"><Edit className="w-4 h-4 mr-1" />Editar</Button></Link>
           <Button variant="destructive" size="sm" onClick={handleDelete}><Trash2 className="w-4 h-4 mr-1" />Eliminar</Button>
         </div>
